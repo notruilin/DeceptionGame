@@ -156,3 +156,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carry: 000000000000000000000000
   turnOverDelay: 0.5
+  bagCounterColor: ffffffffffffffffffffffffffffffff
+  counterInBag:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
