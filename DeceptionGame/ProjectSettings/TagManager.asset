@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Floor
+  - PickUp
+  - Counter
+  - Red
+  - WhiteCounter
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Floor
+    uniqueID: 201581805
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: AnchorFloor
+    uniqueID: 483281909
+    locked: 0
+  - name: Anchor
+    uniqueID: 3649080755
+    locked: 0
+  - name: Counter
+    uniqueID: 1685476537
+    locked: 0
+  - name: AI
+    uniqueID: 1193318163
+    locked: 0
+  - name: CounterOnAI
+    uniqueID: 2853589567
+    locked: 0
+  - name: UI
+    uniqueID: 3460843563
+    locked: 0
