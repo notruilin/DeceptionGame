@@ -13,7 +13,6 @@ public class AIAgent : MonoBehaviour
     void Awake()
     {
         //anchor.Add(Methods.instance.SearchClosestAnchor(anchor));
-        //anchor.Add(Methods.instance.SearchClosestAnchor(anchor));
         anchor.Add(Methods.instance.RandomAnchor(anchor));
         anchor.Add(Methods.instance.RandomAnchor(anchor));
         anchor.Add(Methods.instance.RandomAnchor(anchor));
