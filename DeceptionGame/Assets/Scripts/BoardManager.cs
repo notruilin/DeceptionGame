@@ -20,7 +20,7 @@ public class BoardManager : MonoBehaviour
     private void InitialiseCamera()
     {
         Camera.main.orthographicSize = GameManager.instance.gridSize / 1.8f;
-        Camera.main.transform.position = Camera.main.transform.position + new Vector3(((float)(GameManager.instance.gridSize / 2f - 0.5)), (float)(GameManager.instance.gridSize / 2f - 0.5), 0f);
+        Camera.main.transform.position = new Vector3(((float)(GameManager.instance.gridSize / 2f - 0.5)), (float)(GameManager.instance.gridSize / 2f - 0.5), -10f);
     }
 
     private void BoardSetup()
@@ -43,11 +43,9 @@ public class BoardManager : MonoBehaviour
         gridPositions.Clear();
         for (int x = 0; x < GameManager.instance.gridSize; x++)
         {
-            GameManager.instance.map.Add(new List<bool>());
             for (int y = 0; y < GameManager.instance.gridSize; y++)
             {
                 gridPositions.Add(new Vector3(x, y, 0f));
-                GameManager.instance.map[x].Add(true);
             }
         }
     }
@@ -63,6 +61,7 @@ public class BoardManager : MonoBehaviour
 
     private void LayoutObjectAtRandom(GameObject prefab, int count)
     {
+        GameManager.instance.anchorPositions.Clear();
         for (int i = 0; i < count; i++)
         {
             bool valid = false;
@@ -104,6 +103,8 @@ public class BoardManager : MonoBehaviour
 
     private void SetCounterGenerator()
     {
+        GameManager.instance.generators.Clear();
+        GameManager.instance.parkingPos.Clear();
         GameManager.instance.generators.Add(Methods.instance.LayoutObject(GameManager.instance.GeneratorsImages[0], -4f, GameManager.instance.gridSize - 2f));
         GameManager.instance.parkingPos.Add(new Vector3(-4f + 0.5f, GameManager.instance.gridSize - 2f - 2f, 0f));
         GameManager.instance.generators.Add(Methods.instance.LayoutObject(GameManager.instance.GeneratorsImages[1], -4f, 2f));

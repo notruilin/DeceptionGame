@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7187527909343820751}
   - component: {fileID: 7187527909343820750}
   m_Layer: 0
-  m_Name: Anchor
-  m_TagString: Untagged
+  m_Name: AnchorFloor
+  m_TagString: Anchor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90,7 +90,7 @@ Animator:
   m_GameObject: {fileID: 7187527909343820737}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0da9db115d46045299563940bf81ddf3, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

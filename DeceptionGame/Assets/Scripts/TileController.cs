@@ -8,7 +8,7 @@ public class TileController : MonoBehaviour
     {
         if (!GameManager.instance.gameOver && GameManager.instance.playerTurn)
         {
-            if (Methods.instance.IsEmptyGrid(transform.position) && !Methods.instance.IsCorner(transform.position))
+            if (Methods.instance.IsEmptyGrid(transform.position))
             {
                 SpriteRenderer sr = GetComponent<SpriteRenderer>();
                 Color color = new Color(43f, 54f, 58f);

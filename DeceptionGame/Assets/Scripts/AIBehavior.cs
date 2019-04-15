@@ -6,6 +6,8 @@ public class AIBehavior : MonoBehaviour
 {
     public int[] carry = new int[3];
     public float turnOverDelay = 0.5f;
+    public int[] bagCounterColor = { -1, -1, -1, -1 };
+    public GameObject[] counterInBag = new GameObject[4];
 
     private void Start()
     {

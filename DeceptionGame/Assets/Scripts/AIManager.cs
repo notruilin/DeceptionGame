@@ -14,13 +14,12 @@ public class AIManager : MonoBehaviour
 
     private List<GameObject> AIs = new List<GameObject>();
     private List<Vector3> bagPos = new List<Vector3>();
-    private int[] bagCounterColor = { -1, -1, -1, -1 };
-    private GameObject[] counterInBag = new GameObject[4];
 
     private Vector3 startPos;
 
     private void Awake()
     {
+        bagPos.Clear();
         bagPos.Add(new Vector3(-1.6f, 0.02f, 0f));
         bagPos.Add(new Vector3(-0.5f, 0.02f, 0f));
         bagPos.Add(new Vector3(0.55f, 0.02f, 0f));
@@ -30,6 +29,7 @@ public class AIManager : MonoBehaviour
 
     public void InitialiseAIs()
     {
+        AIs.Clear();
         AIs.Add(Methods.instance.LayoutObject(GameManager.instance.AI, 0f, 0f));
     }
 
@@ -91,7 +91,7 @@ public class AIManager : MonoBehaviour
             Debug.Log("--------Check Game Over---------");
             if (GameManager.instance.CheckGameOver())
             {
-                GameManager.instance.GameOver();
+                GameManager.instance.GameOverAIWin();
             }
         }
     }
@@ -121,7 +121,7 @@ public class AIManager : MonoBehaviour
             }
             Methods.instance.LayoutObject(GameManager.instance.counterTiles[3], pos.x, pos.y);
             AI.GetComponent<AIBehavior>().carry[color]--;
-            DelFromBag(color);
+            DelFromBag(AI, color);
             GameManager.instance.deposited[(int)pos.x][(int)pos.y] = color;
         }
     }
@@ -131,7 +131,7 @@ public class AIManager : MonoBehaviour
         Vector3 pos = Vector3.zero;
         for (int i = 0; i < 4; i++)
         {
-            if (bagCounterColor[i] == color)
+            if (AI.GetComponent<AIBehavior>().bagCounterColor[i] == color)
             {
                 pos = bagPos[i];
                 break;
@@ -146,14 +146,14 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    private void DelFromBag(int color)
+    private void DelFromBag(GameObject AI, int color)
     {
         for (int i = 0; i < 4; i++)
         {
-            if (bagCounterColor[i] == color)
+            if (AI.GetComponent<AIBehavior>().bagCounterColor[i] == color)
             {
-                bagCounterColor[i] = -1;
-                Destroy(counterInBag[i]);
+                AI.GetComponent<AIBehavior>().bagCounterColor[i] = -1;
+                Destroy(AI.GetComponent<AIBehavior>().counterInBag[i]);
                 break;
             }
         }
@@ -163,23 +163,23 @@ public class AIManager : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            if (bagCounterColor[i] == -1)
+            if (AI.GetComponent<AIBehavior>().bagCounterColor[i] == -1)
             {
-                bagCounterColor[i] = color;
-                counterInBag[i] = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[3], AI.transform.position.x + bagPos[i].x, AI.transform.position.y + bagPos[i].y);
-                counterInBag[i].transform.SetParent(AI.transform);
-                StartCoroutine(TurnOverCounterInBag(i, 0.5f));
+                AI.GetComponent<AIBehavior>().bagCounterColor[i] = color;
+                AI.GetComponent<AIBehavior>().counterInBag[i] = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[3], AI.transform.position.x + bagPos[i].x, AI.transform.position.y + bagPos[i].y);
+                AI.GetComponent<AIBehavior>().counterInBag[i].transform.SetParent(AI.transform);
+                StartCoroutine(TurnOverCounterInBag(AI, i, 0.5f));
                 break;
             }
         }
     }
 
-    private IEnumerator TurnOverCounterInBag(int i, float turnOverDelay)
+    private IEnumerator TurnOverCounterInBag(GameObject AI, int i, float turnOverDelay)
     {
-        GameObject colorCounter = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[bagCounterColor[i]], counterInBag[i].transform.position.x, counterInBag[i].transform.position.y);
-        counterInBag[i].SetActive(false);
+        GameObject colorCounter = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[AI.GetComponent<AIBehavior>().bagCounterColor[i]], AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.x, AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.y);
+        AI.GetComponent<AIBehavior>().counterInBag[i].SetActive(false);
         yield return new WaitForSeconds(turnOverDelay);
         Destroy(colorCounter);
-        counterInBag[i].SetActive(true);
+        AI.GetComponent<AIBehavior>().counterInBag[i].SetActive(true);
     }
 }

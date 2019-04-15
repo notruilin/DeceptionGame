@@ -77,19 +77,6 @@ public class Methods : MonoBehaviour
         return false;
     }
 
-    public bool IsCorner(Vector3 pos)
-    {
-        int x = (int)pos.x, y = (int)pos.y;
-        if (x == 0 || x == GameManager.instance.gridSize - 1)
-        {
-            if (y == 0 || y == GameManager.instance.gridSize - 1)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
     // Return the generator ID the parking position belongs
     public int FindGenerator(Vector3 pos)
     {
@@ -165,6 +152,13 @@ public class Methods : MonoBehaviour
     List<GameObject> waitToDestoryCounter = new List<GameObject>();
     List<GameObject> waitToActiveCounter = new List<GameObject>();
     List<GameObject> shuttles = new List<GameObject>();
+
+    public void InitializeMethods()
+    {
+        waitToDestoryCounter.Clear();
+        waitToActiveCounter.Clear();
+        shuttles.Clear();
+    }
 
     public IEnumerator TurnWhiteCounterOver(Vector3 pos, float turnOverDelay, GameObject shuttle)
     {
@@ -370,36 +364,6 @@ public class Methods : MonoBehaviour
         }
         return false;
     }
-
-    /*
-    // Return a path list from pos to the closest entry, then to the closest N pickups, then return to the entry
-    public List<Vector3> CollectClosestNPickUpFromPos(Vector3 pos, int N)
-    {
-        List<Vector3> list = new List<Vector3>();
-        Vector3 entry = FindTheClosestEntryFromPos(pos);
-        list.Add(entry);
-        for (int i = 1; i <= N; i++)
-        {
-            float dis = float.MaxValue;
-            Vector3 closest = Vector3.zero;
-            foreach (GameObject generator in GameManager.instance.generators)
-            {
-                foreach (GameObject pickup in generator.GetComponent<GeneratorManager>().GetPickupsInGn())
-                {
-                    Vector3 pickpos = pickup.transform.position;
-                    if (!list.Contains(pickpos) && Vector3.Distance(entry, pickpos) < dis)
-                    {
-                        dis = Vector3.Distance(pos, pickpos);
-                        closest = pickpos;
-                    }
-                }
-            }
-            list.Add(closest);
-        }
-        list.Add(entry);
-        return list;
-    }
-    */
 
     // Return a path in grid from start to end
     // if onlyRedCounter == true, the path only throughs red counters

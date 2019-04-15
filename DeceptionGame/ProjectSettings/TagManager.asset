@@ -7,8 +7,10 @@ TagManager:
   - Floor
   - PickUp
   - Counter
-  - Red
   - WhiteCounter
+  - Anchor
+  - Shuttle
+  - OnShuttle
   layers:
   - Default
   - TransparentFX

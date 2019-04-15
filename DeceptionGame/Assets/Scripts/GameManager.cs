@@ -58,6 +58,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        Initialize();
+        StartCoroutine(TurnSwitch());
+    }
+
+    private void Initialize()
+    {
         gameOver = false;
         SetPlayerTurn(false);
         boardScript = GetComponent<BoardManager>();
@@ -65,7 +71,6 @@ public class GameManager : MonoBehaviour
         aiScript = GetComponent<AIManager>();
         aiScript.InitialiseAIs();
         InitialiseDeposited();
-        StartCoroutine(TurnSwitch());
     }
 
     public IEnumerator TurnSwitch()
@@ -90,35 +95,35 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public void GameOver()
+    public void GameOverAIWin()
     {
-        UIManager.instance.ShowAIWinText();
+        gameOver = true;
+        StartCoroutine(UIManager.instance.ShowAIWinText());
         Methods.instance.TurnAllWhiteCounterOver();
     }
 
-    public void RestartGame()
+    public void GameOverPlayerWin()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        gameOver = true;
+        StartCoroutine(UIManager.instance.ShowPlayerWinText());
+        Methods.instance.TurnAllWhiteCounterOver();
     }
 
     private void InitialiseDeposited()
     {
         deposited.Clear();
         readyToTurnOver.Clear();
+        map.Clear();
         for (int x = 0; x < gridSize; x++)
         {
             deposited.Add(new List<int>());
             readyToTurnOver.Add(new List<bool>());
+            map.Add(new List<bool>());
             for (int y = 0; y < gridSize; y++)
             {
                 deposited[x].Add(-1);
                 readyToTurnOver[x].Add(false);
+                map[x].Add(true);
             }
         }
     }
@@ -126,5 +131,40 @@ public class GameManager : MonoBehaviour
     public void SetPlayerTurn(bool turn)
     {
         playerTurn = turn;
+    }
+
+    private void DestroyObjects(GameObject[] objects)
+    {
+        foreach (GameObject obj in objects)
+        {
+            Destroy(obj);
+        }
+    }
+
+    public void RestartGame()
+    {
+        foreach (GameObject obj in generators)
+        {
+            Destroy(obj);
+        }
+        GameObject[] objects;
+        objects = GameObject.FindGameObjectsWithTag("PickUp");
+        DestroyObjects(objects);
+        objects = GameObject.FindGameObjectsWithTag("Counter");
+        DestroyObjects(objects);
+        objects = GameObject.FindGameObjectsWithTag("WhiteCounter");
+        DestroyObjects(objects);
+        objects = GameObject.FindGameObjectsWithTag("Shuttle");
+        DestroyObjects(objects);
+        objects = GameObject.FindGameObjectsWithTag("OnShuttle");
+        DestroyObjects(objects);
+        objects = GameObject.FindGameObjectsWithTag("Floor");
+        DestroyObjects(objects);
+        objects = GameObject.FindGameObjectsWithTag("Anchor");
+        DestroyObjects(objects);
+        Methods.instance.InitializeMethods();
+        Initialize();
+        UIManager.instance.Initialize();
+        StartCoroutine(TurnSwitch());
     }
 }

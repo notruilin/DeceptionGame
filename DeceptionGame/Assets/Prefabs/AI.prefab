@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6338927056434118286}
   m_Layer: 0
   m_Name: AI
-  m_TagString: Untagged
+  m_TagString: Shuttle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

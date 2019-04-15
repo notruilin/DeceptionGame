@@ -10,9 +10,10 @@ public class UIManager : MonoBehaviour
     public float showTurnDelay = 0.3f;
     public float delayBeforeAITurn = 0.3f;
     // seconds
-    public float AITimeLimit = 180;
+    public float TimeLimitForAI = 180;
 
     private float startTime;
+    private float AITimeLimit;
     // Set to true after show AI Turn panel 
     private bool AITurn;
 
@@ -21,6 +22,7 @@ public class UIManager : MonoBehaviour
     public GameObject PlayerTurnPanel;
     public GameObject AIWinPanel;
     public GameObject PlayerWinPanel;
+    public GameObject RestartButton;
 
     private void Awake()
     {
@@ -37,24 +39,36 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
         AITurnPanel.SetActive(false);
         PlayerTurnPanel.SetActive(false);
         AIWinPanel.SetActive(false);
         PlayerWinPanel.SetActive(false);
+        RestartButton.SetActive(false);
+        AITimeLimit = TimeLimitForAI;
         string min = ((int)AITimeLimit / 60).ToString().PadLeft(2, '0');
         string sec = (AITimeLimit % 60).ToString("f0").PadLeft(2, '0');
-        timer.text = "Remaining Time: " + min + ":" + sec;
+        timer.color = new Color32(83, 89, 113, 255);
+        timer.text = "Remaining Time For AI: " + min + ":" + sec;
         AITurn = false;
     }
 
-    public void ShowAIWinText()
+    public IEnumerator ShowAIWinText()
     {
         AIWinPanel.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        RestartButton.SetActive(true);
     }
 
-    private void ShowPlayerWinText()
+    public IEnumerator ShowPlayerWinText()
     {
         PlayerWinPanel.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        RestartButton.SetActive(true);
     }
 
     public IEnumerator ShowPlayerTurn()
@@ -77,7 +91,6 @@ public class UIManager : MonoBehaviour
         AITurn = true;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (AITurn && !GameManager.instance.gameOver)
@@ -90,8 +103,7 @@ public class UIManager : MonoBehaviour
                 timer.color = Color.red;
                 if (d % 60 <= 0f)
                 {
-                    GameManager.instance.gameOver = true;
-                    ShowPlayerWinText();
+                    GameManager.instance.GameOverPlayerWin();
                 }
             }
             if (d / 60 > 0 || d % 60 > 0f)
