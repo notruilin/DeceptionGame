@@ -213,7 +213,7 @@ public class Methods : MonoBehaviour
 
     public bool TileExist(Vector3 pos)
     {
-        return GameManager.instance.blocked[(int)pos.x][(int)pos.y];
+        return !GameManager.instance.blocked[(int)pos.x][(int)pos.y];
     }
 
     public void BlockTile(Vector3 pos)
