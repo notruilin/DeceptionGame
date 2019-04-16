@@ -193,7 +193,14 @@ public class Methods : MonoBehaviour
         if (!GameManager.instance.gameOver && !waitToDestoryCounter[0].GetComponent<BoxCollider2D>().IsTouching(shuttles[0].GetComponent<BoxCollider2D>()))
         {
             Destroy(waitToDestoryCounter[0]);
-            waitToActiveCounter[0].SetActive(true);
+            if (GameManager.instance.deposited[(int)waitToActiveCounter[0].transform.position.x][(int)waitToActiveCounter[0].transform.position.y] == -1)
+            {
+                Destroy(waitToActiveCounter[0]);
+            }
+            else
+            {
+                waitToActiveCounter[0].SetActive(true);
+            }
             waitToDestoryCounter.RemoveAt(0);
             waitToActiveCounter.RemoveAt(0);
             shuttles.RemoveAt(0);

@@ -50,11 +50,23 @@ public class Actions
         List<Vector3> depositList = new List<Vector3>();
         for (int i = 0; i < commands.Count; i++)
         {
-            if (commands[i].Equals("Deposit"))
+            if (commands[i].Length > 7 && commands[i].Substring(0, 7).Equals("Deposit"))
             {
-                depositList.Add(paras[i]);
+                depositList.Add(new Vector3(paras[i].x, paras[i].y, 0f));
             }
         }
         return depositList;
+    }
+
+    public void TurnOverCounterInBagByIndex(int index, float delay)
+    {
+        commands.Add("TurnOver#" + index.ToString());
+        paras.Add(new Vector3(delay, 0f, 0f));
+    }
+
+    public void CollectFromBoard(Vector3 pos)
+    {
+        commands.Add("CollectFromBoard");
+        paras.Add(pos);
     }
 }

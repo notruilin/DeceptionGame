@@ -49,17 +49,6 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    IEnumerator CollectCounter(GameObject AI, int generatorId, Vector3 pos)
-    {
-        if (Methods.instance.IsInGn(pos, generatorId))
-        {
-            AI.GetComponent<AIBehavior>().carry[GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().GetPickupsInGnColor(pos)]++;
-            AddToBag(AI, GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().GetPickupsInGnColor(pos));
-            GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().AddToRegenerateList(pos);
-            yield return new WaitForSeconds(collectDelay);
-        }
-    }
-
     IEnumerator ExecuteActions(GameObject AI, Actions actions)
     {
         for (int i = 0; i < actions.commands.Count; i++)
@@ -84,12 +73,18 @@ public class AIManager : MonoBehaviour
                     int color = Int32.Parse(commands[1]);
                     if (AI.transform.position == pos)
                     {
-                        Debug.Log("Start deposit at: " + actions.paras[0]);
+                        Debug.Log("Start deposit at: " + actions.paras[i]);
                         yield return StartCoroutine(DepositCounter(AI, pos, color, actions.paras[i].z));
                     }
                     break;
+                case "TurnOver":
+                    int index = Int32.Parse(commands[1]);
+                    StartCoroutine(TurnOverCounterInBag(AI, index, actions.paras[i].x));
+                    break;
+                case "CollectFromBoard":
+                    yield return StartCoroutine(CollectCounterFromGrid(AI, actions.paras[i]));
+                    break;
             }
-            Debug.Log("--------Check Game Over---------");
             if (GameManager.instance.CheckGameOver())
             {
                 GameManager.instance.GameOverAIWin();
@@ -97,7 +92,7 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    IEnumerator MoveToPosition(float delay, GameObject AI, Vector3 newPos)
+    private IEnumerator MoveToPosition(float delay, GameObject AI, Vector3 newPos)
     {
         while (AI.transform.position != newPos)
         {
@@ -107,11 +102,11 @@ public class AIManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
     }
 
-    IEnumerator DepositCounter(GameObject AI, Vector3 pos, int color, float delay)
+    private IEnumerator DepositCounter(GameObject AI, Vector3 pos, int color, float delay)
     {
         if (AI.GetComponent<AIBehavior>().carry[color] > 0 && Methods.instance.IsEmptyGrid(pos))
         {
-            yield return StartCoroutine(MoveToBagPosition(AI, color));
+            yield return StartCoroutine(MoveToBagPosition(AI, GetBagPosByColor(AI, color)));
             if (Mathf.Approximately(delay, 0f))
             {
                 yield return new WaitForSeconds(defaultDepositDelay);
@@ -120,25 +115,68 @@ public class AIManager : MonoBehaviour
             {
                 yield return new WaitForSeconds(delay);
             }
-            Methods.instance.LayoutObject(GameManager.instance.counterTiles[3], pos.x, pos.y);
+            GameManager.instance.countersOnBoard[(int)pos.x][(int)pos.y] = Methods.instance.LayoutObject(GameManager.instance.counterTiles[3], pos.x, pos.y);
             AI.GetComponent<AIBehavior>().carry[color]--;
             DelFromBag(AI, color);
             GameManager.instance.deposited[(int)pos.x][(int)pos.y] = color;
         }
     }
 
-    private IEnumerator MoveToBagPosition(GameObject AI, int color)
+    IEnumerator CollectCounter(GameObject AI, int generatorId, Vector3 pos)
     {
-        Vector3 pos = Vector3.zero;
+        if (Methods.instance.IsInGn(pos, generatorId) && GetEmptyBagPosIndex(AI) != -1)
+        {
+            AI.GetComponent<AIBehavior>().carry[GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().GetPickupsInGnColor(pos)]++;
+            AddToBag(AI, GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().GetPickupsInGnColor(pos));
+            GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().AddToRegenerateList(pos);
+            yield return new WaitForSeconds(collectDelay);
+        }
+    }
+
+    private IEnumerator CollectCounterFromGrid(GameObject AI, Vector3 pos)
+    {
+        int color = Methods.instance.OnCounter(pos);
+        Debug.Log("CollectCounterFromGrid  color =  " + color);
+        int bagPosIndex = GetEmptyBagPosIndex(AI);
+        Debug.Log("CollectCounterFromGrid  bagPosIndex =  " + bagPosIndex);
+        yield return StartCoroutine(MoveToBagPosition(AI, bagPosIndex));
+        Debug.Log("After MoveToBagPosition");
+        if (color != -1 && bagPosIndex != -1)
+        {
+            AI.GetComponent<AIBehavior>().carry[color]++;
+            // Hide the turned over color counter
+            GameObject[] counters;
+            counters = GameObject.FindGameObjectsWithTag("Counter");
+            foreach (GameObject counter in counters)
+            {
+                if (counter.transform.position == pos)
+                {
+                    counter.SetActive(false);
+                }
+            }
+            AddToBag(AI, color);
+            GameManager.instance.deposited[(int)pos.x][(int)pos.y] = -1;
+            GameManager.instance.countersOnBoard[(int)pos.x][(int)pos.y].SetActive(false);
+            GameManager.instance.countersOnBoard[(int)pos.x][(int)pos.y] = null;
+            yield return new WaitForSeconds(collectDelay);
+        }
+    }
+
+    private int GetBagPosByColor(GameObject AI, int color)
+    {
         for (int i = 0; i < 4; i++)
         {
             if (AI.GetComponent<AIBehavior>().bagCounterColor[i] == color)
             {
-                pos = bagPos[i];
-                break;
+                return i;
             }
         }
-        Debug.Log("!!!!!!!!------BAG POS: " + pos);
+        return -1;
+    }
+
+    private IEnumerator MoveToBagPosition(GameObject AI, int i)
+    {
+        Vector3 pos = bagPos[i];
         pos = new Vector3(AI.transform.position.x + (pos.x * (-1f)), AI.transform.position.y, 0f);
         while (AI.transform.position != pos)
         {
@@ -160,27 +198,37 @@ public class AIManager : MonoBehaviour
         }
     }
 
-    private void AddToBag(GameObject AI, int color)
+    private int GetEmptyBagPosIndex(GameObject AI)
     {
         for (int i = 0; i < 4; i++)
         {
             if (AI.GetComponent<AIBehavior>().bagCounterColor[i] == -1)
             {
-                AI.GetComponent<AIBehavior>().bagCounterColor[i] = color;
-                AI.GetComponent<AIBehavior>().counterInBag[i] = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[3], AI.transform.position.x + bagPos[i].x, AI.transform.position.y + bagPos[i].y);
-                AI.GetComponent<AIBehavior>().counterInBag[i].transform.SetParent(AI.transform);
-                StartCoroutine(TurnOverCounterInBag(AI, i, 0.5f));
-                break;
+                return i;
             }
         }
+        return -1;
+    }
+
+    private void AddToBag(GameObject AI, int color)
+    {
+        int i = GetEmptyBagPosIndex(AI);
+        AI.GetComponent<AIBehavior>().bagCounterColor[i] = color;
+        AI.GetComponent<AIBehavior>().counterInBag[i] = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[3], AI.transform.position.x + bagPos[i].x, AI.transform.position.y + bagPos[i].y);
+        AI.GetComponent<AIBehavior>().counterInBag[i].transform.SetParent(AI.transform);
+        StartCoroutine(TurnOverCounterInBag(AI, i, 0.5f));
     }
 
     private IEnumerator TurnOverCounterInBag(GameObject AI, int i, float turnOverDelay)
     {
-        GameObject colorCounter = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[AI.GetComponent<AIBehavior>().bagCounterColor[i]], AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.x, AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.y);
-        AI.GetComponent<AIBehavior>().counterInBag[i].SetActive(false);
-        yield return new WaitForSeconds(turnOverDelay);
-        Destroy(colorCounter);
-        AI.GetComponent<AIBehavior>().counterInBag[i].SetActive(true);
+        if (AI.GetComponent<AIBehavior>().bagCounterColor[i] != -1)
+        {
+            GameObject colorCounter = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[AI.GetComponent<AIBehavior>().bagCounterColor[i]], AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.x, AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.y);
+            colorCounter.transform.SetParent(AI.transform);
+            AI.GetComponent<AIBehavior>().counterInBag[i].SetActive(false);
+            yield return new WaitForSeconds(turnOverDelay);
+            Destroy(colorCounter);
+            AI.GetComponent<AIBehavior>().counterInBag[i].SetActive(true);
+        }
     }
 }

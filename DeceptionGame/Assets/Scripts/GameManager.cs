@@ -36,8 +36,11 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public List<List<int>> deposited = new List<List<int>>();
     // blocked[x][y] == true: (x, y) has been blocked
     [HideInInspector] public List<List<bool>> blocked = new List<List<bool>>();
-    // use to prevent counter turned over immediately after deposit
+    // Use to prevent counter turned over immediately after deposit
     [HideInInspector] public List<List<bool>> readyToTurnOver = new List<List<bool>>();
+    // Store GameObjects of counters deposited on the board
+    [HideInInspector] public List<List<GameObject>> countersOnBoard = new List<List<GameObject>>();
+ 
 
     private BoardGenerator boardScript;
     private AIManager aiScript;
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        print(transform.position);
         Initialize();
         StartCoroutine(TurnSwitch());
     }
@@ -114,16 +118,19 @@ public class GameManager : MonoBehaviour
         deposited.Clear();
         readyToTurnOver.Clear();
         blocked.Clear();
+        countersOnBoard.Clear();
         for (int x = 0; x < gridSize; x++)
         {
             deposited.Add(new List<int>());
             readyToTurnOver.Add(new List<bool>());
             blocked.Add(new List<bool>());
+            countersOnBoard.Add(new List<GameObject>());
             for (int y = 0; y < gridSize; y++)
             {
                 deposited[x].Add(-1);
                 readyToTurnOver[x].Add(false);
                 blocked[x].Add(false);
+                countersOnBoard[x].Add(null);
             }
         }
     }
