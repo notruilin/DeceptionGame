@@ -104,7 +104,7 @@ public class Methods : MonoBehaviour
         return false;
     }
 
-    // Return the genrator ID if the pos is on a pickup
+    // Return the generator ID if the pos has a pickup
     public int OnPickup(Vector3 pos)
     {
         for (int i = 0; i < GameManager.instance.generators.Count; i++)
@@ -213,12 +213,12 @@ public class Methods : MonoBehaviour
 
     public bool TileExist(Vector3 pos)
     {
-        return GameManager.instance.map[(int)pos.x][(int)pos.y];
+        return GameManager.instance.blocked[(int)pos.x][(int)pos.y];
     }
 
     public void BlockTile(Vector3 pos)
     {
-        GameManager.instance.map[(int)pos.x][(int)pos.y] = false;
+        GameManager.instance.blocked[(int)pos.x][(int)pos.y] = false;
     }
 
     // Random choose from yellow and blue
@@ -338,11 +338,11 @@ public class Methods : MonoBehaviour
         return new Vector3(position.x - 0.5f, position.y - 0.5f, 0f);
     }
 
-    // Return num pickups positions in the generator
-    public List<Vector3> PickupsPosInGn(GameObject generator, int num)
+    // Return num pickups' positions in the generator
+    public List<Vector3> PickupsPosInGn(int generatorId, int num)
     {
         List<Vector3> pickupsPos = new List<Vector3>();
-        List<GameObject> pickups = generator.GetComponent<GeneratorManager>().GetPickupsInGn();
+        List<GameObject> pickups = GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().GetPickupsInGn();
         for (int i = 0; i < pickups.Count; i++)
         {
             //if (generator.GetComponent<GeneratorManager>().GetPickupsInGnColor(pickups[i].transform.position) == 0)

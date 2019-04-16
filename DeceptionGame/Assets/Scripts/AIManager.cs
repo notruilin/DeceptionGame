@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class AIManager : MonoBehaviour
 {
     public float moveDelay = 0.2f;
     public float moveSpeed = 3f;
 
-    public float trueDepositDelay = 0.1f;
-    public float fakeDepositDelay = 1f;
     public float collectDelay = 0.5f;
+    public float defaultDepositDelay = 0.1f;
 
     private List<GameObject> AIs = new List<GameObject>();
     private List<Vector3> bagPos = new List<Vector3>();
@@ -65,7 +65,8 @@ public class AIManager : MonoBehaviour
         for (int i = 0; i < actions.commands.Count; i++)
         {
             if (GameManager.instance.gameOver) break;
-            switch (actions.commands[i])
+            string[] commands = actions.commands[i].Split('#');
+            switch (commands[0])
             {
                 case "Collect":
                     if (AI.GetComponent<AIBehavior>().carry.Sum() < GameManager.instance.carryLimit && Methods.instance.OnParkingPos(AI.transform.position))
@@ -80,11 +81,11 @@ public class AIManager : MonoBehaviour
                     break;
                 case "Deposit":
                     Vector3 pos = new Vector3(actions.paras[i].x, actions.paras[i].y, 0f);
-                    int color = (int)actions.paras[i].z;
+                    int color = Int32.Parse(commands[1]);
                     if (AI.transform.position == pos)
                     {
                         Debug.Log("Start deposit at: " + actions.paras[0]);
-                        yield return StartCoroutine(DepositCounter(AI, pos, color));
+                        yield return StartCoroutine(DepositCounter(AI, pos, color, actions.paras[i].z));
                     }
                     break;
             }
@@ -106,18 +107,18 @@ public class AIManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
     }
 
-    IEnumerator DepositCounter(GameObject AI, Vector3 pos, int color)
+    IEnumerator DepositCounter(GameObject AI, Vector3 pos, int color, float delay)
     {
         if (AI.GetComponent<AIBehavior>().carry[color] > 0 && Methods.instance.IsEmptyGrid(pos))
         {
             yield return StartCoroutine(MoveToBagPosition(AI, color));
-            if (color == 0)
+            if (Mathf.Approximately(delay, 0f))
             {
-                yield return new WaitForSeconds(trueDepositDelay);
+                yield return new WaitForSeconds(defaultDepositDelay);
             }
             else
             {
-                yield return new WaitForSeconds(fakeDepositDelay);
+                yield return new WaitForSeconds(delay);
             }
             Methods.instance.LayoutObject(GameManager.instance.counterTiles[3], pos.x, pos.y);
             AI.GetComponent<AIBehavior>().carry[color]--;

@@ -33,9 +33,16 @@ public class Actions
 
     public void DepositAt(Vector3 pos, int color)
     {
-        commands.Add("Deposit");
-        // (x,y), z == color
-        paras.Add(new Vector3(pos.x, pos.y, color));
+        commands.Add("Deposit#" + color.ToString());
+        // (x,y), z == delay
+        paras.Add(new Vector3(pos.x, pos.y, 0f));
+    }
+
+    public void DepositAt(Vector3 pos, int color, float delay)
+    {
+        commands.Add("Deposit#" + color.ToString());
+        // (x,y), z == delay
+        paras.Add(new Vector3(pos.x, pos.y, delay));
     }
 
     public List<Vector3> GetDepositPos()

@@ -34,12 +34,12 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public List<Vector3> anchorPositions = new List<Vector3>();
     // The colors of deposited counters, deposited[x][y] == -1 means empty grid
     [HideInInspector] public List<List<int>> deposited = new List<List<int>>();
-    // map[x][y] == false: (x, y) has been blocked
-    [HideInInspector] public List<List<bool>> map = new List<List<bool>>();
+    // blocked[x][y] == false: (x, y) has been blocked
+    [HideInInspector] public List<List<bool>> blocked = new List<List<bool>>();
     // use to prevent counter turned over immediately after deposit
     [HideInInspector] public List<List<bool>> readyToTurnOver = new List<List<bool>>();
 
-    private BoardManager boardScript;
+    private BoardGenerator boardScript;
     private AIManager aiScript;
 
     private void Awake()
@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
     {
         gameOver = false;
         SetPlayerTurn(false);
-        boardScript = GetComponent<BoardManager>();
+        boardScript = GetComponent<BoardGenerator>();
         boardScript.SetupScene();
         aiScript = GetComponent<AIManager>();
         aiScript.InitialiseAIs();
@@ -113,17 +113,17 @@ public class GameManager : MonoBehaviour
     {
         deposited.Clear();
         readyToTurnOver.Clear();
-        map.Clear();
+        blocked.Clear();
         for (int x = 0; x < gridSize; x++)
         {
             deposited.Add(new List<int>());
             readyToTurnOver.Add(new List<bool>());
-            map.Add(new List<bool>());
+            blocked.Add(new List<bool>());
             for (int y = 0; y < gridSize; y++)
             {
                 deposited[x].Add(-1);
                 readyToTurnOver[x].Add(false);
-                map[x].Add(true);
+                blocked[x].Add(true);
             }
         }
     }

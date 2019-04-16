@@ -10,6 +10,9 @@ public class AIAgent : MonoBehaviour
     private int trueStart = 0, trueEnd = 1, fakeStart = 2, fakeEnd = 3;
     private int neighborRange = 3;
 
+    private float trueDepositDelay = 0.1f;
+    private float fakeDepositDelay = 1f;
+
     void Awake()
     {
         anchor.Add(Methods.instance.SearchClosestAnchor(anchor));
@@ -37,7 +40,7 @@ public class AIAgent : MonoBehaviour
         int generatorId = Methods.instance.MostRedGenerator();
         GameObject generator = GameManager.instance.generators[generatorId];
         actions.MoveTo(GameManager.instance.parkingPos[generatorId]);
-        actions.CollectAt(Methods.instance.PickupsPosInGn(generator, GameManager.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum())); 
+        actions.CollectAt(Methods.instance.PickupsPosInGn(generatorId, GameManager.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum())); 
         int[] carry = new int[3];
         carry = Methods.instance.PickupColorInPos(actions.paras, GameManager.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum());
         Debug.Log("-----WillBag-----");
@@ -67,7 +70,7 @@ public class AIAgent : MonoBehaviour
             {
                 actions.MoveTo(pathList[i]);
                 int randomColor = Methods.instance.RandomCarryCounter(carry);
-                actions.DepositAt(pathList[i], randomColor);
+                actions.DepositAt(pathList[i], randomColor, fakeDepositDelay);
                 carry[randomColor]--;
                 Debug.Log("Deposit on fake path AddTarget:  " + pathList[i]);
                 anchor[fakeStart] = pathList[i];
@@ -84,7 +87,7 @@ public class AIAgent : MonoBehaviour
             if (!actions.GetDepositPos().Contains(randomPos))
             {
                 actions.MoveTo(randomPos);
-                actions.DepositAt(randomPos, 0);
+                actions.DepositAt(randomPos, 0, trueDepositDelay);
                 carry[0]--;
                 depositTrueNum++;
                 Debug.Log("Deposit on TRUE path AddTarget:  " + randomPos);
@@ -106,7 +109,7 @@ public class AIAgent : MonoBehaviour
             Debug.Log("Neighbor: " + neighbor[i]);
             actions.MoveTo(neighbor[i]);
             int randomColor = Methods.instance.RandomCarryCounter(carry);
-            actions.DepositAt(neighbor[i], randomColor);
+            actions.DepositAt(neighbor[i], randomColor, fakeDepositDelay);
             carry[randomColor]--;
             Debug.Log("Deposit around true path to confuse AddTarget:  " + neighbor[i]);
         }
