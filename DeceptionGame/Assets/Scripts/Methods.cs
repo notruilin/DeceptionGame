@@ -218,7 +218,7 @@ public class Methods : MonoBehaviour
 
     public void BlockTile(Vector3 pos)
     {
-        GameManager.instance.blocked[(int)pos.x][(int)pos.y] = false;
+        GameManager.instance.blocked[(int)pos.x][(int)pos.y] = true;
     }
 
     // Random choose from yellow and blue
