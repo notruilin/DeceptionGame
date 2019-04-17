@@ -36,4 +36,18 @@ public class AIBehavior : MonoBehaviour
             Methods.instance.SetReadyToTurnOver(pos, true);
         }
     }
+
+    public int[] GetCarryColor()
+    {
+        int[] copyCarry = new int[3];
+        GetComponent<AIBehavior>().carry.CopyTo(copyCarry, 0);
+        return copyCarry;
+    }
+
+    public int[] GetBagCounterColor()
+    {
+        int[] copyBag = new int[4];
+        GetComponent<AIBehavior>().bagCounterColor.CopyTo(copyBag, 0);
+        return copyBag;
+    }
 }

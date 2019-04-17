@@ -42,7 +42,7 @@ public class AIAgent : MonoBehaviour
         actions.MoveTo(GameManager.instance.parkingPos[generatorId]);
         actions.CollectAt(Methods.instance.PickupsPosInGn(generatorId, GameManager.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum())); 
         int[] LastCarry = new int[3];
-        GetComponent<AIBehavior>().carry.CopyTo(LastCarry, 0);
+        LastCarry = GetComponent<AIBehavior>().GetCarryColor();
         int[] carry = new int[3];
         carry = Methods.instance.PickupColorInPos(actions.paras, GameManager.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum());
         for (int k = 0; k < 3; k++)
