@@ -13,7 +13,14 @@ public class BoardGenerator : MonoBehaviour
         InitialiseCamera();
         BoardSetup();
         InitialiseList();
-        LayoutObjectAtRandom(GameManager.instance.Anchor, GameManager.instance.anchorCount);
+        if (MainMenu.instance.randomAnchor)
+        {
+            LayoutAnchorAtRandom(GameManager.instance.Anchor, GameManager.instance.anchorCount);
+        }
+        else
+        {
+            LayoutAnchorDefault(GameManager.instance.Anchor);
+        }
         SetCounterGenerator();
     }
 
@@ -59,7 +66,7 @@ public class BoardGenerator : MonoBehaviour
         return false;
     }
 
-    private void LayoutObjectAtRandom(GameObject prefab, int count)
+    private void LayoutAnchorAtRandom(GameObject prefab, int count)
     {
         GameManager.instance.anchorPositions.Clear();
         for (int i = 0; i < count; i++)
@@ -98,6 +105,20 @@ public class BoardGenerator : MonoBehaviour
             {
                 Debug.LogError("No valid space for more Anchors!");
             }
+        }
+    }
+
+    private void LayoutAnchorDefault(GameObject prefab)
+    {
+        float fouth = GameManager.instance.gridSize / 4 + 0.5f;
+        GameManager.instance.anchorPositions.Add(new Vector3(GameManager.instance.gridSize - fouth, fouth, 0f));
+        GameManager.instance.anchorPositions.Add(new Vector3(fouth, GameManager.instance.gridSize - fouth, 0f));
+        GameManager.instance.anchorPositions.Add(new Vector3(GameManager.instance.gridSize - fouth, GameManager.instance.gridSize - fouth, 0f));
+        GameManager.instance.anchorPositions.Add(new Vector3(fouth, fouth, 0f));
+        foreach (Vector3 pos in GameManager.instance.anchorPositions)
+        {
+            Methods.instance.LayoutObject(prefab, pos.x, pos.y);
+            Methods.instance.LayoutObject(GameManager.instance.OnAnchor, pos.x, pos.y);
         }
     }
 

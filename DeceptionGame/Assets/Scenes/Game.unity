@@ -544,10 +544,10 @@ MonoBehaviour:
   - {fileID: 5842765631644345387, guid: 9e476e4eb7070470babd4624b75d6f90, type: 3}
   AI: {fileID: 6338927056434118281, guid: b3d8637cdeca343e1bc6da4e9a47afac, type: 3}
   gridSize: 30
-  anchorCount: 10
-  counterNumInGenerator: 4
   minAnchorDis: 5
+  counterNumInGenerator: 4
   carryLimit: 4
+  anchorCount: 8
   gameLog: 
   generators: []
   parkingPos: []

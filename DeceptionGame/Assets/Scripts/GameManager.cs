@@ -22,11 +22,11 @@ public class GameManager : MonoBehaviour
     public GameObject[] counterOnShuttleTiles;
     public GameObject AI;
 
-    public int gridSize;
-    public int anchorCount;
+    [HideInInspector] public int gridSize;
+    [HideInInspector] public float minAnchorDis;
     public int counterNumInGenerator;
-    public float minAnchorDis;
     public int carryLimit = 4;
+    public int anchorCount = 8;
 
     [HideInInspector] public string gameLog;
 
@@ -75,6 +75,8 @@ public class GameManager : MonoBehaviour
         gameLog = "";
         gameOver = false;
         SetPlayerTurn(false);
+        gridSize = MainMenu.instance.gridSize;
+        minAnchorDis = MainMenu.instance.minAnchorDis;
         boardScript = GetComponent<BoardGenerator>();
         boardScript.SetupScene();
         aiScript = GetComponent<AIManager>();

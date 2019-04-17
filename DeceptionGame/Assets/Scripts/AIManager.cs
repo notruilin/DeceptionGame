@@ -24,7 +24,7 @@ public class AIManager : MonoBehaviour
         bagPos.Add(new Vector3(-0.5f, 0.02f, 0f));
         bagPos.Add(new Vector3(0.55f, 0.02f, 0f));
         bagPos.Add(new Vector3(1.65f, 0.02f, 0f));
-        startPos = new Vector3(-3.5f, GameManager.instance.gridSize / 2f, 0f);
+        startPos = new Vector3(-3.5f, MainMenu.instance.gridSize / 2f, 0f);
     }
 
     public void InitialiseAIs()
