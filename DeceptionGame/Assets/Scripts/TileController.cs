@@ -16,8 +16,8 @@ public class TileController : MonoBehaviour
                 sr.color = color;
                 Methods.instance.BlockTile(transform.position);
                 Debug.Log(transform.position + "clicked!");
+                GameManager.instance.gameLog += "Player blocks " + transform.position + "\n";
                 GameManager.instance.SetPlayerTurn(false);
-                Debug.Log("PlayerTurn is False");
                 StartCoroutine(GameManager.instance.TurnSwitch());
             }
         }

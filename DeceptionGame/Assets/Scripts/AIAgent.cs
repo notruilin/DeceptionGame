@@ -38,7 +38,7 @@ public class AIAgent : MonoBehaviour
         Actions actions = new Actions();
         int generatorId = Methods.instance.MostRedGenerator();
         GameObject generator = GameManager.instance.generators[generatorId];
-        actions.TurnOverCounterInBagByIndex(0, 0.5f);
+        //actions.TurnOverCounterInBagByIndex(0, 0.5f);
         actions.MoveTo(GameManager.instance.parkingPos[generatorId]);
         actions.CollectAt(Methods.instance.PickupsPosInGn(generatorId, GameManager.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum())); 
         int[] LastCarry = new int[3];
@@ -61,7 +61,7 @@ public class AIAgent : MonoBehaviour
             if (GameManager.instance.deposited[(int)pathList[i].x][(int)pathList[i].y] == -1 && Methods.instance.IsOnAnAnchor(pathList[i]) == Vector3.zero)
             {
                 actions.MoveTo(pathList[i]);
-                actions.TurnOverCounterInBagByIndex(1, 0.5f);
+                //actions.TurnOverCounterInBagByIndex(1, 0.5f);
                 int randomColor = Methods.instance.RandomCarryCounter(carry);
                 if (tmp == Vector3.zero)
                 {
@@ -75,7 +75,7 @@ public class AIAgent : MonoBehaviour
             }
             i++;
         }
-        actions.TurnOverCounterInBagByIndex(2, 0.5f);
+        //actions.TurnOverCounterInBagByIndex(2, 0.5f);
         truePath = Methods.instance.FindPathInGrid(anchor[trueStart], anchor[trueEnd], true);
         pathList = Methods.instance.RemoveDepositedAndAnchor(truePath);
         int depositTrueNum = 0;
@@ -110,9 +110,9 @@ public class AIAgent : MonoBehaviour
             carry[randomColor]--;
             Debug.Log("Deposit around true path to confuse AddTarget:  " + neighbor[i]);
         }
-        actions.MoveTo(tmp);
-        Debug.Log("Want to move to : " + tmp);
-        actions.CollectFromBoard(tmp);
+        //actions.MoveTo(tmp);
+        //Debug.Log("Want to move to : " + tmp);
+        //actions.CollectFromBoard(tmp);
         return actions;
     }
 }

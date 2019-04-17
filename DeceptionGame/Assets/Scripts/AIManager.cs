@@ -61,12 +61,14 @@ public class AIManager : MonoBehaviour
                     if (AI.GetComponent<AIBehavior>().carry.Sum() < GameManager.instance.carryLimit && Methods.instance.OnParkingPos(AI.transform.position))
                     {
                         int generatorId = Methods.instance.FindGenerator(AI.transform.position);
+                        GameManager.instance.gameLog += "Shuttle collects in Generator " + generatorId + " ";
                         yield return StartCoroutine(CollectCounter(AI, generatorId, actions.paras[i]));
                     }
                     break;
                 case "Move":
                     Debug.Log("Moving From" + AI.transform.position + " to " + actions.paras[i]);
                     yield return StartCoroutine(MoveToPosition(moveDelay, AI, actions.paras[i]));
+                    GameManager.instance.gameLog += "Shuttle moves to " + "(" + actions.paras[i].x + ", " + actions.paras[i].y + ")" + "\n";
                     break;
                 case "Deposit":
                     Vector3 pos = new Vector3(actions.paras[i].x, actions.paras[i].y, 0f);
@@ -75,14 +77,17 @@ public class AIManager : MonoBehaviour
                     {
                         Debug.Log("Start deposit at: " + actions.paras[i]);
                         yield return StartCoroutine(DepositCounter(AI, pos, color, actions.paras[i].z));
+                        GameManager.instance.gameLog += "Shuttle deposits at " + "(" + pos.x + ", " + pos.y + ")" + ", color: " + color + "\n";
                     }
                     break;
                 case "TurnOver":
                     int index = Int32.Parse(commands[1]);
                     StartCoroutine(TurnOverCounterInBag(AI, index, actions.paras[i].x));
+                    GameManager.instance.gameLog += "Shuttle turns over bag " + index + " for " + actions.paras[i].x + "seconds" + "\n";
                     break;
                 case "CollectFromBoard":
                     yield return StartCoroutine(CollectCounterFromGrid(AI, actions.paras[i]));
+                    GameManager.instance.gameLog += "Shuttle collects from " + "(" + actions.paras[i].x + ", " + actions.paras[i].y + ")" + "\n";
                     break;
             }
             if (GameManager.instance.CheckGameOver())
@@ -127,6 +132,7 @@ public class AIManager : MonoBehaviour
         if (Methods.instance.IsInGn(pos, generatorId) && GetEmptyBagPosIndex(AI) != -1)
         {
             AI.GetComponent<AIBehavior>().carry[GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().GetPickupsInGnColor(pos)]++;
+            GameManager.instance.gameLog += "color: " + GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().GetPickupsInGnColor(pos) + "\n";
             AddToBag(AI, GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().GetPickupsInGnColor(pos));
             GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().AddToRegenerateList(pos);
             yield return new WaitForSeconds(collectDelay);

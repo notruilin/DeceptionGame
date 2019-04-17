@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -25,6 +27,8 @@ public class GameManager : MonoBehaviour
     public int counterNumInGenerator;
     public float minAnchorDis;
     public int carryLimit = 4;
+
+    [HideInInspector] public string gameLog;
 
     // Red, White, Blue, Yellow Generators
     [HideInInspector] public List<GameObject> generators = new List<GameObject>();
@@ -68,6 +72,7 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
+        gameLog = "";
         gameOver = false;
         SetPlayerTurn(false);
         boardScript = GetComponent<BoardGenerator>();
@@ -75,6 +80,7 @@ public class GameManager : MonoBehaviour
         aiScript = GetComponent<AIManager>();
         aiScript.InitialiseAIs();
         InitialiseDeposited();
+        gameLog += "--- Game Start ---\n";
     }
 
     public IEnumerator TurnSwitch()
@@ -101,16 +107,21 @@ public class GameManager : MonoBehaviour
 
     public void GameOverAIWin()
     {
+        gameLog += "--- AI Win ---\n";
         gameOver = true;
         StartCoroutine(UIManager.instance.ShowAIWinText());
         Methods.instance.TurnAllWhiteCounterOver();
+        StartCoroutine(SendLogToFile());
     }
 
     public void GameOverPlayerWin()
     {
+        gameLog += "Time Out!\n";
+        gameLog += "--- Player Win ---\n";
         gameOver = true;
         StartCoroutine(UIManager.instance.ShowPlayerWinText());
         Methods.instance.TurnAllWhiteCounterOver();
+        StartCoroutine(SendLogToFile());
     }
 
     private void InitialiseDeposited()
@@ -173,5 +184,24 @@ public class GameManager : MonoBehaviour
         Initialize();
         UIManager.instance.Initialize();
         StartCoroutine(TurnSwitch());
+    }
+
+    IEnumerator SendLogToFile()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("time", DateTime.Now.ToString() + "\n");
+        form.AddField("log", gameLog);
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost:1234/logFile.php", form))
+        {
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Upload complete!");
+            }
+        }
     }
 }
