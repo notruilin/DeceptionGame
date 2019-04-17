@@ -1,0 +1,145 @@
+4/17/2019 8:50:06 PM
+--- Game Start ---
+Shuttle moves to (-3.5, 3.5)
+Shuttle collects in Generator 1 color: 0
+Shuttle collects in Generator 1 color: 1
+Shuttle collects in Generator 1 color: 0
+Shuttle collects in Generator 1 color: 0
+Shuttle moves to (18, 4)
+Shuttle deposits at (18, 4), color: 1
+Shuttle moves to (6, 2)
+Shuttle deposits at (6, 2), color: 0
+Shuttle moves to (2, 2)
+Shuttle deposits at (2, 2), color: 0
+Shuttle moves to (3, 2)
+Shuttle deposits at (3, 2), color: 0
+Shuttle moves to (-3.5, 10)
+Player blocks (4.0, 2.0, 0.0)
+Shuttle moves to (22.5, 16)
+Shuttle collects in Generator 2 color: 1
+Shuttle collects in Generator 2 color: 0
+Shuttle collects in Generator 2 color: 2
+Shuttle collects in Generator 2 color: 0
+Shuttle moves to (18, 5)
+Shuttle deposits at (18, 5), color: 2
+Shuttle moves to (18, 6)
+Shuttle deposits at (18, 6), color: 1
+Shuttle moves to (6, 3)
+Shuttle deposits at (6, 3), color: 0
+Shuttle moves to (8, 3)
+Shuttle deposits at (8, 3), color: 0
+Shuttle moves to (-3.5, 10)
+Player blocks (7.0, 3.0, 0.0)
+Shuttle moves to (22.5, 3.5)
+Shuttle collects in Generator 3 color: 0
+Shuttle collects in Generator 3 color: 2
+Shuttle collects in Generator 3 color: 0
+Shuttle collects in Generator 3 color: 1
+Shuttle moves to (18, 7)
+Shuttle deposits at (18, 7), color: 1
+Shuttle moves to (18, 8)
+Shuttle deposits at (18, 8), color: 2
+Shuttle moves to (3, 3)
+Shuttle deposits at (3, 3), color: 0
+Shuttle moves to (6, 4)
+Shuttle deposits at (6, 4), color: 0
+Shuttle moves to (-3.5, 10)
+Player blocks (18.0, 9.0, 0.0)
+Shuttle moves to (22.5, 3.5)
+Shuttle collects in Generator 3 color: 2
+Shuttle collects in Generator 3 color: 0
+Shuttle collects in Generator 3 color: 0
+Shuttle collects in Generator 3 color: 0
+Shuttle moves to (17, 8)
+Shuttle deposits at (17, 8), color: 2
+Shuttle moves to (7, 4)
+Shuttle deposits at (7, 4), color: 0
+Shuttle moves to (4, 3)
+Shuttle deposits at (4, 3), color: 0
+Shuttle moves to (5, 3)
+Shuttle deposits at (5, 3), color: 0
+--- AI Win ---
+4/17/2019 8:52:20 PM
+--- Game Start ---
+Shuttle moves to (-3.5, 21)
+Shuttle collects in Generator 0 color: 2
+Shuttle collects in Generator 0 color: 0
+Shuttle collects in Generator 0 color: 2
+Shuttle collects in Generator 0 color: 0
+Shuttle moves to (17, 18)
+Shuttle deposits at (17, 18), color: 2
+Shuttle moves to (10, 6)
+Shuttle deposits at (10, 6), color: 0
+Shuttle moves to (16, 6)
+Shuttle deposits at (16, 6), color: 0
+Shuttle moves to (11, 8)
+Shuttle deposits at (11, 8), color: 2
+Shuttle moves to (-3.5, 12.5)
+Player blocks (16.0, 18.0, 0.0)
+Shuttle moves to (27.5, 3.5)
+Shuttle collects in Generator 3 color: 2
+Shuttle collects in Generator 3 color: 1
+Shuttle collects in Generator 3 color: 2
+Shuttle collects in Generator 3 color: 0
+Shuttle moves to (17, 17)
+Shuttle deposits at (17, 17), color: 2
+Shuttle moves to (16, 17)
+Shuttle deposits at (16, 17), color: 2
+Shuttle moves to (12, 6)
+Shuttle deposits at (12, 6), color: 0
+Shuttle moves to (11, 7)
+Shuttle deposits at (11, 7), color: 1
+Shuttle moves to (-3.5, 12.5)
+Player blocks (15.0, 17.0, 0.0)
+Shuttle moves to (27.5, 3.5)
+Shuttle collects in Generator 3 color: 1
+Shuttle collects in Generator 3 color: 2
+Shuttle collects in Generator 3 color: 1
+Shuttle collects in Generator 3 color: 0
+Shuttle moves to (16, 16)
+Shuttle deposits at (16, 16), color: 2
+Shuttle moves to (15, 16)
+Shuttle deposits at (15, 16), color: 1
+Shuttle moves to (14, 6)
+Shuttle deposits at (14, 6), color: 0
+Shuttle moves to (19, 8)
+Shuttle deposits at (19, 8), color: 1
+Shuttle moves to (-3.5, 12.5)
+Player blocks (14.0, 16.0, 0.0)
+Shuttle moves to (27.5, 3.5)
+Shuttle collects in Generator 3 color: 0
+Shuttle collects in Generator 3 color: 1
+Shuttle collects in Generator 3 color: 2
+Shuttle collects in Generator 3 color: 0
+Shuttle moves to (15, 15)
+Shuttle deposits at (15, 15), color: 2
+Shuttle moves to (15, 6)
+Shuttle deposits at (15, 6), color: 0
+Shuttle moves to (11, 6)
+Shuttle deposits at (11, 6), color: 0
+Shuttle moves to (9, 7)
+Shuttle deposits at (9, 7), color: 1
+Shuttle moves to (-3.5, 12.5)
+Player blocks (14.0, 15.0, 0.0)
+Shuttle moves to (27.5, 3.5)
+Shuttle collects in Generator 3 color: 2
+Shuttle collects in Generator 3 color: 2
+Shuttle collects in Generator 3 color: 0
+Shuttle collects in Generator 3 color: 2
+Shuttle moves to (15, 14)
+Shuttle deposits at (15, 14), color: 2
+Shuttle moves to (14, 14)
+Shuttle deposits at (14, 14), color: 2
+Shuttle moves to (13, 14)
+Shuttle deposits at (13, 14), color: 2
+Shuttle moves to (9, 6)
+Shuttle deposits at (9, 6), color: 0
+Shuttle moves to (-3.5, 12.5)
+Player blocks (12.0, 14.0, 0.0)
+Shuttle moves to (27.5, 3.5)
+Shuttle collects in Generator 3 color: 0
+Shuttle collects in Generator 3 color: 0
+Shuttle collects in Generator 3 color: 0
+Shuttle collects in Generator 3 color: 1
+Time Out!
+--- Player Win ---
