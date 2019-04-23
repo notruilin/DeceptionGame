@@ -1957,6 +1957,7 @@ GameObject:
   m_Component:
   - component: {fileID: 968530340}
   - component: {fileID: 968530341}
+  - component: {fileID: 968530342}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -1996,9 +1997,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab2f026f7e634d90b9054f029f9667d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: 0
-  randomAnchor: 0
-  minAnchorDis: 0
+--- !u!114 &968530342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968530339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0ae75cd54a840a182cdac2989d6483, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridSize: 25
+  minAnchorDis: 4
+  counterNumInGenerator: 6
+  carryLimit: 4
+  anchorCount: 8
+  randomAnchor: 1
+  defaultAnchorPos: []
+  colorBag: 000000000100000002000000
 --- !u!1 &1086193698
 GameObject:
   m_ObjectHideFlags: 0

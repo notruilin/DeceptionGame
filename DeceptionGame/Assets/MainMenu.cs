@@ -7,10 +7,6 @@ public class MainMenu : MonoBehaviour
 {
     public static MainMenu instance;
 
-    public int gridSize;
-    public bool randomAnchor;
-    public float minAnchorDis;
-
     private void Awake()
     {
         if (instance == null)
@@ -21,14 +17,6 @@ public class MainMenu : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
-        gridSize = 25;
-        randomAnchor = true;
-        minAnchorDis = 4;
     }
 
     public void PlayerGame()

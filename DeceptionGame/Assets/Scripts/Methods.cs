@@ -52,7 +52,7 @@ public class Methods : MonoBehaviour
 
     public bool IsOnBoard(Vector3 pos)
     {
-        if (pos.x >= 0 && pos.x < GameManager.instance.gridSize && pos.y >= 0 && pos.y < GameManager.instance.gridSize)
+        if (pos.x >= 0 && pos.x < GameParameters.instance.gridSize && pos.y >= 0 && pos.y < GameParameters.instance.gridSize)
         {
             return true;
         }
@@ -436,10 +436,10 @@ public class Methods : MonoBehaviour
     private void InitialisePath()
     {
         path.Clear();
-        for (int x = 0; x < GameManager.instance.gridSize; x++)
+        for (int x = 0; x < GameParameters.instance.gridSize; x++)
         {
             path.Add(new List<Vector3>());
-            for (int y = 0; y < GameManager.instance.gridSize; y++)
+            for (int y = 0; y < GameParameters.instance.gridSize; y++)
             {
                 path[x].Add(new Vector3(-2, -2, 0f));
             }
@@ -449,10 +449,10 @@ public class Methods : MonoBehaviour
     private void InitialiseVisited()
     {
         visited.Clear();
-        for (int x = 0; x < GameManager.instance.gridSize; x++)
+        for (int x = 0; x < GameParameters.instance.gridSize; x++)
         {
             visited.Add(new List<bool>());
-            for (int y = 0; y < GameManager.instance.gridSize; y++)
+            for (int y = 0; y < GameParameters.instance.gridSize; y++)
             {
                 visited[x].Add(false);
             }

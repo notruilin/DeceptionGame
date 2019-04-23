@@ -11,7 +11,7 @@ public class AIBehavior : MonoBehaviour
 
     private void Start()
     {
-        transform.position = new Vector3(-3.5f, MainMenu.instance.gridSize / 2f, 0f);
+        transform.position = new Vector3(-3.5f, GameParameters.instance.gridSize / 2f, 0f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -9,14 +9,13 @@ public class GeneratorManager : MonoBehaviour
     private List<GameObject> pickupsInGn = new List<GameObject>();
     private List<int> pickupsInGnColor = new List<int>();
 
-
     // The positions which need to regenerate counters
     private List<Vector3> reGeneratePickup = new List<Vector3>();
 
     private int RandomColor()
     {
-        // red-> 0, yellow -> 1, blue-> 2
-        return Random.Range(0, 3);
+        int randomIndex = Random.Range(0, GameParameters.instance.colorBag.Count);
+        return GameParameters.instance.colorBag[randomIndex];
     }
 
     private GameObject GeneratePickup(Vector3 pos, int color)
@@ -28,17 +27,19 @@ public class GeneratorManager : MonoBehaviour
 
     private void Awake()
     {
-        float d = -1f, reverse = 1;
+        // Adjusts generator scale by counterNumInGenerator
+        transform.localScale += new Vector3((GameParameters.instance.counterNumInGenerator - 4) * 0.2f, 0f, 0f);
+        float d = -0.7f, reverse = -1;
         // generator on right side
-        if (transform.position.x > GameManager.instance.gridSize)
+        if (transform.position.x > GameParameters.instance.gridSize)
         {
-            d = 1f;
-            reverse = -1;
+            d = 0.7f;
+            reverse = 1;
         }
-        for (int i = 0; i < GameManager.instance.counterNumInGenerator; i++)
+        for (int i = 0; i < GameParameters.instance.counterNumInGenerator; i++)
         {
             int randomColor = RandomColor();
-            pickupsInGn.Add(GeneratePickup(new Vector3(transform.position.x + d, transform.position.y - 0.35f, 0f), randomColor));
+            pickupsInGn.Add(GeneratePickup(new Vector3(transform.position.x + d, transform.position.y, 0f), randomColor));
             pickupsInGnColor.Add(randomColor);
             d += 1f * reverse;
         }
@@ -93,7 +94,7 @@ public class GeneratorManager : MonoBehaviour
         int count = 0;
         foreach (int color in pickupsInGnColor)
         {
-            if (color == 0)
+            if (color == GameParameters.red)
             {
                 count += 1;
             }

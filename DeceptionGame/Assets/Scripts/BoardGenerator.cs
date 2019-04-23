@@ -13,30 +13,31 @@ public class BoardGenerator : MonoBehaviour
         InitialiseCamera();
         BoardSetup();
         InitialiseList();
-        if (MainMenu.instance.randomAnchor)
+        if (GameParameters.instance.randomAnchor)
         {
-            LayoutAnchorAtRandom(GameManager.instance.Anchor, GameManager.instance.anchorCount);
+            AddRandomAnchorPos(GameParameters.instance.anchorCount);
         }
         else
         {
-            LayoutAnchorDefault(GameManager.instance.Anchor);
+            AddDefaultAnchorPos();
         }
+        LayoutAnchors();
         SetCounterGenerator();
     }
 
     private void InitialiseCamera()
     {
-        Camera.main.orthographicSize = GameManager.instance.gridSize / 1.8f;
-        Camera.main.transform.position = new Vector3(((float)(GameManager.instance.gridSize / 2f - 0.5)), (float)(GameManager.instance.gridSize / 2f - 0.5), -10f);
+        Camera.main.orthographicSize = GameParameters.instance.gridSize / 1.75f;
+        Camera.main.transform.position = new Vector3(((float)(GameParameters.instance.gridSize / 2f - 0.5)), (float)(GameParameters.instance.gridSize / 2f - 0.5), -10f);
     }
 
     private void BoardSetup()
     {
         boardHolder = new GameObject("Board").transform;
 
-        for (int x = 0; x < GameManager.instance.gridSize; x++)
+        for (int x = 0; x < GameParameters.instance.gridSize; x++)
         {
-            for (int y = 0; y < GameManager.instance.gridSize; y++)
+            for (int y = 0; y < GameParameters.instance.gridSize; y++)
             {
                 GameObject tile = Methods.instance.LayoutObject(GameManager.instance.gridTile, x, y);
                 tile.transform.SetParent(boardHolder);
@@ -48,9 +49,9 @@ public class BoardGenerator : MonoBehaviour
     private void InitialiseList()
     {
         gridPositions.Clear();
-        for (int x = 0; x < GameManager.instance.gridSize; x++)
+        for (int x = 0; x < GameParameters.instance.gridSize; x++)
         {
-            for (int y = 0; y < GameManager.instance.gridSize; y++)
+            for (int y = 0; y < GameParameters.instance.gridSize; y++)
             {
                 gridPositions.Add(new Vector3(x, y, 0f));
             }
@@ -59,14 +60,14 @@ public class BoardGenerator : MonoBehaviour
 
     public bool OutOfBoundForAnchor(Vector3 position)
     {
-        if (position.x < 0.5 || position.x >= GameManager.instance.gridSize - 1 || position.y < 0.5 || position.y >= GameManager.instance.gridSize - 1)
+        if (position.x < 0.5 || position.x >= GameParameters.instance.gridSize - 1 || position.y < 0.5 || position.y >= GameParameters.instance.gridSize - 1)
         {
             return true;
         }
         return false;
     }
 
-    private void LayoutAnchorAtRandom(GameObject prefab, int count)
+    private void AddRandomAnchorPos(int count)
     {
         GameManager.instance.anchorPositions.Clear();
         for (int i = 0; i < count; i++)
@@ -87,7 +88,7 @@ public class BoardGenerator : MonoBehaviour
                 foreach (Vector3 position in GameManager.instance.anchorPositions)
                 {
                     float dist = Vector3.Distance(randomPosition, position);
-                    if (dist < GameManager.instance.minAnchorDis)
+                    if (dist < GameParameters.instance.minAnchorDis)
                     {
                         valid = false;
                         break;
@@ -97,8 +98,6 @@ public class BoardGenerator : MonoBehaviour
             // Avoid to add the last random position when gridPositions is empty
             if (valid)
             {
-                Methods.instance.LayoutObject(prefab, randomPosition.x, randomPosition.y);
-                Methods.instance.LayoutObject(GameManager.instance.OnAnchor, randomPosition.x, randomPosition.y);
                 GameManager.instance.anchorPositions.Add(randomPosition);
             }
             else
@@ -108,16 +107,19 @@ public class BoardGenerator : MonoBehaviour
         }
     }
 
-    private void LayoutAnchorDefault(GameObject prefab)
+    private void AddDefaultAnchorPos()
     {
-        float fouth = GameManager.instance.gridSize / 4 + 0.5f;
-        GameManager.instance.anchorPositions.Add(new Vector3(GameManager.instance.gridSize - fouth, fouth, 0f));
-        GameManager.instance.anchorPositions.Add(new Vector3(fouth, GameManager.instance.gridSize - fouth, 0f));
-        GameManager.instance.anchorPositions.Add(new Vector3(GameManager.instance.gridSize - fouth, GameManager.instance.gridSize - fouth, 0f));
-        GameManager.instance.anchorPositions.Add(new Vector3(fouth, fouth, 0f));
+        foreach (Vector3 pos in GameParameters.instance.defaultAnchorPos)
+        {
+            GameManager.instance.anchorPositions.Add(pos);
+        }
+    }
+
+    private void LayoutAnchors()
+    {
         foreach (Vector3 pos in GameManager.instance.anchorPositions)
         {
-            Methods.instance.LayoutObject(prefab, pos.x, pos.y);
+            Methods.instance.LayoutObject(GameManager.instance.Anchor, pos.x, pos.y);
             Methods.instance.LayoutObject(GameManager.instance.OnAnchor, pos.x, pos.y);
         }
     }
@@ -126,13 +128,13 @@ public class BoardGenerator : MonoBehaviour
     {
         GameManager.instance.generators.Clear();
         GameManager.instance.parkingPos.Clear();
-        GameManager.instance.generators.Add(Methods.instance.LayoutObject(GameManager.instance.GeneratorsImages[0], -4f, GameManager.instance.gridSize - 2f));
-        GameManager.instance.parkingPos.Add(new Vector3(-4f + 0.5f, GameManager.instance.gridSize - 2f - 2f, 0f));
-        GameManager.instance.generators.Add(Methods.instance.LayoutObject(GameManager.instance.GeneratorsImages[1], -4f, 2f));
-        GameManager.instance.parkingPos.Add(new Vector3(-4f + 0.5f, 2f + 1.5f, 0f));
-        GameManager.instance.generators.Add(Methods.instance.LayoutObject(GameManager.instance.GeneratorsImages[2], GameManager.instance.gridSize + 3f, GameManager.instance.gridSize - 2f));
-        GameManager.instance.parkingPos.Add(new Vector3(GameManager.instance.gridSize + 3f - 0.5f, GameManager.instance.gridSize - 2f - 2f, 0f));
-        GameManager.instance.generators.Add(Methods.instance.LayoutObject(GameManager.instance.GeneratorsImages[3], GameManager.instance.gridSize + 3f, 2f));
-        GameManager.instance.parkingPos.Add(new Vector3(GameManager.instance.gridSize + 3f - 0.5f, 2f + 1.5f, 0f));
+        GameManager.instance.generators.Add(Methods.instance.LayoutObject(GameManager.instance.GeneratorsImages[0], -1.5f, GameParameters.instance.gridSize - 2f));
+        GameManager.instance.parkingPos.Add(new Vector3(-1.5f - 2.2f, GameParameters.instance.gridSize - 2f - 2f, 0f));
+        GameManager.instance.generators.Add(Methods.instance.LayoutObject(GameManager.instance.GeneratorsImages[1], -1.5f, 2f));
+        GameManager.instance.parkingPos.Add(new Vector3(-1.5f - 2.2f, 2f + 1.5f, 0f));
+        GameManager.instance.generators.Add(Methods.instance.LayoutObject(GameManager.instance.GeneratorsImages[2], GameParameters.instance.gridSize + 0.5f, GameParameters.instance.gridSize - 2f));
+        GameManager.instance.parkingPos.Add(new Vector3(GameParameters.instance.gridSize + 0.5f + 2.2f, GameParameters.instance.gridSize - 2f - 2f, 0f));
+        GameManager.instance.generators.Add(Methods.instance.LayoutObject(GameManager.instance.GeneratorsImages[3], GameParameters.instance.gridSize + 0.5f, 2f));
+        GameManager.instance.parkingPos.Add(new Vector3(GameParameters.instance.gridSize + 0.5f + 2.2f, 2f + 1.5f, 0f));
     }
 }

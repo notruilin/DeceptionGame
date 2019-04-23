@@ -22,12 +22,6 @@ public class GameManager : MonoBehaviour
     public GameObject[] counterOnShuttleTiles;
     public GameObject AI;
 
-    [HideInInspector] public int gridSize;
-    [HideInInspector] public float minAnchorDis;
-    public int counterNumInGenerator;
-    public int carryLimit = 4;
-    public int anchorCount = 8;
-
     [HideInInspector] public string gameLog;
 
     // Red, White, Blue, Yellow Generators
@@ -75,8 +69,6 @@ public class GameManager : MonoBehaviour
         gameLog = "";
         gameOver = false;
         SetPlayerTurn(false);
-        gridSize = MainMenu.instance.gridSize;
-        minAnchorDis = MainMenu.instance.minAnchorDis;
         boardScript = GetComponent<BoardGenerator>();
         boardScript.SetupScene();
         aiScript = GetComponent<AIManager>();
@@ -132,13 +124,13 @@ public class GameManager : MonoBehaviour
         readyToTurnOver.Clear();
         blocked.Clear();
         countersOnBoard.Clear();
-        for (int x = 0; x < gridSize; x++)
+        for (int x = 0; x < GameParameters.instance.gridSize; x++)
         {
             deposited.Add(new List<int>());
             readyToTurnOver.Add(new List<bool>());
             blocked.Add(new List<bool>());
             countersOnBoard.Add(new List<GameObject>());
-            for (int y = 0; y < gridSize; y++)
+            for (int y = 0; y < GameParameters.instance.gridSize; y++)
             {
                 deposited[x].Add(-1);
                 readyToTurnOver[x].Add(false);

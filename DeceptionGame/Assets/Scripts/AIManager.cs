@@ -24,7 +24,7 @@ public class AIManager : MonoBehaviour
         bagPos.Add(new Vector3(-0.5f, 0.02f, 0f));
         bagPos.Add(new Vector3(0.55f, 0.02f, 0f));
         bagPos.Add(new Vector3(1.65f, 0.02f, 0f));
-        startPos = new Vector3(-3.5f, MainMenu.instance.gridSize / 2f, 0f);
+        startPos = new Vector3(-3.5f, GameParameters.instance.gridSize / 2f, 0f);
     }
 
     public void InitialiseAIs()
@@ -58,7 +58,7 @@ public class AIManager : MonoBehaviour
             switch (commands[0])
             {
                 case "Collect":
-                    if (AI.GetComponent<AIBehavior>().carry.Sum() < GameManager.instance.carryLimit && Methods.instance.OnParkingPos(AI.transform.position))
+                    if (AI.GetComponent<AIBehavior>().carry.Sum() < GameParameters.instance.carryLimit && Methods.instance.OnParkingPos(AI.transform.position))
                     {
                         int generatorId = Methods.instance.FindGenerator(AI.transform.position);
                         GameManager.instance.gameLog += "Shuttle collects in Generator " + generatorId + " ";

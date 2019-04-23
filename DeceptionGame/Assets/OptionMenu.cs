@@ -4,38 +4,38 @@ using UnityEngine;
 
 public class OptionMenu : MonoBehaviour
 {
-    public void SetGridSizeBig()
+    private void SetGridSizeBig()
     {
-        MainMenu.instance.gridSize = 30;
+        GameParameters.instance.gridSize = 30;
     }
 
-    public void SetGridSizeMedium()
+    private void SetGridSizeMedium()
     {
-        MainMenu.instance.gridSize = 25;
+        GameParameters.instance.gridSize = 25;
     }
 
-    public void SetGridSizeSmall()
+    private void SetGridSizeSmall()
     {
-        MainMenu.instance.gridSize = 20;
+        GameParameters.instance.gridSize = 20;
     }
 
-    public void SetRandomAnchor()
+    private void SetRandomAnchor()
     {
-        MainMenu.instance.randomAnchor = true;
+        GameParameters.instance.randomAnchor = true;
     }
 
-    public void SetDefaultAnchor()
+    private void SetDefaultAnchor()
     {
-        MainMenu.instance.randomAnchor = false;
+        GameParameters.instance.randomAnchor = false;
     }
 
-    public void SetAnchorDisLarge()
+    private void SetAnchorDisLarge()
     {
-        MainMenu.instance.minAnchorDis = 8;
+        GameParameters.instance.minAnchorDis = 8;
     }
 
-    public void SetAnchorDisSmall()
+    private void SetAnchorDisSmall()
     {
-        MainMenu.instance.minAnchorDis = 4;
+        GameParameters.instance.minAnchorDis = 4;
     }
 }
