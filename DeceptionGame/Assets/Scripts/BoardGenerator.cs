@@ -19,6 +19,7 @@ public class BoardGenerator : MonoBehaviour
         }
         else
         {
+            SetDefaultAnchorPos();
             AddDefaultAnchorPos();
         }
         LayoutAnchors();
@@ -105,6 +106,16 @@ public class BoardGenerator : MonoBehaviour
                 Debug.LogError("No valid space for more Anchors!");
             }
         }
+    }
+
+    private void SetDefaultAnchorPos()
+    {
+        if (GameParameters.instance.defaultAnchorPos.Count > 0) return;
+        float fouth = GameParameters.instance.gridSize / 4 + 0.5f;
+        GameParameters.instance.defaultAnchorPos.Add(new Vector3(GameParameters.instance.gridSize - fouth, fouth, 0f));
+        GameParameters.instance.defaultAnchorPos.Add(new Vector3(fouth, GameParameters.instance.gridSize - fouth, 0f));
+        GameParameters.instance.defaultAnchorPos.Add(new Vector3(GameParameters.instance.gridSize - fouth, GameParameters.instance.gridSize - fouth, 0f));
+        GameParameters.instance.defaultAnchorPos.Add(new Vector3(fouth, fouth, 0f));
     }
 
     private void AddDefaultAnchorPos()

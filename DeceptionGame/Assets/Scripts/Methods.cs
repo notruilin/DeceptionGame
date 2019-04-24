@@ -169,6 +169,7 @@ public class Methods : MonoBehaviour
             if (counter != null && counter.transform.position == pos)
             {
                 counter.SetActive(false);
+                if (OnCounter(pos) == -1) continue;
                 GameObject colorCounter = LayoutObject(GameManager.instance.counterTiles[OnCounter(pos)], pos.x, pos.y);
                 yield return new WaitForSeconds(turnOverDelay);
                 // Do not turn back if game over or keep collision with shuttle

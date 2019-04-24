@@ -29,7 +29,6 @@ public class GameParameters : MonoBehaviour
             Destroy(gameObject);
         }
         SetCustomAnchorPos();
-        SetDefaultAnchorPos();
         InitializeColorProportion();
         SetDefaultColorProportion();
     }
@@ -93,16 +92,6 @@ public class GameParameters : MonoBehaviour
         {
             Debug.LogError("Invalid Proportion!");
         }
-    }
-
-    private void SetDefaultAnchorPos()
-    {
-        if (defaultAnchorPos.Count > 0) return;
-        float fouth = gridSize / 4 + 0.5f;
-        defaultAnchorPos.Add(new Vector3(gridSize - fouth, fouth, 0f));
-        defaultAnchorPos.Add(new Vector3(fouth, gridSize - fouth, 0f));
-        defaultAnchorPos.Add(new Vector3(gridSize - fouth, gridSize - fouth, 0f));
-        defaultAnchorPos.Add(new Vector3(fouth, fouth, 0f));
     }
 
     private void SetDefaultColorProportion()

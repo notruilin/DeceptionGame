@@ -72,12 +72,24 @@ public class AIManager : MonoBehaviour
                     break;
                 case "Deposit":
                     Vector3 pos = new Vector3(actions.paras[i].x, actions.paras[i].y, 0f);
-                    int color = Int32.Parse(commands[1]);
-                    if (AI.transform.position == pos)
+                    int num = Int32.Parse(commands[2]);
+                    if (commands[1].Equals("Color"))
                     {
-                        Debug.Log("Start deposit at: " + actions.paras[i]);
-                        yield return StartCoroutine(DepositCounter(AI, pos, color, actions.paras[i].z));
-                        GameManager.instance.gameLog += "Shuttle deposits at " + "(" + pos.x + ", " + pos.y + ")" + ", color: " + color + "\n";
+                        if (AI.transform.position == pos)
+                        {
+                            Debug.Log("Start deposit at: " + actions.paras[i]);
+                            yield return StartCoroutine(DepositCounter(AI, pos, num, actions.paras[i].z));
+                            GameManager.instance.gameLog += "Shuttle deposits at " + "(" + pos.x + ", " + pos.y + ")" + ", color: " + num + "\n";
+                        }
+                    }
+                    else
+                    {
+                        if (AI.transform.position == pos)
+                        {
+                            Debug.Log("Start deposit at: " + actions.paras[i]);
+                            yield return StartCoroutine(DepositCounterByIndex(AI, pos, num, actions.paras[i].z));
+                            GameManager.instance.gameLog += "Shuttle deposits at " + "(" + pos.x + ", " + pos.y + ")" + ", index: " + num + "\n";
+                        }
                     }
                     break;
                 case "TurnOver":
@@ -122,8 +134,28 @@ public class AIManager : MonoBehaviour
             }
             GameManager.instance.countersOnBoard[(int)pos.x][(int)pos.y] = Methods.instance.LayoutObject(GameManager.instance.counterTiles[3], pos.x, pos.y);
             AI.GetComponent<AIBehavior>().carry[color]--;
-            DelFromBag(AI, color);
             GameManager.instance.deposited[(int)pos.x][(int)pos.y] = color;
+            DelFromBag(AI, color);
+        }
+    }
+
+    private IEnumerator DepositCounterByIndex(GameObject AI, Vector3 pos, int index, float delay)
+    {
+        if (AI.GetComponent<AIBehavior>().bagCounterColor[index] != -1 && Methods.instance.IsEmptyGrid(pos))
+        {
+            yield return StartCoroutine(MoveToBagPosition(AI, index));
+            if (Mathf.Approximately(delay, 0f))
+            {
+                yield return new WaitForSeconds(defaultDepositDelay);
+            }
+            else
+            {
+                yield return new WaitForSeconds(delay);
+            }
+            GameManager.instance.countersOnBoard[(int)pos.x][(int)pos.y] = Methods.instance.LayoutObject(GameManager.instance.counterTiles[3], pos.x, pos.y);
+            AI.GetComponent<AIBehavior>().carry[AI.GetComponent<AIBehavior>().bagCounterColor[index]]--;
+            GameManager.instance.deposited[(int)pos.x][(int)pos.y] = AI.GetComponent<AIBehavior>().bagCounterColor[index];
+            DelFromBagByIndex(AI, index);
         }
     }
 
@@ -202,6 +234,12 @@ public class AIManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void DelFromBagByIndex(GameObject AI, int index)
+    {
+        AI.GetComponent<AIBehavior>().bagCounterColor[index] = -1;
+        Destroy(AI.GetComponent<AIBehavior>().counterInBag[index]);
     }
 
     private int GetEmptyBagPosIndex(GameObject AI)

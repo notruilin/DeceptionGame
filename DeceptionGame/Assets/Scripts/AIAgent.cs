@@ -75,6 +75,13 @@ public class AIAgent : MonoBehaviour
             }
             i++;
         }
+
+        Debug.Log("?????????After Fake Path: ");
+        int[] test = actions.GetPickupColor();
+        Debug.Log("?????????Test Carry by Actions: " + test[0] + "  " + test[1] + "  " + test[2]);
+        int[] test1 = actions.GetPickupColorBagPos();
+        Debug.Log("?????????Test Bag Pos Color by Actions: " + test1[0] + "  " + test1[1] + "  " + test1[2] + "  " + test1[3]);
+
         //actions.TurnOverCounterInBagByIndex(2, 0.5f);
         truePath = Methods.instance.FindPathInGrid(anchor[trueStart], anchor[trueEnd], true);
         pathList = Methods.instance.RemoveDepositedAndAnchor(truePath);
@@ -91,6 +98,13 @@ public class AIAgent : MonoBehaviour
                 Debug.Log("Deposit on TRUE path AddTarget:  " + randomPos);
             }
         }
+
+        Debug.Log("?????????After True Path: ");
+        test = actions.GetPickupColor();
+        Debug.Log("?????????Test Carry by Actions: " + test[0] + "  " + test[1] + "  " + test[2]);
+        test1 = actions.GetPickupColorBagPos();
+        Debug.Log("?????????Test Bag Pos Color by Actions: " + test1[0] + "  " + test1[1] + "  " + test1[2] + "  " + test1[3]);
+
         List<Vector3> neighbor = new List<Vector3>();
         if (otherCounterNum > 0)
         {
@@ -110,9 +124,26 @@ public class AIAgent : MonoBehaviour
             carry[randomColor]--;
             Debug.Log("Deposit around true path to confuse AddTarget:  " + neighbor[i]);
         }
-        //actions.MoveTo(tmp);
-        //Debug.Log("Want to move to : " + tmp);
-        //actions.CollectFromBoard(tmp);
+        actions.MoveTo(tmp);
+        Debug.Log("Want to move to : " + tmp);
+        actions.CollectFromBoard(tmp);
+
+        Debug.Log("?????????After CollectFromBoard: ");
+        test = actions.GetPickupColor();
+        Debug.Log("?????????Test Carry by Actions: " + test[0] + "  " + test[1] + "  " + test[2]);
+        test1 = actions.GetPickupColorBagPos();
+        Debug.Log("?????????Test Bag Pos Color by Actions: " + test1[0] + "  " + test1[1] + "  " + test1[2] + "  " + test1[3]);
+
+
+        actions.MoveTo(tmp);
+        actions.DepositIndexAt(tmp, 0);
+
+        Debug.Log("?????????Final");
+        test = actions.GetPickupColor();
+        Debug.Log("?????????Test Carry by Actions: " + test[0] + "  " + test[1] + "  " + test[2]);
+        test1 = actions.GetPickupColorBagPos();
+        Debug.Log("?????????Test Bag Pos Color by Actions: " + test1[0] + "  " + test1[1] + "  " + test1[2] + "  " + test1[3]);
+
         return actions;
     }
 }

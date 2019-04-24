@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GeneratorManager : MonoBehaviour
@@ -14,7 +16,7 @@ public class GeneratorManager : MonoBehaviour
 
     private int RandomColor()
     {
-        int randomIndex = Random.Range(0, GameParameters.instance.colorBag.Count);
+        int randomIndex = UnityEngine.Random.Range(0, GameParameters.instance.colorBag.Count);
         return GameParameters.instance.colorBag[randomIndex];
     }
 
@@ -86,7 +88,8 @@ public class GeneratorManager : MonoBehaviour
 
     public List<GameObject> GetPickupsInGn()
     {
-        return pickupsInGn;
+        List<GameObject> sortedPickups = pickupsInGn.OrderBy(pickup => Math.Abs(pickup.transform.position.x)).ToList();
+        return sortedPickups;
     }
 
     public int GetRedPickupsNumber()
