@@ -300,7 +300,7 @@ public class Methods : MonoBehaviour
     public int MostRedGenerator()
     {
         int mostCount = -1;
-        int bestGenerator = -1;
+        int bestGenerator = 0;
         for (int i = 0; i < GameManager.instance.generators.Count; i++)
         {
             int nowCount = GameManager.instance.generators[i].GetComponent<GeneratorManager>().GetRedPickupsNumber();
