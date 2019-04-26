@@ -30,10 +30,7 @@ public class AIManager : MonoBehaviour
     public void InitialiseAIs()
     {
         AIs.Clear();
-        for (int i = 0; i < GameParameters.instance.shuttleNum; i++)
-        {
-            AIs.Add(Methods.instance.LayoutObject(GameManager.instance.AI, 0f, 0f));
-        }
+        AIs.Add(Methods.instance.LayoutObject(GameManager.instance.AI, 0f, 0f));
     }
 
     public IEnumerator AITurn()

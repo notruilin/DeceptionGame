@@ -2009,7 +2009,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0ae75cd54a840a182cdac2989d6483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shuttleNum: 1
   gridSize: 25
   minAnchorDis: 4
   counterNumInGenerator: 4
