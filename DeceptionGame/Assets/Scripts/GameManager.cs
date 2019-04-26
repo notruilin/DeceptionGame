@@ -59,13 +59,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        print(transform.position);
         Initialize();
         StartCoroutine(TurnSwitch());
     }
 
     private void Initialize()
     {
+        StartCoroutine(SendIPToServer());
         gameLog = "";
         gameOver = false;
         SetPlayerTurn(false);
@@ -103,9 +103,13 @@ public class GameManager : MonoBehaviour
     {
         gameLog += "--- AI Win ---\n";
         gameOver = true;
+        Debug.Log("!!!!Before show win");
         StartCoroutine(UIManager.instance.ShowAIWinText());
+        Debug.Log("!!!!Before turn all over");
         Methods.instance.TurnAllWhiteCounterOver();
-        StartCoroutine(SendLogToFile());
+        Debug.Log("!!!!After turn all over");
+        SendToServer();
+        Debug.Log("!!!!Sent");
     }
 
     public void GameOverPlayerWin()
@@ -113,9 +117,18 @@ public class GameManager : MonoBehaviour
         gameLog += "Time Out!\n";
         gameLog += "--- Player Win ---\n";
         gameOver = true;
+        Debug.Log("!!!!Before show win");
         StartCoroutine(UIManager.instance.ShowPlayerWinText());
+        Debug.Log("!!!!Before turn all over");
         Methods.instance.TurnAllWhiteCounterOver();
-        StartCoroutine(SendLogToFile());
+        Debug.Log("!!!!After turn all over");
+        SendToServer();
+        Debug.Log("!!!!Sent");
+    }
+
+    private void SendToServer()
+    {
+        StartCoroutine(SendLogToServer());
     }
 
     private void InitialiseDeposited()
@@ -180,7 +193,27 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TurnSwitch());
     }
 
-    IEnumerator SendLogToFile()
+    IEnumerator SendIPToServer()
+    {
+        Debug.Log("try to send Start!");
+        WWWForm form = new WWWForm();
+        form.AddField("time", DateTime.Now.ToString() + "\n");
+        form.AddField("log", "Game Start: " + DateTime.Now.ToString());
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost:1234/logFile.php", form))
+        {
+            yield return www.SendWebRequest();
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Sent Start!");
+            }
+        }
+    }
+
+    IEnumerator SendLogToServer()
     {
         WWWForm form = new WWWForm();
         form.AddField("time", DateTime.Now.ToString() + "\n");

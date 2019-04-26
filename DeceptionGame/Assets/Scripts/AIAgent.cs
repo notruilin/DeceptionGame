@@ -100,10 +100,10 @@ public class AIAgent : MonoBehaviour
         }
 
         Debug.Log("?????????After True Path: ");
-        test = actions.GetPickupColor();
-        Debug.Log("?????????Test Carry by Actions: " + test[0] + "  " + test[1] + "  " + test[2]);
-        test1 = actions.GetPickupColorBagPos();
-        Debug.Log("?????????Test Bag Pos Color by Actions: " + test1[0] + "  " + test1[1] + "  " + test1[2] + "  " + test1[3]);
+        int[] test2 = actions.GetPickupColor();
+        Debug.Log("?????????Test Carry by Actions: " + test2[0] + "  " + test2[1] + "  " + test2[2]);
+        int[] test3 = actions.GetPickupColorBagPos();
+        Debug.Log("?????????Test Bag Pos Color by Actions: " + test3[0] + "  " + test3[1] + "  " + test3[2] + "  " + test3[3]);
 
         List<Vector3> neighbor = new List<Vector3>();
         if (otherCounterNum > 0)
@@ -124,25 +124,31 @@ public class AIAgent : MonoBehaviour
             carry[randomColor]--;
             Debug.Log("Deposit around true path to confuse AddTarget:  " + neighbor[i]);
         }
+
+        if (tmp == Vector3.zero)
+        {
+            return actions;
+        }
+
         actions.MoveTo(tmp);
         Debug.Log("Want to move to : " + tmp);
         actions.CollectFromBoard(tmp);
 
         Debug.Log("?????????After CollectFromBoard: ");
-        test = actions.GetPickupColor();
-        Debug.Log("?????????Test Carry by Actions: " + test[0] + "  " + test[1] + "  " + test[2]);
-        test1 = actions.GetPickupColorBagPos();
-        Debug.Log("?????????Test Bag Pos Color by Actions: " + test1[0] + "  " + test1[1] + "  " + test1[2] + "  " + test1[3]);
+        int[] test4 = actions.GetPickupColor();
+        Debug.Log("?????????Test Carry by Actions: " + test4[0] + "  " + test4[1] + "  " + test4[2]);
+        int[] test5 = actions.GetPickupColorBagPos();
+        Debug.Log("?????????Test Bag Pos Color by Actions: " + test5[0] + "  " + test5[1] + "  " + test5[2] + "  " + test5[3]);
 
 
         actions.MoveTo(tmp);
         actions.DepositIndexAt(tmp, 0);
 
         Debug.Log("?????????Final");
-        test = actions.GetPickupColor();
-        Debug.Log("?????????Test Carry by Actions: " + test[0] + "  " + test[1] + "  " + test[2]);
-        test1 = actions.GetPickupColorBagPos();
-        Debug.Log("?????????Test Bag Pos Color by Actions: " + test1[0] + "  " + test1[1] + "  " + test1[2] + "  " + test1[3]);
+        int[] test6 = actions.GetPickupColor();
+        Debug.Log("?????????Test Carry by Actions: " + test6[0] + "  " + test6[1] + "  " + test6[2]);
+        int[] test7 = actions.GetPickupColorBagPos();
+        Debug.Log("?????????Test Bag Pos Color by Actions: " + test7[0] + "  " + test7[1] + "  " + test7[2] + "  " + test7[3]);
 
         return actions;
     }
