@@ -12,6 +12,6 @@
 		fclose($file);
 	}
 	else {
-		echo("Failed????!");
+		echo("Failed!");
 	}
 ?>

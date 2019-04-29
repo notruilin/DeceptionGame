@@ -129,7 +129,7 @@ public class AIAgent : MonoBehaviour
         {
             return actions;
         }
-
+        /*
         actions.MoveTo(tmp);
         Debug.Log("Want to move to : " + tmp);
         actions.CollectFromBoard(tmp);
@@ -149,7 +149,7 @@ public class AIAgent : MonoBehaviour
         Debug.Log("?????????Test Carry by Actions: " + test6[0] + "  " + test6[1] + "  " + test6[2]);
         int[] test7 = actions.GetPickupColorBagPos();
         Debug.Log("?????????Test Bag Pos Color by Actions: " + test7[0] + "  " + test7[1] + "  " + test7[2] + "  " + test7[3]);
-
+        */
         return actions;
     }
 }

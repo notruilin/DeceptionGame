@@ -60,19 +60,15 @@ public class UIManager : MonoBehaviour
     public IEnumerator ShowAIWinText()
     {
         AIWinPanel.SetActive(true);
-        Debug.Log("Show win");
         yield return new WaitForSeconds(3f);
         RestartButton.SetActive(true);
-        Debug.Log("Show Restart");
     }
 
     public IEnumerator ShowPlayerWinText()
     {
         PlayerWinPanel.SetActive(true);
-        Debug.Log("Show win");
         yield return new WaitForSeconds(3f);
         RestartButton.SetActive(true);
-        Debug.Log("Show Restart");
     }
 
     public IEnumerator ShowPlayerTurn()
