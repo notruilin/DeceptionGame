@@ -208,7 +208,10 @@ public class Methods : MonoBehaviour
         counters = GameObject.FindGameObjectsWithTag("WhiteCounter");
         foreach (GameObject counter in counters)
         {
-            LayoutObject(GameManager.instance.counterTiles[OnCounter(counter.transform.position)], counter.transform.position.x, counter.transform.position.y);
+            if (OnCounter(counter.transform.position) != -1)
+            {
+                LayoutObject(GameManager.instance.counterTiles[OnCounter(counter.transform.position)], counter.transform.position.x, counter.transform.position.y);
+            }
             Destroy(counter);
         }
     }

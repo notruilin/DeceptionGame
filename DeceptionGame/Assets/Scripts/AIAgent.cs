@@ -61,17 +61,6 @@ public class AIAgent : MonoBehaviour
         return new Vector3(x, y, 0f);
     }
 
-    private Actions DepositAllRedCounters(Vector3[] anchors, Actions actions)
-    {
-        List<Vector3> positions = Methods.instance.RemoveDepositedAndAnchor(Methods.instance.FindPathInGrid(anchors[0], anchors[1], true));
-        foreach (Vector3 pos in positions)
-        {
-            actions.MoveTo(pos);
-            actions.DepositAt(pos, 0);
-        }
-        return actions;
-    }
-
     private List<int> RandomOrder(int num)
     {
         List<int> index = new List<int>();
@@ -106,6 +95,23 @@ public class AIAgent : MonoBehaviour
         return positions;
     }
 
+    private List<Vector3> GetUselessRedCounters(Vector3[] anchors)
+    {
+        List<Vector3> uselessRedCounters = new List<Vector3>();
+        List<Vector3> usedRedCounters = Methods.instance.FindPathInGrid(anchors[0], anchors[1], true);
+        for (int x = 0; x < GameParameters.instance.gridSize; x++)
+        {
+            for (int y = 0; y < GameParameters.instance.gridSize; y++)
+            {
+                if (GameManager.instance.deposited[x][y] == 0 && !usedRedCounters.Contains(new Vector3(x, y, 0f)))
+                {
+                    uselessRedCounters.Add(new Vector3(x, y, 0f));
+                }
+            }
+        }
+        return uselessRedCounters;
+    }
+
     private void Start()
     {
 
@@ -119,16 +125,54 @@ public class AIAgent : MonoBehaviour
         Vector3[] closestAnchorsRed = FindCheapestChain(new Vector3[2], true);
 
         // Check if can win the game this turn
+        List<Vector3> uselessRedCounters = GetUselessRedCounters(closestAnchorsRed);
         List<Vector3> redPickups = GetAllRedPickups();
         int minCost = FindChainCost(closestAnchorsRed[0], closestAnchorsRed[1], true);
-        if (minCost <= GameParameters.instance.carryLimit && redPickups.Count >= minCost)
+        int count = 0;
+        Debug.Log("minCost: " + minCost + "  " + "redPickups: " + redPickups.Count + "  " + "useless: " + uselessRedCounters.Count);
+        if (Mathf.Min(redPickups.Count, GameParameters.instance.carryLimit) + uselessRedCounters.Count >= minCost)
         {
-            for (int i = 0; i < minCost; i++)
+            List<Vector3> path = Methods.instance.RemoveDepositedAndAnchor(Methods.instance.FindPathInGrid(closestAnchorsRed[0], closestAnchorsRed[1], true));
+            // Collect all red pickups from generators
+            for (int i = 0; i < Mathf.Min(minCost, Mathf.Min(redPickups.Count, GameParameters.instance.carryLimit)); i++)
             {
                 actions.MoveTo(GameManager.instance.parkingPos[Methods.instance.OnPickup(redPickups[i])]);
                 actions.CollectAt(redPickups[i]);
+                count++;
             }
-            return DepositAllRedCounters(closestAnchorsRed, actions);
+            if (count == GameParameters.instance.carryLimit)
+            {
+                for (int j = 0; j < GameParameters.instance.carryLimit; j++)
+                {
+                    actions.MoveTo(path[0]);
+                    actions.DepositAt(path[0], 0);
+                    path.RemoveAt(0);
+                }
+                count = 0;
+            }
+            // Collect all useless red counters from the board
+            for (int i = 0; i < minCost - Mathf.Min(redPickups.Count, GameParameters.instance.carryLimit); i++)
+            {
+                actions.MoveTo(uselessRedCounters[i]);
+                actions.CollectFromBoard(uselessRedCounters[i]);
+                count++;
+                if (count == GameParameters.instance.carryLimit)
+                {
+                    for (int j = 0; j < GameParameters.instance.carryLimit; j++)
+                    {
+                        actions.MoveTo(path[0]);
+                        actions.DepositAt(path[0], 0);
+                        path.RemoveAt(0);
+                    }
+                    count = 0;
+                }
+            }
+            for (int i = 0; i < path.Count; i++)
+            {
+                actions.MoveTo(path[i]);
+                actions.DepositAt(path[i], 0);
+            }
+            return actions;
         }
 
         // Randomly choose true path

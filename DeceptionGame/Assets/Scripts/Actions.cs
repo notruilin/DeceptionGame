@@ -128,7 +128,19 @@ public class Actions
                 if (splitCommands[0].Equals("CollectFromBoard"))
                 {
                     Debug.LogError("You cannot collect from " + pos);
+                    break;
                 }
+            }
+        }
+        if (color == -1)
+        {
+            if (Methods.instance.OnCounter(pos) == -1)
+            {
+                Debug.LogError("You cannot collect from " + pos);
+            }
+            else
+            {
+                color = Methods.instance.OnCounter(pos);
             }
         }
         UpdateCarryAndBagForCollect(color);
