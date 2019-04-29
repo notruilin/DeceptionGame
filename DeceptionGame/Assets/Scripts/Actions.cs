@@ -24,6 +24,15 @@ public class Actions
         }
     }
 
+    public void CollectAt(Vector3 pos)
+    {
+        commands.Add("Collect");
+        paras.Add(pos);
+        int id = Methods.instance.OnPickup(pos);
+        int color = GameManager.instance.generators[id].GetComponent<GeneratorManager>().GetPickupsInGnColor(pos);
+        UpdateCarryAndBagForCollect(color);
+    }
+
     public void MoveTo(Vector3 pos)
     {
         commands.Add("Move");

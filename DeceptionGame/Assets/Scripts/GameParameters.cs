@@ -8,7 +8,7 @@ public class GameParameters : MonoBehaviour
     public static int red = 0, yellow = 1, blue = 2;
 
     public int gridSize = 25;
-    public float minAnchorDis = 4;
+    public float minAnchorDis = 7;
     public int counterNumInGenerator = 6;
     public int carryLimit = 4;
     public int anchorCount = 8;

@@ -9,7 +9,7 @@ public class AIManager : MonoBehaviour
     public float moveDelay = 0.2f;
     public float moveSpeed = 3f;
 
-    public float collectDelay = 0.5f;
+    public float collectDelay = 0.3f;
     public float defaultDepositDelay = 0.1f;
 
     private List<GameObject> AIs = new List<GameObject>();
@@ -94,7 +94,7 @@ public class AIManager : MonoBehaviour
                     break;
                 case "TurnOver":
                     int index = Int32.Parse(commands[1]);
-                    StartCoroutine(TurnOverCounterInBag(AI, index, actions.paras[i].x));
+                    yield return StartCoroutine(TurnOverCounterInBag(AI, index, actions.paras[i].x));
                     GameManager.instance.gameLog += "Shuttle turns over bag " + index + " for " + actions.paras[i].x + "seconds" + "\n";
                     break;
                 case "CollectFromBoard":

@@ -25,12 +25,6 @@ public class Methods : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public GameObject LayoutObject(GameObject prefab, float x, float y)
-    {
-        Vector3 position = new Vector3(x, y, 0f);
-        return Instantiate(prefab, position, Quaternion.identity);
-    }
-
     public Vector3 RandomPosition(List<Vector3> list)
     {
         int randomIndex = Random.Range(0, list.Count);
@@ -471,5 +465,11 @@ public class Methods : MonoBehaviour
         }
         pathList.Reverse();
         return pathList;
+    }
+
+    public GameObject LayoutObject(GameObject prefab, float x, float y)
+    {
+        Vector3 position = new Vector3(x, y, 0f);
+        return Instantiate(prefab, position, Quaternion.identity);
     }
 }

@@ -2010,7 +2010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridSize: 25
-  minAnchorDis: 4
+  minAnchorDis: 7
   counterNumInGenerator: 4
   carryLimit: 4
   anchorCount: 8

@@ -5,42 +5,166 @@ using UnityEngine;
 
 public class AIAgent : MonoBehaviour
 {
-    // trueStart, trueEnd, fakeStart, fakeEnd
-    private List<Vector3> anchor = new List<Vector3>();
-    private int trueStart = 0, trueEnd = 1, fakeStart = 2, fakeEnd = 3;
-    private int neighborRange = 3;
 
-    private float trueDepositDelay = 0.1f;
-    private float fakeDepositDelay = 1f;
+    private int FindChainCost(Vector3 start, Vector3 end, bool onlyRed)
+    {
+        List<Vector3> path = Methods.instance.FindPathInGrid(start, end, onlyRed);
+        List<Vector3> emptyPos = Methods.instance.RemoveDepositedAndAnchor(path);
+        return emptyPos.Count;
+    }
+
+    private Vector3[] FindCheapestChain(Vector3[] except, bool onlyRed)
+    {
+        Vector3[] anchors = new Vector3[2];
+        int cheapestCost = int.MaxValue;
+        foreach (Vector3 anchorCenter1 in GameManager.instance.anchorPositions)
+        {
+            foreach (Vector3 anchorCenter2 in GameManager.instance.anchorPositions)
+            {
+                if (anchorCenter1 == anchorCenter2) continue;
+                Vector3 anchor1 = Methods.instance.TransAnchorPositionInGrid(anchorCenter1);
+                Vector3 anchor2 = Methods.instance.TransAnchorPositionInGrid(anchorCenter2);
+                int cost = FindChainCost(anchor1, anchor2, onlyRed);
+                if (cost != 0 && cost < cheapestCost && !(except[0] == anchor1 && except[1] == anchor2) && !(except[0] == anchor2 && except[1] == anchor1))
+                {
+                    cheapestCost = cost;
+                    anchors[0] = anchor1;
+                    anchors[1] = anchor2;
+                }
+            }
+        }
+        return anchors;
+    }
+
+    private List<Vector3> RemovePositionsFromList(List<Vector3> list, List<Vector3> positions)
+    {
+        List<Vector3> validList = new List<Vector3>();
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (!positions.Contains(list[i]))
+            {
+                validList.Add(list[i]);
+            }
+        }
+        return validList;
+    }
+
+    private Vector3 GetRandomEmptyGrid(Actions actions)
+    {
+        int x = Random.Range(0, GameParameters.instance.gridSize), y = Random.Range(0, GameParameters.instance.gridSize);
+        List<Vector3> positions = actions.GetDepositPos();
+        while (!Methods.instance.IsEmptyGrid(new Vector3(x, y, 0f)) || positions.Contains(new Vector3(x, y, 0f)))
+        {
+            x = Random.Range(0, GameParameters.instance.gridSize);
+            y = Random.Range(0, GameParameters.instance.gridSize);
+        }
+        return new Vector3(x, y, 0f);
+    }
+
+    private Actions DepositAllRedCounters(Vector3[] anchors, Actions actions)
+    {
+        List<Vector3> positions = Methods.instance.RemoveDepositedAndAnchor(Methods.instance.FindPathInGrid(anchors[0], anchors[1], true));
+        foreach (Vector3 pos in positions)
+        {
+            actions.MoveTo(pos);
+            actions.DepositAt(pos, 0);
+        }
+        return actions;
+    }
+
+    private List<int> RandomOrder(int num)
+    {
+        List<int> index = new List<int>();
+        for (int i = 0; i < num; i++)
+        {
+            index.Add(i);
+        }
+        List<int> randomOrder = new List<int>();
+        while (index.Count > 0)
+        {
+            int i = Random.Range(0, index.Count);
+            randomOrder.Add(index[i]);
+            index.RemoveAt(i);
+        }
+        return randomOrder;
+    }
+
+    private List<Vector3> GetAllRedPickups()
+    {
+        List<Vector3> positions = new List<Vector3>();
+        for (int i = 0; i < GameManager.instance.generators.Count; i++)
+        {
+            List<GameObject> pickups = GameManager.instance.generators[i].GetComponent<GeneratorManager>().GetPickupsInGn();
+            foreach (GameObject pickup in pickups)
+            {
+                if (GameManager.instance.generators[i].GetComponent<GeneratorManager>().GetPickupsInGnColor(pickup.transform.position) == 0)
+                {
+                    positions.Add(pickup.transform.position);
+                }
+            }
+        }
+        return positions;
+    }
 
     private void Start()
     {
-        anchor.Add(Methods.instance.SearchClosestAnchor(anchor));
-        anchor.Add(Methods.instance.SearchClosestAnchor(anchor));
-        //anchor.Add(Methods.instance.RandomAnchor(anchor));
-        //anchor.Add(Methods.instance.RandomAnchor(anchor));
-        anchor.Add(Methods.instance.RandomAnchor(anchor));
-        anchor.Add(Methods.instance.RandomAnchor(anchor));
-        for (int i = 0; i < anchor.Count; i++)
-        {
-            anchor[i] = Methods.instance.TransAnchorPositionInGrid(anchor[i]);
-        }
-        Debug.Log("Anchor: ");
-        foreach (Vector3 pos in anchor)
-        {
-            Debug.Log("anchor: " + pos);
-        }
-        Debug.Log("End Anchor");
+
     }
 
     public Actions MakeDecision()
     {
         Actions actions = new Actions();
-        int generatorId = Methods.instance.MostRedGenerator();
-        GameObject generator = GameManager.instance.generators[generatorId];
-        //actions.TurnOverCounterInBagByIndex(0, 0.5f);
+
+        Vector3[] trueAnchors;
+        Vector3[] closestAnchorsRed = FindCheapestChain(new Vector3[2], true);
+
+        // Check if can win the game this turn
+        List<Vector3> redPickups = GetAllRedPickups();
+        int minCost = FindChainCost(closestAnchorsRed[0], closestAnchorsRed[1], true);
+        if (minCost <= GameParameters.instance.carryLimit && redPickups.Count >= minCost)
+        {
+            for (int i = 0; i < minCost; i++)
+            {
+                actions.MoveTo(GameManager.instance.parkingPos[Methods.instance.OnPickup(redPickups[i])]);
+                actions.CollectAt(redPickups[i]);
+            }
+            return DepositAllRedCounters(closestAnchorsRed, actions);
+        }
+
+        // Randomly choose true path
+        Vector3[] closestAnchorsRed2 = FindCheapestChain(closestAnchorsRed, true);
+        int tryNum = Random.Range(0, 3);
+        if (tryNum <= 1)
+        {
+            trueAnchors = closestAnchorsRed;
+        }
+        else
+        {
+            trueAnchors = closestAnchorsRed2;
+        }
+        // Choose fake path
+        Vector3[] fakeAnchors = FindCheapestChain(trueAnchors, false);
+        Debug.Log("True anchors: " + trueAnchors[0] + "  " + trueAnchors[1]);
+        Debug.Log("Fake anchors: " + fakeAnchors[0] + "  " + fakeAnchors[1]);
+
+        // Randomly choose generator
+        int generatorId = Random.Range(0, 4);
+        tryNum = Random.Range(0, 3);
+        if (tryNum <= 1)
+        {
+            generatorId = Methods.instance.MostRedGenerator();
+        }
         actions.MoveTo(GameManager.instance.parkingPos[generatorId]);
-        actions.CollectAt(Methods.instance.PickupsPosInGn(generatorId, GameParameters.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum())); 
+        actions.CollectAt(Methods.instance.PickupsPosInGn(generatorId, GameParameters.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum()));
+
+        // Randomly turn over counters
+        List<int> randomOrder = RandomOrder(4);
+        foreach (int i in randomOrder)
+        {
+            actions.TurnOverCounterInBagByIndex(i, 0.2f);
+        }
+
+        // Calculate current carry and bag
         int[] LastCarry = new int[3];
         LastCarry = GetComponent<AIBehavior>().GetCarryColor();
         int[] carry = new int[3];
@@ -49,107 +173,58 @@ public class AIAgent : MonoBehaviour
         {
             carry[k] += LastCarry[k];
         }
-        Vector3 tmp = Vector3.zero;
-        List<Vector3> pathList;
-        List<Vector3> truePath;
-        pathList = Methods.instance.FindPathInGrid(anchor[fakeStart], anchor[fakeEnd], false);
-        int otherCounterNum = carry[1] + carry[2];
-        int i = 0;
-        int fakingNum = Random.Range(0, Mathf.Min(otherCounterNum, 2));
-        while (otherCounterNum - fakingNum > 0 && i < pathList.Count - 1)
+        int[] bag = actions.GetPickupColorBagPos();
+
+        // Randomly deposit
+        randomOrder = RandomOrder(4);
+        Debug.Log("Deposit Order: " + randomOrder[0] + " " + randomOrder[1] + " " + randomOrder[2] + " " + randomOrder[3]);
+        foreach (int i in randomOrder)
         {
-            if (GameManager.instance.deposited[(int)pathList[i].x][(int)pathList[i].y] == -1 && Methods.instance.IsOnAnAnchor(pathList[i]) == Vector3.zero)
+            Debug.Log("index: " + i + "   " + "color: " + bag[i]);
+            tryNum = Random.Range(0, 3);
+            if (bag[i] == 0 && tryNum <= 1)
             {
-                actions.MoveTo(pathList[i]);
-                //actions.TurnOverCounterInBagByIndex(1, 0.5f);
-                int randomColor = Methods.instance.RandomCarryCounter(carry);
-                if (tmp == Vector3.zero)
+                List <Vector3> positions = Methods.instance.RemoveDepositedAndAnchor(Methods.instance.FindPathInGrid(trueAnchors[0], trueAnchors[1], true));
+                positions = RemovePositionsFromList(positions, actions.GetDepositPos());
+                Vector3 pos;
+                if (positions.Count == 0)
                 {
-                    tmp = pathList[i];
+                    pos = GetRandomEmptyGrid(actions);
                 }
-                actions.DepositAt(pathList[i], randomColor, fakeDepositDelay);
-                carry[randomColor]--;
-                Debug.Log("Deposit on fake path AddTarget:  " + pathList[i]);
-                anchor[fakeStart] = pathList[i];
-                otherCounterNum--;
+                else
+                {
+                    pos = Methods.instance.RandomPosition(positions);
+                }
+                Debug.Log("Deposit At True Path: " + pos);
+                actions.MoveTo(pos);
+                actions.DepositIndexAt(pos, i, Random.Range(0.1f, 1f));
             }
-            i++;
-        }
-
-        Debug.Log("?????????After Fake Path: ");
-        int[] test = actions.GetPickupColor();
-        Debug.Log("?????????Test Carry by Actions: " + test[0] + "  " + test[1] + "  " + test[2]);
-        int[] test1 = actions.GetPickupColorBagPos();
-        Debug.Log("?????????Test Bag Pos Color by Actions: " + test1[0] + "  " + test1[1] + "  " + test1[2] + "  " + test1[3]);
-
-        //actions.TurnOverCounterInBagByIndex(2, 0.5f);
-        truePath = Methods.instance.FindPathInGrid(anchor[trueStart], anchor[trueEnd], true);
-        pathList = Methods.instance.RemoveDepositedAndAnchor(truePath);
-        int depositTrueNum = 0;
-        while (carry[0] > 0 && pathList.Count > depositTrueNum)
-        {
-            Vector3 randomPos = pathList[Random.Range(0, pathList.Count)];
-            if (!actions.GetDepositPos().Contains(randomPos))
+            else
             {
-                actions.MoveTo(randomPos);
-                actions.DepositAt(randomPos, 0, trueDepositDelay);
-                carry[0]--;
-                depositTrueNum++;
-                Debug.Log("Deposit on TRUE path AddTarget:  " + randomPos);
+                List<Vector3> positions = Methods.instance.RemoveDepositedAndAnchor(Methods.instance.FindPathInGrid(fakeAnchors[0], fakeAnchors[1], false));
+                positions = RemovePositionsFromList(positions, actions.GetDepositPos());
+                Vector3 pos;
+                if (positions.Count == 0)
+                {
+                    pos = GetRandomEmptyGrid(actions);
+                }
+                else
+                {
+                    pos = Methods.instance.RandomPosition(positions);
+                }
+                Debug.Log("Deposit At Fake Path: " + pos);
+                actions.MoveTo(pos);
+                actions.DepositIndexAt(pos, i, Random.Range(0.1f, 3f));
             }
-        }
+            bag[i] = -1;
 
-        Debug.Log("?????????After True Path: ");
-        int[] test2 = actions.GetPickupColor();
-        Debug.Log("?????????Test Carry by Actions: " + test2[0] + "  " + test2[1] + "  " + test2[2]);
-        int[] test3 = actions.GetPickupColorBagPos();
-        Debug.Log("?????????Test Bag Pos Color by Actions: " + test3[0] + "  " + test3[1] + "  " + test3[2] + "  " + test3[3]);
-
-        List<Vector3> neighbor = new List<Vector3>();
-        if (otherCounterNum > 0)
-        {
-            neighbor = Methods.instance.FindEmptyNeighbor(truePath, otherCounterNum, actions.GetDepositPos(), neighborRange);
-            // Cannot find enough neighbors in range
-            while (neighbor.Count == 0)
+            // Randomly turn over another counter when deposit
+            int k = Random.Range(0, 4);
+            if (bag[k] != -1)
             {
-                neighborRange++;
-                neighbor = Methods.instance.FindEmptyNeighbor(truePath, otherCounterNum, actions.GetDepositPos(), neighborRange);
+                actions.TurnOverCounterInBagByIndex(k, 0.1f);
             }
         }
-        for (i = 0; i < neighbor.Count; i++)
-        {
-            actions.MoveTo(neighbor[i]);
-            int randomColor = Methods.instance.RandomCarryCounter(carry);
-            actions.DepositAt(neighbor[i], randomColor, fakeDepositDelay);
-            carry[randomColor]--;
-            Debug.Log("Deposit around true path to confuse AddTarget:  " + neighbor[i]);
-        }
-
-        if (tmp == Vector3.zero)
-        {
-            return actions;
-        }
-        /*
-        actions.MoveTo(tmp);
-        Debug.Log("Want to move to : " + tmp);
-        actions.CollectFromBoard(tmp);
-
-        Debug.Log("?????????After CollectFromBoard: ");
-        int[] test4 = actions.GetPickupColor();
-        Debug.Log("?????????Test Carry by Actions: " + test4[0] + "  " + test4[1] + "  " + test4[2]);
-        int[] test5 = actions.GetPickupColorBagPos();
-        Debug.Log("?????????Test Bag Pos Color by Actions: " + test5[0] + "  " + test5[1] + "  " + test5[2] + "  " + test5[3]);
-
-
-        actions.MoveTo(tmp);
-        actions.DepositIndexAt(tmp, 0);
-
-        Debug.Log("?????????Final");
-        int[] test6 = actions.GetPickupColor();
-        Debug.Log("?????????Test Carry by Actions: " + test6[0] + "  " + test6[1] + "  " + test6[2]);
-        int[] test7 = actions.GetPickupColorBagPos();
-        Debug.Log("?????????Test Bag Pos Color by Actions: " + test7[0] + "  " + test7[1] + "  " + test7[2] + "  " + test7[3]);
-        */
         return actions;
     }
 }

@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showTurnDelay: 1
   delayBeforeAITurn: 0.3
-  TimeLimitForAI: 90
+  TimeLimitForAI: 180
   timer: {fileID: 1432718662}
   AITurnPanel: {fileID: 1986952065}
   PlayerTurnPanel: {fileID: 1638032024}
@@ -543,11 +543,6 @@ MonoBehaviour:
   - {fileID: 5842765631644345387, guid: e71bdfcd2ed5242e9a898b12973169e1, type: 3}
   - {fileID: 5842765631644345387, guid: 9e476e4eb7070470babd4624b75d6f90, type: 3}
   AI: {fileID: 6338927056434118281, guid: b3d8637cdeca343e1bc6da4e9a47afac, type: 3}
-  gridSize: 30
-  minAnchorDis: 5
-  counterNumInGenerator: 4
-  carryLimit: 4
-  anchorCount: 8
   gameLog: 
   generators: []
   parkingPos: []
