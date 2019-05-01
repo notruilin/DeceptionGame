@@ -149,12 +149,20 @@ public class Actions
     // Get how many red, yellow and blue counters are carried according to the action
     public int[] GetPickupColor()
     {
+        if (carry.Count == 0)
+        {
+            return new int[] { 0, 0, 0};
+        }
         return carry[carry.Count - 1];
     }
 
     // Get the color of counter on each bag position
     public int[] GetPickupColorBagPos()
     {
+        if (bagCounterColor.Count == 0)
+        {
+            return new int[] { -1, -1, -1, -1 };
+        }
         return bagCounterColor[bagCounterColor.Count - 1];
     }
 

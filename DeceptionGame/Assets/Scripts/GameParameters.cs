@@ -7,6 +7,7 @@ public class GameParameters : MonoBehaviour
     public static GameParameters instance;
     public static int red = 0, yellow = 1, blue = 2;
 
+    public int shuttleNum = 1;
     public int gridSize = 25;
     public float minAnchorDis = 7;
     public int counterNumInGenerator = 6;
@@ -49,7 +50,7 @@ public class GameParameters : MonoBehaviour
 
 
         // Your code ENDS HERE
-        if (defaultAnchorPos.Count > 0)
+        if (!randomAnchor && defaultAnchorPos.Count > 0)
         {
             anchorCount = defaultAnchorPos.Count;
         }

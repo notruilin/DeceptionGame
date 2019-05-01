@@ -202,7 +202,7 @@ public class AIAgent : MonoBehaviour
         actions.CollectAt(Methods.instance.PickupsPosInGn(generatorId, GameParameters.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum()));
 
         // Randomly turn over counters
-        List<int> randomOrder = RandomOrder(4);
+        List<int> randomOrder = RandomOrder(actions.GetPickupColor().Sum());
         foreach (int i in randomOrder)
         {
             actions.TurnOverCounterInBagByIndex(i, 0.2f);
@@ -220,8 +220,12 @@ public class AIAgent : MonoBehaviour
         int[] bag = actions.GetPickupColorBagPos();
 
         // Randomly deposit
-        randomOrder = RandomOrder(4);
-        Debug.Log("Deposit Order: " + randomOrder[0] + " " + randomOrder[1] + " " + randomOrder[2] + " " + randomOrder[3]);
+        randomOrder = RandomOrder(actions.GetPickupColor().Sum());
+        Debug.Log("Deposit Order: ");
+        for (int i = 0; i < actions.GetPickupColor().Sum(); i++)
+        {
+            Debug.Log(i);
+        }
         foreach (int i in randomOrder)
         {
             Debug.Log("index: " + i + "   " + "color: " + bag[i]);
@@ -263,7 +267,7 @@ public class AIAgent : MonoBehaviour
             bag[i] = -1;
 
             // Randomly turn over another counter when deposit
-            int k = Random.Range(0, 4);
+            int k = Random.Range(0, actions.GetPickupColor().Sum());
             if (bag[k] != -1)
             {
                 actions.TurnOverCounterInBagByIndex(k, 0.1f);
