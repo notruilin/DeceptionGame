@@ -50,10 +50,6 @@ public class GameParameters : MonoBehaviour
 
 
         // Your code ENDS HERE
-        if (!randomAnchor && defaultAnchorPos.Count > 0)
-        {
-            anchorCount = defaultAnchorPos.Count;
-        }
     }
 
     private void InitializeColorProportion()
