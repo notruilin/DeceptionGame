@@ -11,6 +11,7 @@ TagManager:
   - Anchor
   - Shuttle
   - OnShuttle
+  - Canvas
   layers:
   - Default
   - TransparentFX

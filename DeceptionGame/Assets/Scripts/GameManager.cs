@@ -39,9 +39,10 @@ public class GameManager : MonoBehaviour
     // Store GameObjects of counters deposited on the board
     [HideInInspector] public List<List<GameObject>> countersOnBoard = new List<List<GameObject>>();
  
-
     private BoardGenerator boardScript;
     private AIManager aiScript;
+
+    public GameObject canvas;
 
     private void Awake()
     {
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour
     {
         if (!gameOver)
         {
-            yield return StartCoroutine(UIManager.instance.ShowAITurn());
+            yield return StartCoroutine(GetComponent<UIManager>().ShowAITurn());
             StartCoroutine(aiScript.AITurn());
         }
     }
@@ -101,8 +102,10 @@ public class GameManager : MonoBehaviour
     public void GameOverAIWin()
     {
         gameLog += "--- AI Win ---\n";
+        gameLog += "AI Turn Count: " + aiScript.turnCount + "\n";
+        gameLog += "Remaining Time For AI: " + (GetComponent<UIManager>().AITimeLimit - (Time.time - GetComponent<UIManager>().startTime)) + " seconds\n";
         gameOver = true;
-        StartCoroutine(UIManager.instance.ShowAIWinText());
+        StartCoroutine(GetComponent<UIManager>().ShowAIWinText());
         Methods.instance.TurnAllWhiteCounterOver();
         SendToServer();
     }
@@ -111,8 +114,9 @@ public class GameManager : MonoBehaviour
     {
         gameLog += "Time Out!\n";
         gameLog += "--- Player Win ---\n";
+        gameLog += "AI Turn Count: " + aiScript.turnCount + "\n";
         gameOver = true;
-        StartCoroutine(UIManager.instance.ShowPlayerWinText());
+        StartCoroutine(GetComponent<UIManager>().ShowPlayerWinText());
         Methods.instance.TurnAllWhiteCounterOver();
         SendToServer();
     }
@@ -180,7 +184,7 @@ public class GameManager : MonoBehaviour
         DestroyObjects(objects);
         Methods.instance.InitializeMethods();
         Initialize();
-        UIManager.instance.Initialize();
+        GetComponent<UIManager>().Initialize();
         StartCoroutine(TurnSwitch());
     }
 

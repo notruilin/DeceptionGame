@@ -6,6 +6,8 @@ using System;
 
 public class AIManager : MonoBehaviour
 {
+    public int turnCount;
+
     public float moveDelay = 0.2f;
     public float moveSpeed = 3f;
 
@@ -29,6 +31,7 @@ public class AIManager : MonoBehaviour
 
     public void InitialiseAIs()
     {
+        turnCount = 0;
         AIs.Clear();
         for (int i = 0; i < GameParameters.instance.shuttleNum; i++)
         {
@@ -38,6 +41,7 @@ public class AIManager : MonoBehaviour
 
     public IEnumerator AITurn()
     {
+        turnCount++;
         Actions actions;
         for (int i = 0; i < AIs.Count; i++)
         {
@@ -48,7 +52,7 @@ public class AIManager : MonoBehaviour
         if (!GameManager.instance.gameOver)
         {
             GameManager.instance.SetPlayerTurn(true);
-            yield return StartCoroutine(UIManager.instance.ShowPlayerTurn());
+            yield return StartCoroutine(GetComponent<UIManager>().ShowPlayerTurn());
         }
     }
 

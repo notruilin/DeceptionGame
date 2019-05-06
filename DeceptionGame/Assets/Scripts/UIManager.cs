@@ -5,15 +5,13 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
-
     public float showTurnDelay = 0.3f;
     public float delayBeforeAITurn = 0.3f;
     // seconds
     public float TimeLimitForAI = 180;
+    public float AITimeLimit;
+    public float startTime;
 
-    private float startTime;
-    private float AITimeLimit;
     // Set to true after show AI Turn panel 
     private bool AITurn;
 
@@ -23,19 +21,6 @@ public class UIManager : MonoBehaviour
     public GameObject AIWinPanel;
     public GameObject PlayerWinPanel;
     public GameObject RestartButton;
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
-    }
 
     void Start()
     {
