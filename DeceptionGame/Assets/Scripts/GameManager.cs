@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
         if (!gameOver)
         {
             yield return StartCoroutine(GetComponent<UIManager>().ShowAITurn());
-            StartCoroutine(aiScript.AITurn());
+            aiScript.AITurn();
         }
     }
 

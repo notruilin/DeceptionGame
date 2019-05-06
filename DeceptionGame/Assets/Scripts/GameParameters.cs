@@ -14,6 +14,7 @@ public class GameParameters : MonoBehaviour
     public int carryLimit = 4;
     public int anchorCount = 8;
     public bool randomAnchor = true;
+    public float timeLimitForAI = 180;
     public List<Vector3> defaultAnchorPos;
 
     // Uses to control the proportion of each color of apples, default is equal proportion

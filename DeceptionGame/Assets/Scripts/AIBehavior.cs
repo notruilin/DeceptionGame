@@ -9,11 +9,6 @@ public class AIBehavior : MonoBehaviour
     public int[] bagCounterColor = { -1, -1, -1, -1 };
     public GameObject[] counterInBag = new GameObject[4];
 
-    private void Start()
-    {
-        transform.position = new Vector3(-3.5f, GameParameters.instance.gridSize / 2f, 0f);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("WhiteCounter"))

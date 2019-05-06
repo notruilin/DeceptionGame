@@ -16,8 +16,7 @@ public class AIManager : MonoBehaviour
 
     private List<GameObject> AIs = new List<GameObject>();
     private List<Vector3> bagPos = new List<Vector3>();
-
-    private Vector3 startPos;
+    private List<bool> AIMoving = new List<bool>();
 
     private void Awake()
     {
@@ -26,37 +25,52 @@ public class AIManager : MonoBehaviour
         bagPos.Add(new Vector3(-0.5f, 0.02f, 0f));
         bagPos.Add(new Vector3(0.55f, 0.02f, 0f));
         bagPos.Add(new Vector3(1.65f, 0.02f, 0f));
-        startPos = new Vector3(-3.5f, GameParameters.instance.gridSize / 2f, 0f);
     }
 
     public void InitialiseAIs()
     {
         turnCount = 0;
         AIs.Clear();
+        AIMoving.Clear();
         for (int i = 0; i < GameParameters.instance.shuttleNum; i++)
         {
             AIs.Add(Methods.instance.LayoutObject(GameManager.instance.AI, 0f, 0f));
+            AIs[i].transform.position = new Vector3(-3.5f, GameParameters.instance.gridSize / 2f + i * 1.5f, 0f);
+            AIMoving.Add(true);
         }
     }
 
-    public IEnumerator AITurn()
+    private void FixedUpdate()
+    {
+        for (int i = 0; i < GameParameters.instance.shuttleNum; i++)
+        {
+            if (AIMoving[i]) return;
+        }
+        if (!GameManager.instance.gameOver)
+        {
+            GameManager.instance.SetPlayerTurn(true);
+            StartCoroutine(GetComponent<UIManager>().ShowPlayerTurn());
+            for (int i = 0; i < GameParameters.instance.shuttleNum; i++)
+            {
+                AIMoving[i] = true;
+            }
+        }
+    }
+
+    public void AITurn()
     {
         turnCount++;
         Actions actions;
         for (int i = 0; i < AIs.Count; i++)
         {
+            AIMoving[i] = true;
             actions = AIs[i].GetComponent<AIAgent>().MakeDecision();
-            actions.MoveTo(startPos);
-            yield return StartCoroutine(ExecuteActions(AIs[i], actions));
-        }
-        if (!GameManager.instance.gameOver)
-        {
-            GameManager.instance.SetPlayerTurn(true);
-            yield return StartCoroutine(GetComponent<UIManager>().ShowPlayerTurn());
+            actions.MoveTo(new Vector3(-3.5f, GameParameters.instance.gridSize / 2f + i * 1.5f, 0f));
+            StartCoroutine(ExecuteActions(AIs[i], actions, i));
         }
     }
 
-    IEnumerator ExecuteActions(GameObject AI, Actions actions)
+    IEnumerator ExecuteActions(GameObject AI, Actions actions, int AIindex)
     {
         for (int i = 0; i < actions.commands.Count; i++)
         {
@@ -114,6 +128,7 @@ public class AIManager : MonoBehaviour
                 GameManager.instance.GameOverAIWin();
             }
         }
+        AIMoving[AIindex] = false;
     }
 
     private IEnumerator MoveToPosition(float delay, GameObject AI, Vector3 newPos)

@@ -130,7 +130,7 @@ public class AIAgent : MonoBehaviour
         int minCost = FindChainCost(closestAnchorsRed[0], closestAnchorsRed[1], true);
         int count = 0;
         Debug.Log("minCost: " + minCost + "  " + "redPickups: " + redPickups.Count + "  " + "useless: " + uselessRedCounters.Count);
-        if (Mathf.Min(redPickups.Count, GameParameters.instance.carryLimit) + uselessRedCounters.Count >= minCost)
+        if (minCost <= GameParameters.instance.carryLimit && Mathf.Min(redPickups.Count, GameParameters.instance.carryLimit) + uselessRedCounters.Count >= minCost)
         {
             List<Vector3> path = Methods.instance.RemoveDepositedAndAnchor(Methods.instance.FindPathInGrid(closestAnchorsRed[0], closestAnchorsRed[1], true));
             // Collect all red pickups from generators

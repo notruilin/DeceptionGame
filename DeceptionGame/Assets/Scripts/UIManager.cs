@@ -7,8 +7,6 @@ public class UIManager : MonoBehaviour
 {
     public float showTurnDelay = 0.3f;
     public float delayBeforeAITurn = 0.3f;
-    // seconds
-    public float TimeLimitForAI = 180;
     public float AITimeLimit;
     public float startTime;
 
@@ -34,7 +32,7 @@ public class UIManager : MonoBehaviour
         AIWinPanel.SetActive(false);
         PlayerWinPanel.SetActive(false);
         RestartButton.SetActive(false);
-        AITimeLimit = TimeLimitForAI;
+        AITimeLimit = GameParameters.instance.timeLimitForAI;
         string min = ((int)AITimeLimit / 60).ToString().PadLeft(2, '0');
         string sec = (AITimeLimit % 60).ToString("f0").PadLeft(2, '0');
         timer.color = new Color32(83, 89, 113, 255);
@@ -78,11 +76,13 @@ public class UIManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        Debug.Log(11111);
         if (AITurn && !GameManager.instance.gameOver)
         {
+            Debug.Log(22222);
             float d = AITimeLimit - (Time.time - startTime);
             string min = ((int)d / 60).ToString().PadLeft(2,'0');
-            string sec = (d % 60).ToString("f0").PadLeft(2, '0');
+            string sec = ((int)d % 60).ToString("f0").PadLeft(2, '0');
             if ((int)d / 60 == 0 && d % 60 <= 15f)
             {
                 timer.color = Color.red;

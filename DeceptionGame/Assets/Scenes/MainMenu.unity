@@ -2016,6 +2016,7 @@ MonoBehaviour:
   carryLimit: 4
   anchorCount: 8
   randomAnchor: 1
+  timeLimitForAI: 180
   defaultAnchorPos: []
   colorBag: 000000000100000002000000
 --- !u!1 &1086193698
