@@ -83,17 +83,54 @@ public class Actions
         bagCounterColor[bagCounterColor.Count - 1][index] = -1;
     }
 
-    public List<Vector3> GetDepositPos()
+    public List<Vector3> GetDepositPosFromActions(Actions acs)
     {
         List<Vector3> depositList = new List<Vector3>();
-        for (int i = 0; i < commands.Count; i++)
+        for (int i = 0; i < acs.commands.Count; i++)
         {
-            if (commands[i].Length > 7 && commands[i].Substring(0, 7).Equals("Deposit"))
+            if (acs.commands[i].Length > 7 && acs.commands[i].Substring(0, 7).Equals("Deposit"))
             {
-                depositList.Add(new Vector3(paras[i].x, paras[i].y, 0f));
+                depositList.Add(new Vector3(acs.paras[i].x, acs.paras[i].y, 0f));
             }
         }
         return depositList;
+    }
+
+    private List<Vector3> GetCollectPosFromActions(Actions acs)
+    {
+        List<Vector3> collectList = new List<Vector3>();
+        for (int i = 0; i < acs.commands.Count; i++)
+        {
+            if (acs.commands[i].Length >= 7 && acs.commands[i].Substring(0, 7).Equals("Collect"))
+            {
+                collectList.Add(new Vector3(acs.paras[i].x, acs.paras[i].y, 0f));
+            }
+        }
+        return collectList;
+    }
+
+    // Returns all positions for depositing from all shuttles
+    public List<Vector3> GetDepositPos(List<Actions> AIactions)
+    {
+        List<Vector3> depositList = new List<Vector3>();
+        depositList.AddRange(GetDepositPosFromActions(this));
+        for (int i = 0; i < AIactions.Count; i++)
+        {
+            depositList.AddRange(GetDepositPosFromActions(AIactions[i]));
+        }
+        return depositList;
+    }
+
+    // Returns all positions for collecting from all shuttles
+    public List<Vector3> GetCollectPos(List<Actions> AIactions)
+    {
+        List<Vector3> collectList = new List<Vector3>();
+        collectList.AddRange(GetCollectPosFromActions(this));
+        for (int i = 0; i < AIactions.Count; i++)
+        {
+            collectList.AddRange(GetCollectPosFromActions(AIactions[i]));
+        }
+        return collectList;
     }
 
     public void TurnOverCounterInBagByIndex(int index, float delay)

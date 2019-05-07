@@ -49,10 +49,10 @@ public class AIAgent : MonoBehaviour
         return validList;
     }
 
-    private Vector3 GetRandomEmptyGrid(Actions actions)
+    private Vector3 GetRandomEmptyGrid(List<Actions> AIactions, Actions actions)
     {
         int x = Random.Range(0, GameParameters.instance.gridSize), y = Random.Range(0, GameParameters.instance.gridSize);
-        List<Vector3> positions = actions.GetDepositPos();
+        List<Vector3> positions = actions.GetDepositPos(AIactions);
         while (!Methods.instance.IsEmptyGrid(new Vector3(x, y, 0f)) || positions.Contains(new Vector3(x, y, 0f)))
         {
             x = Random.Range(0, GameParameters.instance.gridSize);
@@ -117,7 +117,7 @@ public class AIAgent : MonoBehaviour
 
     }
 
-    public Actions MakeDecision()
+    public Actions MakeDecision(List<Actions> AIactions)
     {
         Actions actions = new Actions();
 
@@ -128,49 +128,43 @@ public class AIAgent : MonoBehaviour
         List<Vector3> uselessRedCounters = GetUselessRedCounters(closestAnchorsRed);
         List<Vector3> redPickups = GetAllRedPickups();
         int minCost = FindChainCost(closestAnchorsRed[0], closestAnchorsRed[1], true);
-        int count = 0;
         Debug.Log("minCost: " + minCost + "  " + "redPickups: " + redPickups.Count + "  " + "useless: " + uselessRedCounters.Count);
-        if (minCost <= GameParameters.instance.carryLimit && Mathf.Min(redPickups.Count, GameParameters.instance.carryLimit) + uselessRedCounters.Count >= minCost)
+        if (minCost <= GameParameters.instance.carryLimit * GameParameters.instance.shuttleNum && redPickups.Count + uselessRedCounters.Count >= minCost)
         {
-            List<Vector3> path = Methods.instance.RemoveDepositedAndAnchor(Methods.instance.FindPathInGrid(closestAnchorsRed[0], closestAnchorsRed[1], true));
+            List <Vector3> path = Methods.instance.RemoveDepositedAndAnchor(Methods.instance.FindPathInGrid(closestAnchorsRed[0], closestAnchorsRed[1], true));
             // Collect all red pickups from generators
-            for (int i = 0; i < Mathf.Min(minCost, Mathf.Min(redPickups.Count, GameParameters.instance.carryLimit)); i++)
+            int i = 0;
+            while (i < redPickups.Count)
             {
-                actions.MoveTo(GameManager.instance.parkingPos[Methods.instance.OnPickup(redPickups[i])]);
-                actions.CollectAt(redPickups[i]);
-                count++;
-            }
-            if (count == GameParameters.instance.carryLimit)
-            {
-                for (int j = 0; j < GameParameters.instance.carryLimit; j++)
+                if (!actions.GetCollectPos(AIactions).Contains(redPickups[i]) && actions.GetPickupColor().Sum() < GameParameters.instance.carryLimit && actions.GetCollectPos(AIactions).Count < minCost)
                 {
-                    actions.MoveTo(path[0]);
-                    actions.DepositAt(path[0], 0);
-                    path.RemoveAt(0);
+                    actions.MoveTo(GameManager.instance.parkingPos[Methods.instance.OnPickup(redPickups[i])]);
+                    actions.CollectAt(redPickups[i]);
                 }
-                count = 0;
+                ++i;
             }
-            // Collect all useless red counters from the board
-            for (int i = 0; i < minCost - Mathf.Min(redPickups.Count, GameParameters.instance.carryLimit); i++)
+            // Collect enough useless red counters from the board
+            i = 0;
+            while (i < uselessRedCounters.Count)
             {
-                actions.MoveTo(uselessRedCounters[i]);
-                actions.CollectFromBoard(uselessRedCounters[i]);
-                count++;
-                if (count == GameParameters.instance.carryLimit)
+                if (!actions.GetCollectPos(AIactions).Contains(uselessRedCounters[i]) && actions.GetPickupColor().Sum() < GameParameters.instance.carryLimit && actions.GetCollectPos(AIactions).Count < minCost)
                 {
-                    for (int j = 0; j < GameParameters.instance.carryLimit; j++)
-                    {
-                        actions.MoveTo(path[0]);
-                        actions.DepositAt(path[0], 0);
-                        path.RemoveAt(0);
-                    }
-                    count = 0;
+                    actions.MoveTo(uselessRedCounters[i]);
+                    actions.CollectFromBoard(uselessRedCounters[i]);
                 }
+                ++i;
             }
-            for (int i = 0; i < path.Count; i++)
+            // Must cache here, actions.GetPickupColor().Sum() gonna change after add deposit command
+            int carryNum = actions.GetPickupColor().Sum();
+            i = 0;
+            while (i < path.Count)
             {
-                actions.MoveTo(path[i]);
-                actions.DepositAt(path[i], 0);
+                if (!actions.GetDepositPos(AIactions).Contains(path[i]) && actions.GetDepositPosFromActions(actions).Count < carryNum)
+                {
+                    actions.MoveTo(path[i]);
+                    actions.DepositAt(path[i], 0);
+                }
+                ++i;
             }
             return actions;
         }
@@ -192,14 +186,22 @@ public class AIAgent : MonoBehaviour
         Debug.Log("Fake anchors: " + fakeAnchors[0] + "  " + fakeAnchors[1]);
 
         // Randomly choose generator
-        int generatorId = Random.Range(0, 4);
-        tryNum = Random.Range(0, 3);
-        if (tryNum <= 1)
+        while (GameParameters.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum() - actions.GetPickupColor().Sum() > 0)
         {
-            generatorId = Methods.instance.MostRedGenerator();
+            int generatorId = Random.Range(0, 4);
+            tryNum = Random.Range(0, 3);
+            if (tryNum <= 1)
+            {
+                generatorId = Methods.instance.MostRedGenerator();
+            }
+            List<Vector3> collectList = Methods.instance.PickupsPosInGn(generatorId, GameParameters.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum() - actions.GetPickupColor().Sum());
+            collectList = RemovePositionsFromList(collectList, actions.GetCollectPos(AIactions));
+            if (collectList.Count > 0)
+            {
+                actions.MoveTo(GameManager.instance.parkingPos[generatorId]);
+                actions.CollectAt(collectList);
+            }
         }
-        actions.MoveTo(GameManager.instance.parkingPos[generatorId]);
-        actions.CollectAt(Methods.instance.PickupsPosInGn(generatorId, GameParameters.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum()));
 
         // Randomly turn over counters
         List<int> randomOrder = RandomOrder(actions.GetPickupColor().Sum());
@@ -233,11 +235,11 @@ public class AIAgent : MonoBehaviour
             if (bag[i] == 0 && tryNum <= 1)
             {
                 List <Vector3> positions = Methods.instance.RemoveDepositedAndAnchor(Methods.instance.FindPathInGrid(trueAnchors[0], trueAnchors[1], true));
-                positions = RemovePositionsFromList(positions, actions.GetDepositPos());
+                positions = RemovePositionsFromList(positions, actions.GetDepositPos(AIactions));
                 Vector3 pos;
                 if (positions.Count == 0)
                 {
-                    pos = GetRandomEmptyGrid(actions);
+                    pos = GetRandomEmptyGrid(AIactions, actions);
                 }
                 else
                 {
@@ -250,11 +252,11 @@ public class AIAgent : MonoBehaviour
             else
             {
                 List<Vector3> positions = Methods.instance.RemoveDepositedAndAnchor(Methods.instance.FindPathInGrid(fakeAnchors[0], fakeAnchors[1], false));
-                positions = RemovePositionsFromList(positions, actions.GetDepositPos());
+                positions = RemovePositionsFromList(positions, actions.GetDepositPos(AIactions));
                 Vector3 pos;
                 if (positions.Count == 0)
                 {
-                    pos = GetRandomEmptyGrid(actions);
+                    pos = GetRandomEmptyGrid(AIactions, actions);
                 }
                 else
                 {

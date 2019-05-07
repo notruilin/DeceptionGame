@@ -14,6 +14,9 @@ public class AIManager : MonoBehaviour
     public float collectDelay = 0.3f;
     public float defaultDepositDelay = 0.1f;
 
+    // Records actions for each shuttle
+    public List<Actions> AIactions = new List<Actions>();
+
     private List<GameObject> AIs = new List<GameObject>();
     private List<Vector3> bagPos = new List<Vector3>();
     private List<bool> AIMoving = new List<bool>();
@@ -59,14 +62,18 @@ public class AIManager : MonoBehaviour
 
     public void AITurn()
     {
+        AIactions.Clear();
         turnCount++;
-        Actions actions;
         for (int i = 0; i < AIs.Count; i++)
         {
+            Debug.Log("Shuttle " + i + "Decisions: -------------------");
             AIMoving[i] = true;
-            actions = AIs[i].GetComponent<AIAgent>().MakeDecision();
-            actions.MoveTo(new Vector3(-3.5f, GameParameters.instance.gridSize / 2f + i * 1.5f, 0f));
-            StartCoroutine(ExecuteActions(AIs[i], actions, i));
+            AIactions.Add(AIs[i].GetComponent<AIAgent>().MakeDecision(AIactions));
+            AIactions[AIactions.Count - 1].MoveTo(new Vector3(-3.5f, GameParameters.instance.gridSize / 2f + i * 1.5f, 0f));
+        }
+        for (int i = 0; i < AIs.Count; i++)
+        {
+            StartCoroutine(ExecuteActions(AIs[i], AIactions[i], i));
         }
     }
 
@@ -82,14 +89,13 @@ public class AIManager : MonoBehaviour
                     if (AI.GetComponent<AIBehavior>().carry.Sum() < GameParameters.instance.carryLimit && Methods.instance.OnParkingPos(AI.transform.position))
                     {
                         int generatorId = Methods.instance.FindGenerator(AI.transform.position);
-                        GameManager.instance.gameLog += "Shuttle collects in Generator " + generatorId + " ";
+                        GameManager.instance.gameLog += "Shuttle " + AIindex + " collects in Generator " + generatorId + " ";
                         yield return StartCoroutine(CollectCounter(AI, generatorId, actions.paras[i]));
                     }
                     break;
                 case "Move":
-                    Debug.Log("Moving From" + AI.transform.position + " to " + actions.paras[i]);
                     yield return StartCoroutine(MoveToPosition(moveDelay, AI, actions.paras[i]));
-                    GameManager.instance.gameLog += "Shuttle moves to " + "(" + actions.paras[i].x + ", " + actions.paras[i].y + ")" + "\n";
+                    GameManager.instance.gameLog += "Shuttle " + AIindex + " moves to " + "(" + actions.paras[i].x + ", " + actions.paras[i].y + ")" + "\n";
                     break;
                 case "Deposit":
                     Vector3 pos = new Vector3(actions.paras[i].x, actions.paras[i].y, 0f);
@@ -98,29 +104,27 @@ public class AIManager : MonoBehaviour
                     {
                         if (AI.transform.position == pos)
                         {
-                            Debug.Log("Start deposit at: " + actions.paras[i]);
                             yield return StartCoroutine(DepositCounter(AI, pos, num, actions.paras[i].z));
-                            GameManager.instance.gameLog += "Shuttle deposits at " + "(" + pos.x + ", " + pos.y + ")" + ", color: " + num + "\n";
+                            GameManager.instance.gameLog += "Shuttle " + AIindex + " deposits at " + "(" + pos.x + ", " + pos.y + ")" + ", color: " + num + "\n";
                         }
                     }
                     else
                     {
                         if (AI.transform.position == pos)
                         {
-                            Debug.Log("Start deposit at: " + actions.paras[i]);
                             yield return StartCoroutine(DepositCounterByIndex(AI, pos, num, actions.paras[i].z));
-                            GameManager.instance.gameLog += "Shuttle deposits at " + "(" + pos.x + ", " + pos.y + ")" + ", index: " + num + "\n";
+                            GameManager.instance.gameLog += "Shuttle " + AIindex + " deposits at " + "(" + pos.x + ", " + pos.y + ")" + ", index: " + num + "\n";
                         }
                     }
                     break;
                 case "TurnOver":
                     int index = Int32.Parse(commands[1]);
                     yield return StartCoroutine(TurnOverCounterInBag(AI, index, actions.paras[i].x));
-                    GameManager.instance.gameLog += "Shuttle turns over bag " + index + " for " + actions.paras[i].x + "seconds" + "\n";
+                    GameManager.instance.gameLog += "Shuttle " + AIindex + " turns over bag " + index + " for " + actions.paras[i].x + "seconds" + "\n";
                     break;
                 case "CollectFromBoard":
                     yield return StartCoroutine(CollectCounterFromGrid(AI, actions.paras[i]));
-                    GameManager.instance.gameLog += "Shuttle collects from " + "(" + actions.paras[i].x + ", " + actions.paras[i].y + ")" + "\n";
+                    GameManager.instance.gameLog += "Shuttle " + AIindex + " collects from " + "(" + actions.paras[i].x + ", " + actions.paras[i].y + ")" + "\n";
                     break;
             }
             if (GameManager.instance.CheckGameOver())
@@ -196,11 +200,8 @@ public class AIManager : MonoBehaviour
     private IEnumerator CollectCounterFromGrid(GameObject AI, Vector3 pos)
     {
         int color = Methods.instance.OnCounter(pos);
-        Debug.Log("CollectCounterFromGrid  color =  " + color);
         int bagPosIndex = GetEmptyBagPosIndex(AI);
-        Debug.Log("CollectCounterFromGrid  bagPosIndex =  " + bagPosIndex);
         yield return StartCoroutine(MoveToBagPosition(AI, bagPosIndex));
-        Debug.Log("After MoveToBagPosition");
         if (color != -1 && bagPosIndex != -1)
         {
             AI.GetComponent<AIBehavior>().carry[color]++;
