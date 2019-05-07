@@ -475,3 +475,19 @@ Shuttle deposits at (11, 15), color: 0
 --- AI Win ---
 AI Turn Count: 2
 Remaining Time For AI: 144.8226 seconds
+7/05/2019 4:17:46 PM
+--- Game Start ---
+Shuttle moves to (-3.7, 21)
+--- AI Win ---
+AI Turn Count: 1
+Remaining Time For AI: 178.9191 seconds
+7/05/2019 4:17:46 PM
+--- Game Start ---
+Shuttle moves to (-3.7, 21)
+--- AI Win ---
+AI Turn Count: 1
+Remaining Time For AI: 178.9191 seconds
+Shuttle moves to (-3.7, 21)
+--- AI Win ---
+AI Turn Count: 1
+Remaining Time For AI: 178.7046 seconds
