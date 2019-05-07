@@ -22,7 +22,6 @@ public class Methods : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     public Vector3 RandomPosition(List<Vector3> list)

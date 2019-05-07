@@ -76,10 +76,8 @@ public class UIManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log(11111);
         if (AITurn && !GameManager.instance.gameOver)
         {
-            Debug.Log(22222);
             float d = AITimeLimit - (Time.time - startTime);
             string min = ((int)d / 60).ToString().PadLeft(2,'0');
             string sec = ((int)d % 60).ToString("f0").PadLeft(2, '0');
