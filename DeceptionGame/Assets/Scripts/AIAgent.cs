@@ -186,8 +186,10 @@ public class AIAgent : MonoBehaviour
         Debug.Log("Fake anchors: " + fakeAnchors[0] + "  " + fakeAnchors[1]);
 
         // Randomly choose generator
+        int tryCount = 0;
         while (GameParameters.instance.carryLimit - GetComponent<AIBehavior>().carry.Sum() - actions.GetPickupColor().Sum() > 0)
         {
+            tryCount++;
             int generatorId = Random.Range(0, 4);
             tryNum = Random.Range(0, 3);
             if (tryNum <= 1)
@@ -201,6 +203,8 @@ public class AIAgent : MonoBehaviour
                 actions.MoveTo(GameManager.instance.parkingPos[generatorId]);
                 actions.CollectAt(collectList);
             }
+            // There is no enough pickup
+            if (tryCount > 100) break;
         }
 
         // Randomly turn over counters

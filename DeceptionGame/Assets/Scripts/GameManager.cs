@@ -5,14 +5,20 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
+/*
+ * Manages the whole game, singleton
+ */
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
     // Current turn is player's turn or AI's turn
     [HideInInspector] public bool playerTurn;
+    // Game over signal
     [HideInInspector] public bool gameOver;
 
+    // Game sprites
     public GameObject gridTile;
     public GameObject Anchor;
     public GameObject OnAnchor;
@@ -22,6 +28,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] counterOnShuttleTiles;
     public GameObject AI;
 
+    // Stores what happened in the game
     [HideInInspector] public string gameLog;
 
     // Red, White, Blue, Yellow Generators
@@ -38,11 +45,11 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public List<List<bool>> readyToTurnOver = new List<List<bool>>();
     // Store GameObjects of counters deposited on the board
     [HideInInspector] public List<List<GameObject>> countersOnBoard = new List<List<GameObject>>();
- 
-    private BoardGenerator boardScript;
-    private AIManager aiScript;
 
-    public GameObject canvas;
+    // Board Generator, creates the board and generators
+    private BoardGenerator boardScript;
+    // AI Manager, controls AI moves
+    private AIManager aiScript;
 
     private void Awake()
     {
@@ -56,29 +63,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "Game")
-        {
-            RestartGame();
-        }
-    }
-
-    public void BackToMenu()
-    {
-        SceneManager.LoadScene("MainMenu");
-    }
-
+    // Initialize the whole game
     private void Initialize()
     {
         gameLog = "";
@@ -92,6 +77,7 @@ public class GameManager : MonoBehaviour
         gameLog += "--- Game Start ---\n";
     }
 
+    // Start AI's turn
     public IEnumerator TurnSwitch()
     {
         if (!gameOver)
@@ -101,6 +87,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Check if there is a red path between two anchors
     public bool CheckGameOver()
     {
         foreach (Vector3 position in anchorPositions)
@@ -114,6 +101,7 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    // Show AI Win and write the result to gameLog
     public void GameOverAIWin()
     {
         gameLog += "--- AI Win ---\n";
@@ -125,6 +113,7 @@ public class GameManager : MonoBehaviour
         SendToServer();
     }
 
+    // Show Player Win and write the result to gameLog
     public void GameOverPlayerWin()
     {
         gameLog += "Time Out!\n";
@@ -136,11 +125,7 @@ public class GameManager : MonoBehaviour
         SendToServer();
     }
 
-    private void SendToServer()
-    {
-        StartCoroutine(SendLogToServer());
-    }
-
+    // Initializes lists which use to record the game state
     private void InitialiseDeposited()
     {
         deposited.Clear();
@@ -176,6 +161,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Clear objects and initialize a new game
     public void RestartGame()
     {
         foreach (GameObject obj in generators)
@@ -203,6 +189,12 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TurnSwitch());
     }
 
+    // Sends the gameLog to Server after gameover
+    private void SendToServer()
+    {
+        StartCoroutine(SendLogToServer());
+    }
+
     IEnumerator SendLogToServer()
     {
         WWWForm form = new WWWForm();
@@ -220,5 +212,29 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Upload complete!");
             }
         }
+    }
+
+    // Called when the scene loaded
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Game")
+        {
+            RestartGame();
+        }
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
