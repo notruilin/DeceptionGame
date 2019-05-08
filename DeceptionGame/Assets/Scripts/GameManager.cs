@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool playerTurn;
     // Game over signal
     [HideInInspector] public bool gameOver;
+    // AI gonna rotation when it's true
+    [HideInInspector] public bool AICelebrate;
 
     // Game sprites
     public GameObject gridTile;
@@ -68,6 +70,7 @@ public class GameManager : MonoBehaviour
     {
         gameLog = "";
         gameOver = false;
+        AICelebrate = false;
         SetPlayerTurn(false);
         boardScript = GetComponent<BoardGenerator>();
         boardScript.SetupScene();
@@ -108,6 +111,7 @@ public class GameManager : MonoBehaviour
         gameLog += "AI Turn Count: " + aiScript.turnCount + "\n";
         gameLog += "Remaining Time For AI: " + (GetComponent<UIManager>().AITimeLimit - (Time.time - GetComponent<UIManager>().startTime)) + " seconds\n";
         gameOver = true;
+        AICelebrate = true;
         StartCoroutine(GetComponent<UIManager>().ShowAIWinText());
         Methods.instance.TurnAllWhiteCounterOver();
         SendToServer();

@@ -58,6 +58,17 @@ public class AIManager : MonoBehaviour
                 AIMoving[i] = true;
             }
         }
+        else
+        {
+            Vector3 axis = new Vector3(0, 0, 1);
+            if (GameManager.instance.AICelebrate)
+            {
+                for (int i = 0; i < GameParameters.instance.shuttleNum; i++)
+                {
+                    AIs[i].transform.RotateAround(AIs[i].transform.position, axis, 130 * Time.deltaTime);
+                }
+            }
+        }
     }
 
     public void AITurn()
