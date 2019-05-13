@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public float showTurnDelay = 0.3f;
+    public float showTurnDelay = 5f;
     public float delayBeforeAITurn = 0.3f;
     public float AITimeLimit;
     public float startTime;
@@ -40,17 +40,15 @@ public class UIManager : MonoBehaviour
         AITurn = false;
     }
 
-    public IEnumerator ShowAIWinText()
+    public void ShowAIWinText()
     {
         AIWinPanel.SetActive(true);
-        yield return new WaitForSeconds(3f);
         RestartButton.SetActive(true);
     }
 
-    public IEnumerator ShowPlayerWinText()
+    public void ShowPlayerWinText()
     {
         PlayerWinPanel.SetActive(true);
-        yield return new WaitForSeconds(3f);
         RestartButton.SetActive(true);
     }
 

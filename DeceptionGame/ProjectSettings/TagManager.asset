@@ -12,6 +12,9 @@ TagManager:
   - Shuttle
   - OnShuttle
   - Canvas
+  - WhiteOnShuttle
+  - Button
+  - Board
   layers:
   - Default
   - TransparentFX

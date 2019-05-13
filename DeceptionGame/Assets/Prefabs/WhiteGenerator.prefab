@@ -92,4 +92,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07198e5aa16404754af8c7b12f2635b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regenerateDelay: 1.5
+  regenerateDelay: 1
+  idleTurnCount: 0
+  visitThisTurn: 0

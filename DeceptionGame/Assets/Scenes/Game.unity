@@ -499,6 +499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTurn: 0
   gameOver: 0
+  AICelebrate: 0
   gridTile: {fileID: 6149690025534858527, guid: 613ce10fc5b624fa0b2365f5ad989795,
     type: 3}
   Anchor: {fileID: 7187527909343820737, guid: b6eca1625ce814cc98d13ea959c84463, type: 3}
@@ -528,7 +529,6 @@ MonoBehaviour:
   generators: []
   parkingPos: []
   anchorPositions: []
-  canvas: {fileID: 0}
 --- !u!114 &278966723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,7 +570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d32afff5b84e4467ad03ffc26cf6020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showTurnDelay: 1
+  showTurnDelay: 1.5
   delayBeforeAITurn: 0.3
   AITimeLimit: 0
   startTime: 0
@@ -1552,7 +1552,7 @@ GameObject:
   - component: {fileID: 2072296795}
   m_Layer: 5
   m_Name: RestartButton
-  m_TagString: Untagged
+  m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

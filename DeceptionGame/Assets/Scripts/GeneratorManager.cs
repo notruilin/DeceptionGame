@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class GeneratorManager : MonoBehaviour
 {
-    public float regenerateDelay = 1.5f;
+    public float regenerateDelay = 1f;
+    public int idleTurnCount = 0;
+    public bool visitThisTurn = false;
 
     private List<GameObject> pickupsInGn = new List<GameObject>();
     private List<int> pickupsInGnColor = new List<int>();
@@ -61,6 +63,21 @@ public class GeneratorManager : MonoBehaviour
         {
             StartCoroutine(RegenerateCounter(reGeneratePickup[0]));
             reGeneratePickup.RemoveAt(0);
+        }
+        // Regenerate counters after being idle 3 turns, +1 before the first AI turn
+        if (idleTurnCount == 4)
+        {
+            idleTurnCount = 1;
+            RegenerateAllCounters();
+        }
+    }
+
+    private void RegenerateAllCounters()
+    {
+        List<GameObject> oldPickups = new List<GameObject>(pickupsInGn);
+        foreach (GameObject pickup in oldPickups)
+        {
+            AddToRegenerateList(pickup.transform.position);
         }
     }
 

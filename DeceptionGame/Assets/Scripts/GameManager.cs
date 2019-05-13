@@ -85,6 +85,17 @@ public class GameManager : MonoBehaviour
     {
         if (!gameOver)
         {
+            for (int i = 0; i < generators.Count; i++)
+            {
+                if (!generators[i].GetComponent<GeneratorManager>().visitThisTurn)
+                {
+                    generators[i].GetComponent<GeneratorManager>().idleTurnCount += 1;
+                }
+            }
+            for (int i = 0; i < generators.Count; i++)
+            {
+                generators[i].GetComponent<GeneratorManager>().visitThisTurn = false;
+            }
             yield return StartCoroutine(GetComponent<UIManager>().ShowAITurn());
             aiScript.AITurn();
         }
@@ -112,7 +123,7 @@ public class GameManager : MonoBehaviour
         gameLog += "Remaining Time For AI: " + (GetComponent<UIManager>().AITimeLimit - (Time.time - GetComponent<UIManager>().startTime)) + " seconds\n";
         gameOver = true;
         AICelebrate = true;
-        StartCoroutine(GetComponent<UIManager>().ShowAIWinText());
+        GetComponent<UIManager>().ShowAIWinText();
         Methods.instance.TurnAllWhiteCounterOver();
         SendToServer();
     }
@@ -124,7 +135,7 @@ public class GameManager : MonoBehaviour
         gameLog += "--- Player Win ---\n";
         gameLog += "AI Turn Count: " + aiScript.turnCount + "\n";
         gameOver = true;
-        StartCoroutine(GetComponent<UIManager>().ShowPlayerWinText());
+        GetComponent<UIManager>().ShowPlayerWinText();
         Methods.instance.TurnAllWhiteCounterOver();
         SendToServer();
     }
@@ -183,9 +194,13 @@ public class GameManager : MonoBehaviour
         DestroyObjects(objects);
         objects = GameObject.FindGameObjectsWithTag("OnShuttle");
         DestroyObjects(objects);
+        objects = GameObject.FindGameObjectsWithTag("WhiteOnShuttle");
+        DestroyObjects(objects);
         objects = GameObject.FindGameObjectsWithTag("Floor");
         DestroyObjects(objects);
         objects = GameObject.FindGameObjectsWithTag("Anchor");
+        DestroyObjects(objects);
+        objects = GameObject.FindGameObjectsWithTag("Board");
         DestroyObjects(objects);
         Methods.instance.InitializeMethods();
         Initialize();

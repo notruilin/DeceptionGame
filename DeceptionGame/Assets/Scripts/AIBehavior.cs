@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AIBehavior : MonoBehaviour
@@ -9,9 +10,9 @@ public class AIBehavior : MonoBehaviour
     public int[] bagCounterColor = { -1, -1, -1, -1 };
     public GameObject[] counterInBag = new GameObject[4];
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("WhiteCounter"))
+        if (carry.Sum() == 0 && collision.gameObject.CompareTag("WhiteCounter"))
         {
             Vector3 pos = collision.gameObject.transform.position;
             if (Methods.instance.ReadyToTurnOver(pos))

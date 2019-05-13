@@ -133,10 +133,10 @@ public class Actions
         return collectList;
     }
 
-    public void TurnOverCounterInBagByIndex(int index, float delay)
+    public void TurnOverCounterInBagByIndex(int index)
     {
         commands.Add("TurnOver#" + index.ToString());
-        paras.Add(new Vector3(delay, 0f, 0f));
+        paras.Add(new Vector3(0f, 0f, 0f));
     }
 
     public void CollectFromBoard(Vector3 pos)

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2162275404782377946}
   - component: {fileID: 5107161161633219846}
   m_Layer: 0
-  m_Name: CounterGenerator
+  m_Name: RedGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,4 +92,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07198e5aa16404754af8c7b12f2635b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regenerateDelay: 1.5
+  regenerateDelay: 1
+  idleTurnCount: 0
+  visitThisTurn: 0

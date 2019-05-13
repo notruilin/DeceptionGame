@@ -613,7 +613,7 @@ MonoBehaviour:
     the other side.
 
     4. Counters are generally face down on the board. The colors will be revealed
-    when the shuttle passes over.'
+    when an empty shuttle passes over.'
 --- !u!222 &117693717
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -130,8 +130,8 @@ public class AIManager : MonoBehaviour
                     break;
                 case "TurnOver":
                     int index = Int32.Parse(commands[1]);
-                    yield return StartCoroutine(TurnOverCounterInBag(AI, index, actions.paras[i].x));
-                    GameManager.instance.gameLog += "Shuttle " + AIindex + " turns over bag " + index + " for " + actions.paras[i].x + "seconds" + "\n";
+                    TurnOverCounterInBag(AI, index);
+                    GameManager.instance.gameLog += "Shuttle " + AIindex + " turns over bag " + index;
                     break;
                 case "CollectFromBoard":
                     yield return StartCoroutine(CollectCounterFromGrid(AI, actions.paras[i]));
@@ -200,6 +200,7 @@ public class AIManager : MonoBehaviour
     {
         if (Methods.instance.IsInGn(pos, generatorId) && GetEmptyBagPosIndex(AI) != -1)
         {
+            GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().visitThisTurn = true;
             AI.GetComponent<AIBehavior>().carry[GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().GetPickupsInGnColor(pos)]++;
             GameManager.instance.gameLog += "color: " + GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().GetPickupsInGnColor(pos) + "\n";
             AddToBag(AI, GameManager.instance.generators[generatorId].GetComponent<GeneratorManager>().GetPickupsInGnColor(pos));
@@ -292,21 +293,26 @@ public class AIManager : MonoBehaviour
     {
         int i = GetEmptyBagPosIndex(AI);
         AI.GetComponent<AIBehavior>().bagCounterColor[i] = color;
-        AI.GetComponent<AIBehavior>().counterInBag[i] = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[3], AI.transform.position.x + bagPos[i].x, AI.transform.position.y + bagPos[i].y);
+        AI.GetComponent<AIBehavior>().counterInBag[i] = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[color], AI.transform.position.x + bagPos[i].x, AI.transform.position.y + bagPos[i].y);
         AI.GetComponent<AIBehavior>().counterInBag[i].transform.SetParent(AI.transform);
-        StartCoroutine(TurnOverCounterInBag(AI, i, 0.5f));
     }
 
-    private IEnumerator TurnOverCounterInBag(GameObject AI, int i, float turnOverDelay)
+    private void TurnOverCounterInBag(GameObject AI, int i)
     {
+        GameObject anotherCounter;
         if (AI.GetComponent<AIBehavior>().bagCounterColor[i] != -1)
         {
-            GameObject colorCounter = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[AI.GetComponent<AIBehavior>().bagCounterColor[i]], AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.x, AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.y);
-            colorCounter.transform.SetParent(AI.transform);
-            AI.GetComponent<AIBehavior>().counterInBag[i].SetActive(false);
-            yield return new WaitForSeconds(turnOverDelay);
-            Destroy(colorCounter);
-            AI.GetComponent<AIBehavior>().counterInBag[i].SetActive(true);
+            anotherCounter = AI.GetComponent<AIBehavior>().counterInBag[i];
+            if (AI.GetComponent<AIBehavior>().counterInBag[i].CompareTag("WhiteOnShuttle"))
+            {
+                AI.GetComponent<AIBehavior>().counterInBag[i] = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[AI.GetComponent<AIBehavior>().bagCounterColor[i]], AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.x, AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.y);
+            }
+            else
+            {
+                AI.GetComponent<AIBehavior>().counterInBag[i] = Methods.instance.LayoutObject(GameManager.instance.counterOnShuttleTiles[3], AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.x, AI.GetComponent<AIBehavior>().counterInBag[i].transform.position.y);
+            }
+            AI.GetComponent<AIBehavior>().counterInBag[i].transform.SetParent(AI.transform);
+            Destroy(anotherCounter);
         }
     }
 }

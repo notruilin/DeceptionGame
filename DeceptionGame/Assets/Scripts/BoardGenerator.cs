@@ -35,6 +35,7 @@ public class BoardGenerator : MonoBehaviour
     private void BoardSetup()
     {
         boardHolder = new GameObject("Board").transform;
+        boardHolder.tag = "Board";
 
         for (int x = 0; x < GameParameters.instance.gridSize; x++)
         {
