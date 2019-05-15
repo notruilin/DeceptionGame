@@ -131,7 +131,7 @@ public class AIManager : MonoBehaviour
                 case "TurnOver":
                     int index = Int32.Parse(commands[1]);
                     TurnOverCounterInBag(AI, index);
-                    GameManager.instance.gameLog += "Shuttle " + AIindex + " turns over bag " + index;
+                    GameManager.instance.gameLog += "Shuttle " + AIindex + " turns over bag " + index + "\n";
                     break;
                 case "CollectFromBoard":
                     yield return StartCoroutine(CollectCounterFromGrid(AI, actions.paras[i]));

@@ -1,357 +1,94 @@
-9/05/2019 11:51:36 AM
+5/15/2019 8:30:42 PM
 --- Game Start ---
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 turns over bag 1 for 0.2seconds
-Shuttle 0 turns over bag 2 for 0.2seconds
-Shuttle 0 turns over bag 0 for 0.2seconds
-Shuttle 0 turns over bag 3 for 0.2seconds
-Shuttle 0 moves to (11, 0)
-Shuttle 0 deposits at (11, 0), index: 2
-Shuttle 0 turns over bag 1 for 0.1seconds
-Shuttle 0 moves to (4, 18)
-Shuttle 0 deposits at (4, 18), index: 3
-Shuttle 0 turns over bag 1 for 0.1seconds
-Shuttle 0 moves to (15, 0)
-Shuttle 0 deposits at (15, 0), index: 1
-Shuttle 0 turns over bag 0 for 0.1seconds
-Shuttle 0 moves to (13, 0)
-Shuttle 0 deposits at (13, 0), index: 0
-Shuttle 0 moves to (-3.5, 12.5)
-Player blocks (14.0, 0.0, 0.0)
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 moves to (-3.7, 3.5)
-Shuttle 0 collects in Generator 1 color: 0
-Shuttle 0 moves to (-3.7, 3.5)
-Shuttle 0 collects in Generator 1 color: 0
-Shuttle 0 moves to (-3.7, 3.5)
-Shuttle 0 collects in Generator 1 color: 0
-Shuttle 0 moves to (12, 0)
-Shuttle 0 deposits at (12, 0), color: 0
-Shuttle 0 moves to (13, 1)
-Shuttle 0 deposits at (13, 1), color: 0
-Shuttle 0 moves to (14, 1)
-Shuttle 0 deposits at (14, 1), color: 0
-Shuttle 0 moves to (15, 1)
-Shuttle 0 deposits at (15, 1), color: 0
---- AI Win ---
-AI Turn Count: 2
-Remaining Time For AI: 147.384 seconds
-9/05/2019 11:52:34 AM
---- Game Start ---
-Shuttle 2 moves to (-3.5, 15.5)
-Shuttle 3 moves to (-3.5, 17)
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 1 moves to (27.7, 21)
-Shuttle 1 collects in Generator 2 color: 0
-Shuttle 0 moves to (-3.7, 3.5)
-Shuttle 0 collects in Generator 1 color: 0
-Shuttle 1 moves to (27.7, 21)
-Shuttle 1 collects in Generator 2 color: 0
-Shuttle 0 moves to (-3.7, 3.5)
-Shuttle 0 collects in Generator 1 color: 0
-Shuttle 1 moves to (27.7, 21)
-Shuttle 1 collects in Generator 2 color: 0
-Shuttle 1 moves to (20, 18)
-Shuttle 1 deposits at (20, 18), color: 0
-Shuttle 1 moves to (20, 19)
-Shuttle 1 deposits at (20, 19), color: 0
-Shuttle 1 moves to (20, 20)
-Shuttle 1 deposits at (20, 20), color: 0
-Shuttle 0 moves to (20, 14)
-Shuttle 0 deposits at (20, 14), color: 0
-Shuttle 0 moves to (20, 15)
-Shuttle 0 deposits at (20, 15), color: 0
-Shuttle 0 moves to (20, 16)
-Shuttle 0 deposits at (20, 16), color: 0
-Shuttle 0 moves to (20, 17)
-Shuttle 0 deposits at (20, 17), color: 0
---- AI Win ---
-AI Turn Count: 1
-Remaining Time For AI: 168.116 seconds
-9/05/2019 11:52:34 AM
---- Game Start ---
-Shuttle 2 moves to (-3.5, 15.5)
-Shuttle 3 moves to (-3.5, 17)
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 1 moves to (27.7, 21)
-Shuttle 1 collects in Generator 2 color: 0
-Shuttle 0 moves to (-3.7, 3.5)
-Shuttle 0 collects in Generator 1 color: 0
-Shuttle 1 moves to (27.7, 21)
-Shuttle 1 collects in Generator 2 color: 0
-Shuttle 0 moves to (-3.7, 3.5)
-Shuttle 0 collects in Generator 1 color: 0
-Shuttle 1 moves to (27.7, 21)
-Shuttle 1 collects in Generator 2 color: 0
-Shuttle 1 moves to (20, 18)
-Shuttle 1 deposits at (20, 18), color: 0
-Shuttle 1 moves to (20, 19)
-Shuttle 1 deposits at (20, 19), color: 0
-Shuttle 1 moves to (20, 20)
-Shuttle 1 deposits at (20, 20), color: 0
-Shuttle 0 moves to (20, 14)
-Shuttle 0 deposits at (20, 14), color: 0
-Shuttle 0 moves to (20, 15)
-Shuttle 0 deposits at (20, 15), color: 0
-Shuttle 0 moves to (20, 16)
-Shuttle 0 deposits at (20, 16), color: 0
-Shuttle 0 moves to (20, 17)
-Shuttle 0 deposits at (20, 17), color: 0
---- AI Win ---
-AI Turn Count: 1
-Remaining Time For AI: 168.116 seconds
+Shuttle 1 moves to (-3.7, 3.5)
+Shuttle 1 collects in Generator 1 color: 1
+Shuttle 1 collects in Generator 1 color: 0
+Shuttle 1 collects in Generator 1 color: 1
+Shuttle 1 collects in Generator 1 color: 1
+Shuttle 0 moves to (27.7, 21)
+Shuttle 0 collects in Generator 2 color: 0
+Shuttle 0 collects in Generator 2 color: 0
+Shuttle 0 collects in Generator 2 color: 0
+Shuttle 0 collects in Generator 2 color: 1
+Shuttle 1 moves to (23, 4)
+Shuttle 1 deposits at (23, 4), index: 3
+Shuttle 1 turns over bag 0
+Shuttle 1 moves to (23, 3)
+Shuttle 0 moves to (20, 1)
+Shuttle 1 deposits at (23, 3), index: 2
+Shuttle 1 turns over bag 1
+Shuttle 1 moves to (21, 1)
+Shuttle 1 deposits at (21, 1), index: 1
+Shuttle 1 turns over bag 0
+Shuttle 0 deposits at (20, 1), index: 2
+Shuttle 1 moves to (23, 8)
+Shuttle 0 moves to (18, 1)
+Shuttle 0 deposits at (18, 1), index: 0
+Shuttle 0 turns over bag 1
+Shuttle 0 moves to (19, 1)
+Shuttle 1 deposits at (23, 8), index: 0
+Shuttle 0 deposits at (19, 1), index: 3
+Shuttle 0 moves to (23, 9)
 Shuttle 1 moves to (-3.5, 14)
---- AI Win ---
-AI Turn Count: 1
-Remaining Time For AI: 167.8352 seconds
-9/05/2019 11:53:11 AM
---- Game Start ---
-Shuttle 3 moves to (-3.5, 17)
+Shuttle 0 deposits at (23, 9), index: 1
+Shuttle 0 moves to (-3.5, 12.5)
+Player blocks (23.0, 7.0, 0.0)
+Shuttle 1 moves to (-3.7, 21)
+Shuttle 1 collects in Generator 0 color: 1
+Shuttle 0 moves to (-3.7, 3.5)
+Shuttle 0 collects in Generator 1 color: 1
+Shuttle 1 collects in Generator 0 color: 1
+Shuttle 0 collects in Generator 1 color: 2
+Shuttle 1 collects in Generator 0 color: 2
+Shuttle 0 collects in Generator 1 color: 0
+Shuttle 1 collects in Generator 0 color: 1
+Shuttle 0 collects in Generator 1 color: 0
+Shuttle 0 moves to (22, 8)
+Shuttle 1 moves to (16, 1)
+Shuttle 1 deposits at (16, 1), index: 1
+Shuttle 1 moves to (17, 1)
+Shuttle 0 deposits at (22, 8), index: 0
+Shuttle 0 turns over bag 2
+Shuttle 1 deposits at (17, 1), index: 3
+Shuttle 1 turns over bag 0
+Shuttle 0 moves to (14, 0)
+Shuttle 0 deposits at (14, 0), index: 2
+Shuttle 0 moves to (22, 5)
+Shuttle 1 moves to (7, 21)
+Shuttle 0 deposits at (22, 5), index: 1
+Shuttle 0 moves to (22, 4)
+Shuttle 1 deposits at (7, 21), index: 0
+Shuttle 0 deposits at (22, 4), index: 3
+Shuttle 1 moves to (20, 10)
+Shuttle 1 deposits at (20, 10), index: 2
+Shuttle 0 moves to (-3.5, 12.5)
+Shuttle 1 moves to (-3.5, 14)
+Player blocks (22.0, 6.0, 0.0)
 Shuttle 0 moves to (-3.7, 21)
 Shuttle 0 collects in Generator 0 color: 0
-Shuttle 1 moves to (27.7, 21)
-Shuttle 1 collects in Generator 2 color: 0
 Shuttle 0 moves to (-3.7, 3.5)
 Shuttle 0 collects in Generator 1 color: 0
-Shuttle 2 moves to (27.7, 3.5)
-Shuttle 2 collects in Generator 3 color: 0
-Shuttle 2 moves to (18, 5)
-Shuttle 2 deposits at (18, 5), color: 0
 Shuttle 1 moves to (27.7, 3.5)
 Shuttle 1 collects in Generator 3 color: 0
-Shuttle 0 moves to (18, 9)
-Shuttle 0 deposits at (18, 9), color: 0
-Shuttle 0 moves to (18, 8)
-Shuttle 0 deposits at (18, 8), color: 0
-Shuttle 1 moves to (18, 7)
-Shuttle 1 deposits at (18, 7), color: 0
-Shuttle 1 moves to (18, 6)
-Shuttle 2 moves to (-3.5, 15.5)
-Shuttle 1 deposits at (18, 6), color: 0
---- AI Win ---
-AI Turn Count: 1
-Remaining Time For AI: 169.8594 seconds
-9/05/2019 12:13:49 PM
---- Game Start ---
-Shuttle 2 moves to (-3.5, 23)
-Shuttle 3 moves to (-3.5, 24.5)
 Shuttle 0 moves to (-3.7, 3.5)
 Shuttle 0 collects in Generator 1 color: 0
-Shuttle 1 moves to (42.7, 3.5)
-Shuttle 1 collects in Generator 3 color: 0
-Shuttle 1 moves to (42.7, 3.5)
-Shuttle 1 collects in Generator 3 color: 0
-Shuttle 0 moves to (42.7, 36)
-Shuttle 0 collects in Generator 2 color: 0
-Shuttle 0 moves to (42.7, 36)
-Shuttle 0 collects in Generator 2 color: 0
-Shuttle 1 moves to (23, 21)
-Shuttle 1 deposits at (23, 21), color: 0
-Shuttle 1 moves to (23, 20)
-Shuttle 1 deposits at (23, 20), color: 0
-Shuttle 0 moves to (42.7, 3.5)
-Shuttle 0 collects in Generator 3 color: 0
-Shuttle 1 moves to (-3.5, 21.5)
-Shuttle 0 moves to (23, 25)
-Shuttle 0 deposits at (23, 25), color: 0
-Shuttle 0 moves to (23, 24)
-Shuttle 0 deposits at (23, 24), color: 0
-Shuttle 0 moves to (23, 23)
-Shuttle 0 deposits at (23, 23), color: 0
-Shuttle 0 moves to (23, 22)
-Shuttle 0 deposits at (23, 22), color: 0
---- AI Win ---
-AI Turn Count: 1
-Remaining Time For AI: 157.7491 seconds
-9/05/2019 12:14:36 PM
---- Game Start ---
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 moves to (-3.7, 3.5)
-Shuttle 0 collects in Generator 1 color: 0
-Shuttle 0 moves to (2, 0)
-Shuttle 0 deposits at (2, 0), color: 0
-Shuttle 0 moves to (2, 1)
-Shuttle 0 deposits at (2, 1), color: 0
---- AI Win ---
-AI Turn Count: 1
-Remaining Time For AI: 173.2526 seconds
-9/05/2019 12:16:08 PM
---- Game Start ---
-Shuttle 2 moves to (-3.7, 21)
-Shuttle 2 collects in Generator 0 color: 0
-Shuttle 2 collects in Generator 0 color: 2
-Shuttle 3 moves to (-3.7, 3.5)
-Shuttle 3 collects in Generator 1 color: 1
-Shuttle 2 collects in Generator 0 color: 1
-Shuttle 3 collects in Generator 1 color: 1
-Shuttle 2 collects in Generator 0 color: 1
-Shuttle 3 collects in Generator 1 color: 1
-Shuttle 2 turns over bag 3 for 0.2seconds
-Shuttle 2 turns over bag 2 for 0.2seconds
-Shuttle 3 collects in Generator 1 color: 2
-Shuttle 2 turns over bag 0 for 0.2seconds
-Shuttle 2 turns over bag 1 for 0.2seconds
-Shuttle 3 turns over bag 1 for 0.2seconds
-Shuttle 0 moves to (27.7, 21)
-Shuttle 0 collects in Generator 2 color: 0
-Shuttle 1 moves to (27.7, 3.5)
-Shuttle 1 collects in Generator 3 color: 0
-Shuttle 3 turns over bag 3 for 0.2seconds
-Shuttle 3 turns over bag 2 for 0.2seconds
-Shuttle 0 collects in Generator 2 color: 0
-Shuttle 3 turns over bag 0 for 0.2seconds
-Shuttle 1 collects in Generator 3 color: 2
-Shuttle 0 collects in Generator 2 color: 1
-Shuttle 1 collects in Generator 3 color: 1
-Shuttle 0 collects in Generator 2 color: 2
-Shuttle 1 collects in Generator 3 color: 1
-Shuttle 0 turns over bag 2 for 0.2seconds
-Shuttle 1 turns over bag 0 for 0.2seconds
-Shuttle 0 turns over bag 3 for 0.2seconds
-Shuttle 1 turns over bag 3 for 0.2seconds
-Shuttle 0 turns over bag 1 for 0.2seconds
-Shuttle 1 turns over bag 2 for 0.2seconds
-Shuttle 0 turns over bag 0 for 0.2seconds
-Shuttle 1 turns over bag 1 for 0.2seconds
-Shuttle 2 moves to (23, 18)
-Shuttle 0 moves to (23, 20)
-Shuttle 2 deposits at (23, 18), index: 0
-Shuttle 2 turns over bag 1 for 0.1seconds
-Shuttle 0 deposits at (23, 20), index: 1
-Shuttle 0 turns over bag 0 for 0.1seconds
-Shuttle 3 moves to (23, 19)
-Shuttle 0 moves to (23, 17)
-Shuttle 1 moves to (23, 16)
-Shuttle 1 deposits at (23, 16), index: 0
-Shuttle 1 turns over bag 1 for 0.1seconds
-Shuttle 3 deposits at (23, 19), index: 2
-Shuttle 0 deposits at (23, 17), index: 0
-Shuttle 2 moves to (4, 11)
-Shuttle 3 moves to (9, 10)
-Shuttle 1 moves to (4, 12)
-Shuttle 0 moves to (4, 13)
-Shuttle 2 deposits at (4, 11), index: 2
-Shuttle 2 turns over bag 1 for 0.1seconds
-Shuttle 3 deposits at (9, 10), index: 3
-Shuttle 3 turns over bag 0 for 0.1seconds
-Shuttle 1 deposits at (4, 12), index: 3
-Shuttle 2 moves to (0, 6)
-Shuttle 3 moves to (3, 12)
-Shuttle 1 moves to (4, 10)
-Shuttle 0 deposits at (4, 13), index: 2
-Shuttle 2 deposits at (0, 6), index: 1
-Shuttle 1 deposits at (4, 10), index: 2
-Shuttle 0 moves to (4, 8)
-Shuttle 1 moves to (4, 9)
-Shuttle 2 moves to (7, 1)
-Shuttle 3 deposits at (3, 12), index: 0
-Shuttle 2 deposits at (7, 1), index: 3
-Shuttle 0 deposits at (4, 8), index: 3
-Shuttle 1 deposits at (4, 9), index: 1
-Shuttle 0 moves to (-3.5, 12.5)
-Shuttle 1 moves to (-3.5, 14)
-Shuttle 3 moves to (15, 1)
-Shuttle 2 moves to (-3.5, 15.5)
-Shuttle 3 deposits at (15, 1), index: 1
-Shuttle 3 moves to (-3.5, 17)
-Player blocks (5.0, 12.0, 0.0)
-Shuttle 1 moves to (-3.5, 14)
-Shuttle 2 moves to (-3.5, 15.5)
-Shuttle 3 moves to (-3.5, 17)
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 moves to (-3.7, 3.5)
-Shuttle 0 collects in Generator 1 color: 0
-Shuttle 0 moves to (27.7, 3.5)
-Shuttle 0 collects in Generator 3 color: 0
-Shuttle 0 moves to (27.7, 3.5)
-Shuttle 0 collects in Generator 3 color: 0
-Shuttle 0 moves to (22, 21)
-Shuttle 0 deposits at (22, 21), color: 0
-Shuttle 0 moves to (22, 20)
-Shuttle 0 deposits at (22, 20), color: 0
-Shuttle 0 moves to (22, 19)
-Shuttle 0 deposits at (22, 19), color: 0
-Shuttle 0 moves to (22, 18)
-Shuttle 0 deposits at (22, 18), color: 0
---- AI Win ---
-AI Turn Count: 2
-Remaining Time For AI: 139.9428 seconds
-9/05/2019 12:18:34 PM
---- Game Start ---
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 1 moves to (27.7, 21)
-Shuttle 1 collects in Generator 2 color: 0
-Shuttle 0 moves to (-3.7, 3.5)
-Shuttle 0 collects in Generator 1 color: 0
-Shuttle 1 moves to (17, 10)
-Shuttle 1 deposits at (17, 10), color: 0
+Shuttle 1 moves to (18, 1)
+Shuttle 1 collects from (18, 1)
+Shuttle 1 moves to (16, 0)
+Shuttle 1 deposits at (16, 0), color: 0
+Shuttle 1 moves to (15, 0)
+Shuttle 1 deposits at (15, 0), color: 0
 Shuttle 0 moves to (27.7, 21)
 Shuttle 0 collects in Generator 2 color: 0
 Shuttle 1 moves to (-3.5, 14)
-Shuttle 0 moves to (13, 10)
-Shuttle 0 deposits at (13, 10), color: 0
-Shuttle 0 moves to (14, 10)
-Shuttle 0 deposits at (14, 10), color: 0
-Shuttle 0 moves to (15, 10)
-Shuttle 0 deposits at (15, 10), color: 0
-Shuttle 0 moves to (16, 10)
-Shuttle 0 deposits at (16, 10), color: 0
+Shuttle 0 moves to (20, 0)
+Shuttle 0 deposits at (20, 0), color: 0
+Shuttle 0 moves to (19, 0)
+Shuttle 0 deposits at (19, 0), color: 0
+Shuttle 0 moves to (18, 0)
+Shuttle 0 deposits at (18, 0), color: 0
+Shuttle 0 moves to (17, 0)
+Shuttle 0 deposits at (17, 0), color: 0
 --- AI Win ---
-AI Turn Count: 1
-Remaining Time For AI: 164.7751 seconds
-9/05/2019 12:39:11 PM
---- Game Start ---
-Shuttle 0 moves to (27.7, 21)
-Shuttle 0 collects in Generator 2 color: 1
-Shuttle 0 collects in Generator 2 color: 0
-Shuttle 0 collects in Generator 2 color: 2
-Shuttle 0 collects in Generator 2 color: 2
-Shuttle 0 turns over bag 2 for 20seconds
-Shuttle 0 turns over bag 3 for 20seconds
-Shuttle 0 turns over bag 1 for 20seconds
-Shuttle 0 turns over bag 0 for 20seconds
-Shuttle 0 moves to (8, 18)
-Shuttle 0 deposits at (8, 18), index: 1
-Shuttle 0 moves to (22, 17)
-Shuttle 0 deposits at (22, 17), index: 3
-Shuttle 0 moves to (22, 18)
-Shuttle 0 deposits at (22, 18), index: 0
-Shuttle 0 moves to (22, 15)
-Shuttle 0 deposits at (22, 15), index: 2
-Shuttle 0 moves to (-3.5, 12.5)
-Player blocks (22.0, 16.0, 0.0)
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 moves to (-3.7, 21)
-Shuttle 0 collects in Generator 0 color: 0
-Shuttle 0 moves to (27.7, 3.5)
-Shuttle 0 collects in Generator 3 color: 0
-Shuttle 0 moves to (27.7, 3.5)
-Shuttle 0 collects in Generator 3 color: 0
-Shuttle 0 moves to (8, 22)
-Shuttle 0 deposits at (8, 22), color: 0
-Shuttle 0 moves to (8, 21)
-Shuttle 0 deposits at (8, 21), color: 0
-Shuttle 0 moves to (8, 20)
-Shuttle 0 deposits at (8, 20), color: 0
-Shuttle 0 moves to (8, 19)
-Shuttle 0 deposits at (8, 19), color: 0
---- AI Win ---
-AI Turn Count: 2
-Remaining Time For AI: 144.5914 seconds
+AI Turn Count: 3
+Remaining Time For AI: 120.8428 seconds
