@@ -41,7 +41,7 @@ public class OptionMenu : MonoBehaviour
         GameParameters.instance.minAnchorDis = 4;
     }
 
-    // Gets numbers form more options panel
+    // Gets numbers from more options panel
     public InputField shuttleNumIF;
     public InputField gridSizeIF;
     public InputField carryLimitIF;
