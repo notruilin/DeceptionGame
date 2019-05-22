@@ -41,4 +41,4 @@ More Options
 
 Help
 
-<img src="https://github.com/notruilin/DeceptionGame/blob/master/DeceptionGame/ScreenShots/Help%20Panel.png" width="500">
+<img src="https://github.com/notruilin/DeceptionGame/blob/master/DeceptionGame/ScreenShots/Help.png" width="500">
