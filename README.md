@@ -21,7 +21,7 @@ Game - Single Shuttle
 
 Game - Multi-Shuttles
 
-<img src="https://github.com/notruilin/DeceptionGame/blob/master/DeceptionGame/ScreenShots/Multi-Shuttles.png" width="500">
+<img src="https://github.com/notruilin/DeceptionGame/blob/master/DeceptionGame/ScreenShots/3%20Shuttles.png" width="500">
 
 Game - Switch Turn
 
