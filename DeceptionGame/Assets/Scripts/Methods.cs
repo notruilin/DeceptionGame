@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿/*
+ * This class contains several general methods and algorithms that may help you develop your agent.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -24,6 +28,7 @@ public class Methods : MonoBehaviour
         }
     }
 
+    // Returns a random position from the list
     public Vector3 RandomPosition(List<Vector3> list)
     {
         int randomIndex = Random.Range(0, list.Count);
@@ -43,6 +48,7 @@ public class Methods : MonoBehaviour
         return Vector3.zero;
     }
 
+    // Checks if the position is valid on the board
     public bool IsOnBoard(Vector3 pos)
     {
         if (pos.x >= 0 && pos.x < GameParameters.instance.gridSize && pos.y >= 0 && pos.y < GameParameters.instance.gridSize)
@@ -52,6 +58,7 @@ public class Methods : MonoBehaviour
         return false;
     }
 
+    // Checks if the position is empty grid
     public bool IsEmptyGrid(Vector3 pos)
     {
         if (GameManager.instance.deposited[(int)pos.x][(int)pos.y] == -1 && IsOnAnAnchor(pos) == Vector3.zero && TileExist(pos))
@@ -61,6 +68,7 @@ public class Methods : MonoBehaviour
         return false;
     }
 
+    // Checks if two positions are adjacent
     public bool IsAdjGrid(Vector3 pos1, Vector3 pos2)
     {
         if (Mathf.Approximately(Mathf.Abs(pos1.x - pos2.x) + Mathf.Abs(pos1.y - pos2.y), 1f))
@@ -70,7 +78,7 @@ public class Methods : MonoBehaviour
         return false;
     }
 
-    // Return the generator ID the parking position belongs
+    // Returns the generator ID the parking position belongs
     public int FindGenerator(Vector3 pos)
     {
         for (int i = 0; i < GameManager.instance.generators.Count; i++)
@@ -83,7 +91,7 @@ public class Methods : MonoBehaviour
         return -1;
     }
 
-    // Check if the position belongs to the generator
+    // Checks if the position belongs to the generator
     public bool IsInGn(Vector3 pos, int generatorId)
     {
         GameObject generator = GameManager.instance.generators[generatorId];
@@ -97,7 +105,7 @@ public class Methods : MonoBehaviour
         return false;
     }
 
-    // Return the generator ID if the pos has a pickup
+    // Returns the generator ID if the pos has a pickup
     public int OnPickup(Vector3 pos)
     {
         for (int i = 0; i < GameManager.instance.generators.Count; i++)
@@ -114,7 +122,7 @@ public class Methods : MonoBehaviour
         return -1;
     }
 
-    // Return counter's color at pos, if no counter, return -1
+    // Returns counter's color at pos, if no counter, return -1
     public int OnCounter(Vector3 pos)
     {
         if (IsOnBoard(pos) && GameManager.instance.deposited[(int)pos.x][(int)pos.y] > -1)
@@ -215,6 +223,7 @@ public class Methods : MonoBehaviour
         }
     }
 
+    // Checks if the position hasn't been blocked
     public bool TileExist(Vector3 pos)
     {
         return !GameManager.instance.blocked[(int)pos.x][(int)pos.y];
@@ -225,7 +234,7 @@ public class Methods : MonoBehaviour
         GameManager.instance.blocked[(int)pos.x][(int)pos.y] = true;
     }
 
-    // Random choose from yellow and blue
+    // Randomly chooses from yellow and blue
     public int RandomCarryCounter(int[] carry)
     {
         List<int> bag = new List<int>();
@@ -239,6 +248,7 @@ public class Methods : MonoBehaviour
         return bag[Random.Range(0, bag.Count)];
     }
 
+    // Removes all deposited grids and anchors in the given list
     public List<Vector3> RemoveDepositedAndAnchor(List<Vector3> list)
     {
         List<Vector3> validList = new List<Vector3>();
@@ -252,7 +262,7 @@ public class Methods : MonoBehaviour
         return validList;
     }
 
-    // Find num neighbors around list, return empty list if it is hard to find
+    // Finds num neighbors around list, return empty list if it is hard to find
     public List<Vector3> FindEmptyNeighbor(List<Vector3> list, int num, List<Vector3> addedToDeposit, int neighborRange)
     {
         List<Vector3> neighbor = new List<Vector3>();
@@ -276,7 +286,7 @@ public class Methods : MonoBehaviour
         return neighbor;
     }
 
-    // Return how many red, yellow and blue counters can be picked up if move according to list, carryLimit is n
+    // Returns how many red, yellow and blue counters can be picked up if move according to list, carryLimit is n
     public int[] PickupColorInPos(List<Vector3> list, int n)
     {
         int[] carry = new int[3];
@@ -292,7 +302,7 @@ public class Methods : MonoBehaviour
         return carry;
     }
 
-    // Return the generator which has the most number of red pickups, if no red counter in any generator, return the first generator
+    // Returns the generator which has the most number of red pickups, if no red counter in any generator, return the first generator
     public int MostRedGenerator()
     {
         int mostCount = -1;
@@ -309,7 +319,7 @@ public class Methods : MonoBehaviour
         return bestGenerator;
     }
 
-    // return Anchor with the shortest linear distance except pos in list
+    // Returns Anchor with the shortest linear distance except pos in list
     public Vector3 SearchClosestAnchor(List<Vector3> list)
     {
         Vector3 anchor = Vector3.zero;
@@ -325,7 +335,7 @@ public class Methods : MonoBehaviour
         return anchor;
     }
 
-    // return random Anchor except pos in list
+    // Returns random Anchor except pos in list
     public Vector3 RandomAnchor(List<Vector3> list)
     {
         int index = Random.Range(0, GameManager.instance.anchorPositions.Count);
@@ -336,13 +346,13 @@ public class Methods : MonoBehaviour
         return GameManager.instance.anchorPositions[index];
     }
 
-    // transfer anchor's center position to a valid grid
+    // Transfer anchor's center position to a valid grid
     public Vector3 TransAnchorPositionInGrid(Vector3 position)
     {
         return new Vector3(position.x - 0.5f, position.y - 0.5f, 0f);
     }
 
-    // Return num pickups' positions in the generator
+    // Returns num pickups' positions in the generator
     public List<Vector3> PickupsPosInGn(int generatorId, int num)
     {
         List<Vector3> pickupsPos = new List<Vector3>();
@@ -369,7 +379,7 @@ public class Methods : MonoBehaviour
         return false;
     }
 
-    // Return a path in grid from start to end
+    // Returns a path in grid from start to end
     // if onlyRedCounter == true, the path only throughs red counters
     public List<Vector3> FindPathInGrid(Vector3 start, Vector3 end, bool onlyRedCounter)
     {

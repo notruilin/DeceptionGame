@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿/*
+ * The BoardGenerator to setup the board.
+ */
+
 using System.Collections.Generic;
 using UnityEngine;
 

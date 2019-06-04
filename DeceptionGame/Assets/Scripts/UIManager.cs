@@ -1,5 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * The UIManager holds the timer, displays tips when switching turns and the end of the game.
+ */
+
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 

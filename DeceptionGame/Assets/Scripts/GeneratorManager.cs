@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * Every generator corresponds to a GeneratorManager which controls pickups' generation.
+ */
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

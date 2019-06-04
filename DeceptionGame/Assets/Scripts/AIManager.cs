@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿/*
+ * The AIManager is responsible to control the movements of shuttles. It gets decisions from the AIAgent and executes these actions on AI’s turn.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;

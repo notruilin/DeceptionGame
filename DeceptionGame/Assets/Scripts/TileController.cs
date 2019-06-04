@@ -1,5 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * The TileController monitors human blocking on human’s turn
+ */
+
 using UnityEngine;
 
 public class TileController : MonoBehaviour

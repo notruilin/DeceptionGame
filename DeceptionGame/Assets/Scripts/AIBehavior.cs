@@ -1,11 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * AIBehavior includes AI's properties such as information about carrying counters.
+ */
+
 using System.Linq;
 using UnityEngine;
 
 public class AIBehavior : MonoBehaviour
 {
     public int[] carry = new int[3];
+    // Turns over the counters how many seconds when the shuttle collides with them
     public float turnOverDelay = 0.5f;
     public int[] bagCounterColor = { -1, -1, -1, -1 };
     public GameObject[] counterInBag = new GameObject[4];
@@ -33,6 +36,7 @@ public class AIBehavior : MonoBehaviour
         }
     }
 
+    // Returns the number of each counter
     public int[] GetCarryColor()
     {
         int[] copyCarry = new int[3];
@@ -40,6 +44,7 @@ public class AIBehavior : MonoBehaviour
         return copyCarry;
     }
 
+    // Returns the color of each counter in the shuttle's bag
     public int[] GetBagCounterColor()
     {
         int[] copyBag = new int[4];

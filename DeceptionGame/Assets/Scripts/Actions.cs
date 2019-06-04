@@ -1,7 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿/*
+ * Before each turn, the AI agent needs to create an Actions class which includes all actions the shuttle(s) will take sequentially in this turn. 
+ */
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Actions
@@ -12,6 +14,7 @@ public class Actions
     private List<int[]> carry = new List<int[]>();
     private List<int[]> bagCounterColor = new List<int[]>();
 
+    // Collects pickups from a list of positions
     public void CollectAt(List<Vector3> positions)
     {
         foreach (Vector3 pos in positions)
@@ -24,6 +27,7 @@ public class Actions
         }
     }
 
+    // Collects a pickup from a position
     public void CollectAt(Vector3 pos)
     {
         commands.Add("Collect");
@@ -33,12 +37,14 @@ public class Actions
         UpdateCarryAndBagForCollect(color);
     }
 
+    // Moves to a position
     public void MoveTo(Vector3 pos)
     {
         commands.Add("Move");
         paras.Add(pos);
     }
 
+    // Moves to a list of positions
     public void MoveTo(List<Vector3> positions)
     {
         foreach (Vector3 pos in positions)
@@ -48,6 +54,7 @@ public class Actions
         }
     }
 
+    // Deposits a specified colored counter at the position
     public void DepositAt(Vector3 pos, int color)
     {
         commands.Add("Deposit#Color#" + color.ToString());
@@ -56,6 +63,7 @@ public class Actions
         UpdateCarryAndBagForDeposit(color);
     }
 
+    // Deposits a specified colored counter at the position with a delay
     public void DepositAt(Vector3 pos, int color, float delay)
     {
         commands.Add("Deposit#Color#" + color.ToString());
@@ -64,6 +72,7 @@ public class Actions
         UpdateCarryAndBagForDeposit(color);
     }
 
+    // Deposits a specified indexed counter at the position
     public void DepositIndexAt(Vector3 pos, int index)
     {
         commands.Add("Deposit#Index#" + index.ToString());
@@ -74,6 +83,7 @@ public class Actions
         bagCounterColor[bagCounterColor.Count - 1][index] = -1;
     }
 
+    // Deposits a specified indexed counter at the position with a delay
     public void DepositIndexAt(Vector3 pos, int index, float delay)
     {
         commands.Add("Deposit#Index#" + index.ToString());
@@ -83,6 +93,7 @@ public class Actions
         bagCounterColor[bagCounterColor.Count - 1][index] = -1;
     }
 
+    // Returns a list of positions that have been added deposit commands in this actions
     public List<Vector3> GetDepositPosFromActions(Actions acs)
     {
         List<Vector3> depositList = new List<Vector3>();
@@ -96,6 +107,7 @@ public class Actions
         return depositList;
     }
 
+    // Returns a list of positions that have been added collect commands in this actions
     private List<Vector3> GetCollectPosFromActions(Actions acs)
     {
         List<Vector3> collectList = new List<Vector3>();
@@ -109,7 +121,7 @@ public class Actions
         return collectList;
     }
 
-    // Returns all positions for depositing from all shuttles
+    // Returns a list of positions that have been added deposit commands in this actions as well as all other shuttles' actions.
     public List<Vector3> GetDepositPos(List<Actions> AIactions)
     {
         List<Vector3> depositList = new List<Vector3>();
@@ -121,7 +133,7 @@ public class Actions
         return depositList;
     }
 
-    // Returns all positions for collecting from all shuttles
+    // Returns a list of positions that have been added collect commands in this actions as well as all other shuttles' actions.
     public List<Vector3> GetCollectPos(List<Actions> AIactions)
     {
         List<Vector3> collectList = new List<Vector3>();
@@ -133,12 +145,14 @@ public class Actions
         return collectList;
     }
 
+    // Turns over the counter with the given index
     public void TurnOverCounterInBagByIndex(int index)
     {
         commands.Add("TurnOver#" + index.ToString());
         paras.Add(new Vector3(0f, 0f, 0f));
     }
 
+    // Collects a counter from the board
     public void CollectFromBoard(Vector3 pos)
     {
         commands.Add("CollectFromBoard");
@@ -183,7 +197,7 @@ public class Actions
         UpdateCarryAndBagForCollect(color);
     }
 
-    // Get how many red, yellow and blue counters are carried according to the action
+    // Gets how many red, yellow and blue counters are carried according to the action
     public int[] GetPickupColor()
     {
         if (carry.Count == 0)
@@ -193,7 +207,7 @@ public class Actions
         return carry[carry.Count - 1];
     }
 
-    // Get the color of counter on each bag position
+    // Gets the color of counter on each bag position
     public int[] GetPickupColorBagPos()
     {
         if (bagCounterColor.Count == 0)

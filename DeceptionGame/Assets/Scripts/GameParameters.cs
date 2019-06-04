@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿/*
+ * GameParameters control the parameters of the game. 
+ * If you make selections in the "Options" menu, it will cover the values in GameParameters.
+ */
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,13 +11,21 @@ public class GameParameters : MonoBehaviour
     public static GameParameters instance;
     public static int red = 0, yellow = 1, blue = 2;
 
+    // The number of the shuttles
     public int shuttleNum = 1;
+    // The default size of the board
     public int gridSize = 25;
+    // The minimal distance between two anchors
     public float minAnchorDis = 7;
+    // The number of counters in each generator
     public int counterNumInGenerator = 6;
+    // The number of counters each shuttle can carry
     public int carryLimit = 4;
+    // The number of anchors
     public int anchorCount = 8;
+    // The positions of the anchors are random or default
     public bool randomAnchor = true;
+    // The time limit for AI
     public float timeLimitForAI = 180;
     public List<Vector3> defaultAnchorPos;
 
@@ -35,6 +47,7 @@ public class GameParameters : MonoBehaviour
         SetDefaultColorProportion();
     }
 
+    // Edit this function to set customized anchor positions
     private void SetCustomAnchorPos()
     {
         defaultAnchorPos.Clear();
@@ -53,6 +66,7 @@ public class GameParameters : MonoBehaviour
         // Your code ENDS HERE
     }
 
+    // Edit this function to initialize the proportions of each colored counter in the generators
     private void InitializeColorProportion()
     {
         colorBag.Clear();
@@ -67,6 +81,7 @@ public class GameParameters : MonoBehaviour
         // Your code ENDS HERE
     }
 
+    // Sets the proportions of each colored counter in the generators during the game
     public void SetColorProportion(int redP, int yellowP, int blueP)
     {
         colorBag.Clear();

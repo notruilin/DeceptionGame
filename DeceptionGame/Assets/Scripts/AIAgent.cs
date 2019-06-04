@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿/*
+ * AIAgent is where you define your own agent.
+ */
+
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class AIAgent : MonoBehaviour
 {
-
     private int FindChainCost(Vector3 start, Vector3 end, bool onlyRed)
     {
         List<Vector3> path = Methods.instance.FindPathInGrid(start, end, onlyRed);
@@ -112,11 +114,13 @@ public class AIAgent : MonoBehaviour
         return uselessRedCounters;
     }
 
+    // Called on the frame when a script is enabled
     private void Start()
     {
 
     }
 
+    // Called before each AI's turn
     public Actions MakeDecision(List<Actions> AIactions)
     {
         Actions actions = new Actions();

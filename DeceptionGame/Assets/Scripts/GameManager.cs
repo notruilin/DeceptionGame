@@ -1,13 +1,13 @@
-﻿using System;
+﻿/*
+ * The GameManager controls logic of the game, singleton
+ */
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-
-/*
- * Manages the whole game, singleton
- */
 
 public class GameManager : MonoBehaviour
 {
