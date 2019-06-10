@@ -1,5 +1,5 @@
 ﻿/*
- * AIAgent is where you define your own agent.
+ * The advanced AI Agent
  */
 
 using System.Collections.Generic;
