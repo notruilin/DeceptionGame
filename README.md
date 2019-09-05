@@ -5,8 +5,7 @@ This is a 2d turn-based strategy game made by Unity.
 
 In each turn, AI Player tries to make a connected chain between two targets while the human player tries to stop the AI by blocking some grids.
 
-## Have FUN!
-[Play :)](https://people.eng.unimelb.edu.au/mkirley/deception5/)
+## [Have FUN!](https://people.eng.unimelb.edu.au/mkirley/deception5/)
 
 ## API Documentation 
 [Deception Game API Documentation](https://github.com/notruilin/DeceptionGame/wiki/Deception-Game-API-Documentation)
